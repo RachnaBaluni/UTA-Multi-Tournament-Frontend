@@ -1,0 +1,34 @@
+Array(0)[
+  {
+    _id: new ObjectId('686c2aff35281ea4115abe10'),
+    eventId: {
+      _id: new ObjectId('685c155a77b6439dbcd5f5b6'),
+      name: 'Category A (Open)'
+    },
+    partner1: {
+      _id: new ObjectId('686c2aff35281ea4115abe0d'),
+      name: 'Shashank Sarth Verma'
+    },
+    partner2: { _id: new ObjectId('686c2b2135281ea4115abe1d'), name: 'Dev' },
+    rank: 1,
+    createdAt: 2025-07-07T20:15:59.861Z,
+    updatedAt: 2025-07-21T07:47:57.516Z,
+    __v: 0
+  },
+  {
+    _id: new ObjectId('686c2aff35281ea4115abe13'),
+    eventId: {
+      _id: new ObjectId('685c156477b6439dbcd5f5b8'),
+      name: 'Category B (90+ combined)'
+    },
+    partner1: {
+      _id: new ObjectId('686c2aff35281ea4115abe0d'),
+      name: 'Shashank Sarth Verma'
+    },
+    partner2: { _id: new ObjectId('686c34d2c6a77ff575255268'), name: 'sadfghjk' },
+    rank: 2,
+    createdAt: 2025-07-07T20:15:59.954Z,
+    updatedAt: 2025-07-21T07:47:50.329Z,
+    __v: 0
+  }
+]

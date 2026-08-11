@@ -1,0 +1,22 @@
+  .resultSection{
+    margin: 60px 10vw;
+  }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      text-align: center;
+    }
+    th, td {
+      border: 1px solid #999;
+      padding: 8px;
+    }
+    th {
+      background: #eee;
+    }
+    .winner {
+      background-color: #c6f6c6;
+    }
+    .loser {
+      background-color: #f6c6c6;
+    }

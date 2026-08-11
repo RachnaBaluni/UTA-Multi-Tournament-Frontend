@@ -1,0 +1,286 @@
+/* Login.module.css */
+
+/* Define custom properties for colors (optional, but good practice for theming) */
+:root {
+  --primary-color: #10aede; /* Example primary blue */
+  --primary-dark-color: #0e9ccb; /* Darker shade for hover */
+  --text-dark: #0d181c; /* Dark text color */
+  --text-medium: #4b889b; /* Medium text/placeholder color */
+  --background-light: #f8fbfc; /* Light background */
+  --input-border: #cfe2e8; /* Input border color */
+}
+
+/* Root container for the entire page */
+.rootContainer {
+  position: relative;
+  display: flex;
+  width: 100%; /* size-full */
+  min-height: 90vh; /* min-h-screen */
+  flex-direction: column;
+  background-color: var(--background-light); /* bg-[#f8fbfc] */
+  overflow-x: hidden;
+  font-family: "Public Sans", "Noto Sans", sans-serif;
+}
+
+.layoutContainer {
+  display: flex;
+  height: 100%; /* h-full */
+  flex-grow: 1; /* grow */
+  flex-direction: column;
+}
+
+/* Main content wrapper with horizontal and vertical centering */
+.mainContentWrapper {
+  padding-left: 160px; /* px-40 */
+  padding-right: 160px; /* px-40 */
+  display: flex;
+  flex: 1;
+  justify-content: center; /* Centers content horizontally */
+  align-items: center; /* **Centers content vertically** */
+  padding-top: 20px; /* py-5 */
+  padding-bottom: 20px; /* py-5 */
+}
+
+/* Content container to control max width and internal padding */
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  width: 512px; /* w-[512px] */
+  max-width: 512px; /* max-w-[512px] */
+  padding-top: 20px; /* py-5 */
+  padding-bottom: 20px; /* py-5 */
+  background-color: #fff; /* Example: white background for the form box */
+  border-radius: 12px; /* Example: slightly rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Example: subtle shadow */
+}
+
+.loginTitle {
+  color: var(--text-dark); /* text-[#0d181c] */
+  letter-spacing: -0.025em; /* tracking-light */
+  font-size: 28px; /* text-[28px] */
+  font-weight: 700; /* font-bold */
+  line-height: 1.25; /* leading-tight */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  padding-bottom: 12px; /* pb-3 */
+  padding-top: 20px; /* pt-5 */
+  text-align: center; /* text-center */
+  margin: 0; /* Override default heading margin */
+}
+
+/* New: Container for the login type buttons */
+.typeButtonsContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px; /* Add some space above buttons */
+  margin-bottom: 20px;
+  gap: 10px; /* Space between buttons */
+  flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
+  padding: 0 16px; /* Match form padding */
+}
+
+/* New: Styles for individual login type buttons */
+.typeButton {
+  padding: 10px 15px;
+  border: 1px solid var(--input-border);
+  border-radius: 5px;
+  background-color: var(--background-light);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  flex-grow: 1; /* Allows buttons to grow and fill space */
+  text-align: center;
+  color: var(--text-dark); /* Default text color */
+  font-size: 14px;
+}
+
+.typeButton:hover {
+  background-color: #e0e0e0; /* A lighter grey on hover */
+  border-color: #c0d0d5; /* Slightly darker border on hover */
+}
+
+/* New: Styles for the active (selected) login type button */
+.activeTypeButton {
+  background-color: var(--primary-color); /* Use your primary brand color */
+  color: white;
+  border-color: var(--primary-color);
+  font-weight: bold;
+}
+
+.activeTypeButton:hover {
+  background-color: var(--primary-dark-color); /* A darker shade for hover */
+  border-color: var(--primary-dark-color);
+}
+
+/* Form Group */
+.formGroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end; /* items-end */
+  gap: 16px; /* gap-4 */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  padding-top: 12px; /* py-3 */
+  padding-bottom: 12px; /* py-3 */
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  min-width: 160px; /* min-w-40 */
+  flex: 1;
+}
+
+.fieldLabel {
+  color: var(--text-dark); /* text-[#0d181c] */
+  font-size: 16px; /* text-base */
+  font-weight: 500; /* font-medium */
+  line-height: normal; /* leading-normal */
+  padding-bottom: 8px; /* pb-2 */
+  margin: 0; /* Remove default paragraph margin */
+}
+
+.formInput {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+  resize: none;
+  overflow: hidden;
+  border-radius: 12px; /* rounded-xl */
+  color: var(--text-dark); /* text-[#0d181c] */
+  outline: 0; /* focus:outline-0 */
+  box-shadow: none; /* focus:ring-0 */
+  border: 1px solid var(--input-border); /* border border-[#cfe2e8] */
+  background-color: var(--background-light); /* bg-[#f8fbfc] */
+  height: 56px; /* h-14 */
+  padding: 15px; /* p-[15px] */
+  font-size: 16px; /* text-base */
+  font-weight: 400; /* font-normal */
+  line-height: normal; /* leading-normal */
+}
+
+.formInput:focus {
+  border-color: var(--primary-color); /* focus:border-[#cfe2e8] - changed to primary color for focus */
+  box-shadow: 0 0 0 2px rgba(16, 174, 222, 0.2); /* Subtle focus ring */
+}
+
+.formInput::placeholder {
+  color: var(--text-medium); /* placeholder:text-[#4b889b] */
+}
+
+/* Submit Button */
+.submitButtonContainer {
+  display: flex;
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  padding-top: 12px; /* py-3 */
+  padding-bottom: 12px; /* py-3 */
+}
+
+.submitButton {
+  display: flex;
+  min-width: 84px; /* min-w-[84px] */
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 9999px; /* rounded-full */
+  height: 40px; /* h-10 */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  flex: 1; /* flex-1 */
+  background-color: var(--primary-color); /* bg-[#10aede] */
+  color: white; /* text-[#0d181c] - changed to white for better contrast */
+  font-size: 14px; /* text-sm */
+  font-weight: 700; /* font-bold */
+  line-height: normal; /* leading-normal */
+  letter-spacing: 0.015em; /* tracking-[0.015em] */
+  border: none; /* Remove default button border */
+  transition: background-color 0.2s ease-in-out;
+}
+
+.submitButton:hover {
+  background-color: var(--primary-dark-color); /* A darker shade on hover */
+}
+
+.submitButtonText {
+  white-space: nowrap; /* truncate */
+}
+
+.forgotPasswordText {
+  color: var(--text-medium); /* text-[#4b889b] */
+  font-size: 14px; /* text-sm */
+  font-weight: 400; /* font-normal */
+  line-height: normal; /* leading-normal */
+  padding-bottom: 12px; /* pb-3 */
+  padding-top: 4px; /* pt-1 */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  text-align: center; /* text-center */
+  text-decoration: underline; /* underline */
+  margin: 0; /* Remove default paragraph margin */
+  cursor: pointer;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 1024px) {
+  .mainContentWrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .loginTitle {
+    font-size: 24px;
+    padding: 10px 15px 8px;
+  }
+
+  /* Adjustments for new buttons on small screens */
+  .typeButtonsContainer {
+    flex-direction: column; /* Stack buttons vertically on small screens */
+    gap: 8px; /* Reduce gap */
+    margin-bottom: 15px; /* Adjust margin */
+  }
+
+  .typeButton {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .formGroup {
+    padding: 8px 15px;
+    max-width: 100%;
+  }
+
+  .fieldLabel {
+    font-size: 14px;
+    padding-bottom: 5px;
+  }
+
+  .formInput {
+    height: 48px;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .submitButtonContainer {
+    padding: 8px 15px;
+  }
+
+  .submitButton {
+    height: 36px;
+    font-size: 13px;
+  }
+
+  .forgotPasswordText {
+    font-size: 13px;
+    padding: 2px 15px 8px;
+  }
+
+  .contentContainer {
+    width: 100%; /* Allow form to take full width on small screens */
+    max-width: 100%; /* Ensure it doesn't exceed 100% viewport width */
+  }
+}

@@ -1,0 +1,144 @@
+.container {
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  background-color: #f4f7f6;
+}
+
+.banner {
+  width: 100%;
+  height: 40vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/banner.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  padding: 1rem;
+}
+
+.banner h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.content {
+  max-width: 900px;
+  margin: -4rem auto 2rem auto;
+  background-color: #ffffff;
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 2;
+}
+
+.detailItem {
+  margin-bottom: 2rem;
+}
+
+.detailItem strong {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.detailItem p {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.registerButtonContainer {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.registerButton {
+  background-color: #007bff;
+  color: white;
+  padding: 1rem 2.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.registerButton:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.loading,
+.error {
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 2rem;
+}
+
+/* --- Responsive Design --- */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .banner {
+    height: 30vh;
+  }
+
+  .banner h1 {
+    font-size: 2.5rem;
+  }
+
+  .content {
+    margin: -3rem 1rem 2rem 1rem;
+    padding: 2rem;
+  }
+
+  .detailItem strong {
+    font-size: 1.3rem;
+  }
+
+  .detailItem p {
+    font-size: 1rem;
+  }
+
+  .registerButton {
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .banner {
+    height: 25vh;
+  }
+
+  .banner h1 {
+    font-size: 2rem;
+  }
+
+  .content {
+    margin: -2rem 1rem 2rem 1rem;
+    padding: 1.5rem;
+  }
+
+  .detailItem strong {
+    font-size: 1.2rem;
+  }
+
+  .detailItem p {
+    font-size: 0.95rem;
+  }
+
+  .registerButton {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,84 @@
+/* LoginPage2.module.css */
+
+.loginPage2Container {
+  padding: var(--spacing-lg);
+}
+
+.formSection {
+  margin-bottom: var(--spacing-md);
+}
+
+.label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-weight: bold;
+  color: var(--text-dark);
+  font-size: var(--font-size-base);
+}
+
+.select {
+  width: 100%;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
+  color: var(--text-dark);
+  transition: border-color var(--transition-speed-fast) var(--transition-ease);
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23333333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right var(--spacing-sm) center;
+  background-size: 20px;
+  padding-right: var(--spacing-xl);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--spacing-xl);
+}
+
+.primaryButton,
+.secondaryButton {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: background-color var(--transition-speed-normal) var(--transition-ease);
+  min-width: 120px;
+}
+
+.primaryButton {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+}
+
+.primaryButton:hover {
+  background-color: var(--hover-dark);
+}
+
+.secondaryButton {
+  background-color: #e0e0e0;
+  color: #222;
+}
+
+.secondaryButton:hover {
+  background-color: #c9c9c9;
+}
+
+.error {
+  font-size: var(--font-size-sm);
+  color: var(--danger-color);
+  margin-top: var(--spacing-xs);
+  display: block;
+}

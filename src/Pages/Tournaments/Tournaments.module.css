@@ -1,0 +1,336 @@
+/* Ensure global font is applied. Ideally this is done in a global CSS file or public/index.html */
+/* @import url('https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&family=Public+Sans%3Awght%40400%3B500%3B700%3B900'); */
+
+/* Root container for the entire page */
+.rootContainer {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #f8fbfc; /* Corresponds to bg-[#f8fbfc] */
+  overflow-x: hidden;
+  font-family: "Public Sans", "Noto Sans", sans-serif; /* Apply font family */
+}
+
+/* Main content wrapper with horizontal padding */
+.mainContentWrapper {
+  padding-left: 160px; /* Corresponds to px-40 */
+  padding-right: 160px; /* Corresponds to px-40 */
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  padding-top: 20px; /* Corresponds to py-5 */
+  padding-bottom: 20px; /* Corresponds to py-5 */
+}
+
+/* Content container to control max width */
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Hero Section Styles */
+.tournamentsHeroSection {
+  background-image: url("/banner.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  padding: 40px 20px;
+  min-height: 40vh;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.tournamentsHeroHeading {
+  font-size: 2.5em;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  font-weight: 700;
+}
+
+.tournamentsHeroParagraph {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+  max-width: 700px;
+  line-height: 1.6;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.exploreButton {
+  display: inline-block;
+  background-color: #ffffff;
+  color: #111618; /* Changed to match primary text color from header */
+  padding: 12px 25px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease;
+}
+
+.exploreButton:hover {
+  background-color: #cecece;
+}
+
+/* --- Media Queries for .tournamentsHeroSection --- */
+@media (min-width: 1024px) {
+  .tournamentsHeroSection {
+    margin: 20px 0; /* No horizontal margin here as it's within contentContainer */
+  }
+}
+
+@media (max-width: 767px) {
+  .tournamentsHeroSection {
+    background-image: url("/img3.jpg"); /* Responsive background image */
+    margin: 16px; /* 16px margin from all sides */
+    padding: 30px 15px;
+  }
+
+  .tournamentsHeroHeading {
+    font-size: 1.8em;
+  }
+
+  .tournamentsHeroParagraph {
+    font-size: 1em;
+  }
+
+  .exploreButton {
+    padding: 10px 20px;
+    font-size: 1em;
+  }
+}
+
+/* Upcoming Tournaments Section Styles */
+.upcomingTournaments {
+  padding: 30px 16px; /* px-4 py-3 in original html, adjusted for overall padding */
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+/* Consistent margin with the banner section for larger screens */
+@media (min-width: 1024px) {
+  .upcomingTournaments {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .upcomingTournaments {
+    margin: 16px; /* 16px margin from all sides */
+    padding: 20px 15px; /* Adjust padding for smaller screens */
+  }
+}
+
+.sectionTitle {
+  font-size: 32px; /* Corresponds to text-[32px] */
+  font-weight: 700; /* Corresponds to font-bold */
+  color: #111618; /* Corresponds to text-[#111618] */
+  line-height: 1.25; /* Corresponds to leading-tight */
+  letter-spacing: -0.025em; /* Corresponds to tracking-light */
+  margin-bottom: 25px; /* Space below heading */
+  text-align: left;
+  padding: 0 16px; /* Added horizontal padding to match main content alignment */
+}
+
+/* Search Bar */
+.searchLabel {
+  display: flex;
+  flex-direction: column;
+  min-width: 160px; /* Corresponds to min-w-40 */
+  height: 48px; /* Corresponds to h-12 */
+  width: 100%;
+  padding: 0 16px; /* px-4 in original html */
+  margin-bottom: 25px; /* Space below search bar */
+}
+
+.searchInnerWrapper {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  align-items: stretch;
+  border-radius: 12px; /* Corresponds to rounded-xl */
+  height: 100%;
+  background-color: #eaeff1; /* Corresponds to bg-[#eaeff1] */
+  overflow: hidden; /* For proper rounding of inner elements */
+}
+
+.searchIconWrapper {
+  color: #5d7e89; /* Corresponds to text-[#5d7e89] */
+  display: flex;
+  border: none;
+  background-color: transparent; /* No background here, wrapper has it */
+  align-items: center;
+  justify-content: center;
+  padding-left: 16px; /* Corresponds to pl-4 */
+  /* If input is rounded-r-none and this is rounded-l-none, it's not a border, just styling */
+  /* border-right: 0; */
+}
+
+.searchIcon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor; /* Ensures SVG uses the text color */
+}
+
+.searchInput {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  resize: none;
+  overflow: hidden;
+  border-radius: 12px; /* Corresponds to rounded-xl */
+  color: #111618; /* Corresponds to text-[#111618] */
+  outline: none; /* focus:outline-0 */
+  box-shadow: none; /* focus:ring-0 */
+  border: none; /* border-none */
+  background-color: #eaeff1; /* bg-[#eaeff1] */
+  height: 100%;
+  padding-left: 8px; /* Corresponds to pl-2 */
+  padding-right: 16px; /* Corresponds to px-4 (right part) */
+  font-size: 16px; /* Corresponds to text-base */
+  font-weight: 400;
+  line-height: normal;
+  /* Specific styles for input within search bar from HTML */
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: none; /* border-l-0 */
+}
+
+.searchInput::placeholder {
+  color: #5d7e89; /* Corresponds to placeholder:text-[#5d7e89] */
+}
+
+/* Filter Buttons */
+.filterButtons {
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: 1px solid #d5dfe2; /* Corresponds to border-b border-[#d5dfe2] */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  gap: 32px; /* gap-8 */
+  margin-bottom: 30px; /* Space below filter buttons */
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+}
+
+.filterButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 3px solid transparent; /* border-b-[3px] border-b-transparent */
+  color: #5d7e89; /* text-[#5d7e89] */
+  padding-bottom: 13px; /* pb-[13px] */
+  padding-top: 16px; /* pt-4 */
+  text-decoration: none; /* Remove underline from anchor tags */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.filterButton.active {
+  border-bottom-color: #c5e2eb; /* border-b-[#c5e2eb] */
+  color: #111618; /* text-[#111618] */
+}
+
+.filterButton:hover {
+  color: #111618;
+}
+
+.filterButtonText {
+  color: inherit; /* Inherit color from parent .filterButton */
+  font-size: 14px; /* text-sm */
+  font-weight: 700; /* font-bold */
+  line-height: normal;
+  letter-spacing: 0.015em;
+  margin: 0; /* Remove default paragraph margin */
+}
+
+/* Monthly Headers for Tournament Listings */
+.monthlyHeader {
+  font-size: 18px; /* text-lg */
+  font-weight: 700; /* font-bold */
+  color: #111618; /* text-[#111618] */
+  line-height: 1.25; /* leading-tight */
+  letter-spacing: -0.015em; /* tracking-[-0.015em] */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  padding-bottom: 8px; /* pb-2 */
+  padding-top: 16px; /* pt-4 */
+  margin-top: 0; /* Override default h3 margin */
+  margin-bottom: 0;
+}
+
+.noResults {
+  text-align: center;
+  color: #6c757d;
+  font-size: 1.1em;
+  padding: 20px;
+}
+
+/* --- Responsive adjustments for overall section --- */
+@media (max-width: 1024px) {
+  .mainContentWrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .upcomingTournaments {
+    margin: 16px;
+    padding: 20px 15px;
+  }
+
+  .sectionTitle {
+    font-size: 28px; /* Adjusted from 32px */
+    padding: 0; /* Remove horizontal padding when margin is applied */
+    text-align: center; /* Center on small screens */
+  }
+
+  .searchLabel {
+    padding: 0;
+    margin-bottom: 15px;
+  }
+
+  .filterButtons {
+    padding: 0;
+    gap: 15px; /* Smaller gap for buttons */
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .filterButton {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .filterButtonText {
+    font-size: 13px;
+  }
+
+  .monthlyHeader {
+    font-size: 16px; /* Adjusted from 18px */
+    padding-left: 0; /* Remove horizontal padding when margin is applied */
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .upcomingTournaments {
+    padding: 15px 10px;
+  }
+
+  .filterButtons {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 5px;
+  }
+}

@@ -1,0 +1,289 @@
+/* Ensure global font is applied. Ideally this is done in a global CSS file or public/index.html */
+/* @import url('https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&family=Public+Sans%3Awght%40400%3B500%3B700%3B900'); */
+
+/* Root container for the entire page */
+.rootContainer {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #f8fbfc; /* bg-[#f8fbfc] */
+  overflow-x: hidden;
+  font-family: "Public Sans", "Noto Sans", sans-serif;
+}
+
+/* Main content wrapper with horizontal padding */
+.mainContentWrapper {
+  padding-left: 160px; /* px-40 */
+  padding-right: 160px; /* px-40 */
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  padding-top: 20px; /* py-5 */
+  padding-bottom: 20px; /* py-5 */
+}
+
+/* Content container to control max width */
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 960px; /* max-w-[960px] */
+  flex: 1;
+}
+
+/* Intro Section */
+.introSection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px; /* gap-3 */
+  padding: 16px; /* p-4 */
+}
+
+.introTextGroup {
+  display: flex;
+  min-width: 288px; /* min-w-72 */
+  flex-direction: column;
+  gap: 12px; /* gap-3 */
+}
+
+.introHeading {
+  color: #0d181b; /* text-[#0d181b] */
+  letter-spacing: -0.025em; /* tracking-light */
+  font-size: 32px; /* text-[32px] */
+  font-weight: 700; /* font-bold */
+  line-height: 1.25; /* leading-tight */
+  margin: 0; /* Override default paragraph margin */
+}
+
+.introDescription {
+  color: #4c869a; /* text-[#4c869a] */
+  font-size: 14px; /* text-sm */
+  font-weight: 400; /* font-normal */
+  line-height: normal; /* leading-normal */
+  margin: 0; /* Override default paragraph margin */
+}
+
+/* Form Group (Reusing styles from JoinUs.module.css concept) */
+.formGroup {
+  display: flex;
+  max-width: 480px; /* max-w-[480px] */
+  flex-wrap: wrap;
+  align-items: flex-end; /* items-end */
+  gap: 16px; /* gap-4 */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  padding-top: 12px; /* py-3 */
+  padding-bottom: 12px; /* py-3 */
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  min-width: 160px; /* min-w-40 */
+  flex: 1;
+}
+
+.fieldLabel {
+  color: #0d181b; /* text-[#0d181b] */
+  font-size: 16px; /* text-base */
+  font-weight: 500; /* font-medium */
+  line-height: normal; /* leading-normal */
+  padding-bottom: 8px; /* pb-2 */
+  margin: 0; /* Remove default paragraph margin */
+}
+
+.formInput {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+  resize: none;
+  overflow: hidden;
+  border-radius: 12px; /* rounded-xl */
+  color: #0d181b; /* text-[#0d181b] */
+  outline: 0; /* focus:outline-0 */
+  box-shadow: none; /* focus:ring-0 */
+  border: 1px solid #cfe1e7; /* border border-[#cfe1e7] */
+  background-color: #f8fbfc; /* bg-[#f8fbfc] */
+  height: 56px; /* h-14 */
+  padding: 15px; /* p-[15px] */
+  font-size: 16px; /* text-base */
+  font-weight: 400; /* font-normal */
+  line-height: normal; /* leading-normal */
+}
+
+.formInput:focus {
+  border-color: #cfe1e7; /* focus:border-[#cfe1e7] */
+}
+
+.formInput::placeholder {
+  color: #4c869a; /* placeholder:text-[#4c869a] */
+}
+
+.textareaInput {
+  min-height: 144px; /* min-h-36 */
+}
+
+/* Submit Button */
+.submitButtonContainer {
+  display: flex;
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  padding-top: 12px; /* py-3 */
+  padding-bottom: 12px; /* py-3 */
+  justify-content: flex-start; /* justify-start */
+}
+
+.submitButton {
+  display: flex;
+  min-width: 84px; /* min-w-[84px] */
+  max-width: 480px; /* max-w-[480px] */
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px; /* rounded-xl */
+  height: 40px; /* h-10 */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  background-color: #11a3d4; /* bg-[#11a3d4] */
+  color: #f8fbfc; /* text-[#f8fbfc] */
+  font-size: 14px; /* text-sm */
+  font-weight: 700; /* font-bold */
+  line-height: normal; /* leading-normal */
+  letter-spacing: 0.015em; /* tracking-[0.015em] */
+  border: none; /* Remove default button border */
+  transition: background-color 0.2s ease-in-out;
+}
+
+.submitButton:hover {
+  background-color: #0e8ec7; /* A darker shade on hover */
+}
+
+.submitButtonText {
+  white-space: nowrap; /* truncate */
+}
+
+/* Contact Information */
+.contactInfoTitle {
+  color: #0d181b; /* text-[#0d181b] */
+  font-size: 22px; /* text-[22px] */
+  font-weight: 700; /* font-bold */
+  line-height: 1.25; /* leading-tight */
+  letter-spacing: -0.015em; /* tracking-[-0.015em] */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  padding-bottom: 12px; /* pb-3 */
+  padding-top: 20px; /* pt-5 */
+  margin: 0; /* Remove default heading margin */
+}
+
+.contactInfoText {
+  color: #0d181b; /* text-[#0d181b] */
+  font-size: 16px; /* text-base */
+  font-weight: 400; /* font-normal */
+  line-height: normal; /* leading-normal */
+  padding-bottom: 12px; /* pb-3 */
+  padding-top: 4px; /* pt-1 */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  margin: 0; /* Remove default paragraph margin */
+}
+
+/* Map Section */
+.mapContainer {
+  display: flex;
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  padding-top: 12px; /* py-3 */
+  padding-bottom: 12px; /* py-3 */
+}
+
+.mapImage {
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  aspect-ratio: 16/9; /* aspect-video */
+  background-size: cover; /* bg-cover */
+  border-radius: 12px; /* rounded-xl */
+  object-fit: cover; /* object-cover */
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 1024px) {
+  .mainContentWrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .introSection {
+    padding: 10px 15px;
+  }
+
+  .introHeading {
+    font-size: 28px;
+    min-width: unset; /* Remove min-width on small screens */
+    width: 100%; /* Take full width */
+    text-align: center;
+  }
+
+  .introDescription {
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .formGroup {
+    padding: 8px 15px;
+    max-width: 100%; /* Allow full width on small screens */
+    gap: 10px;
+  }
+
+  .fieldLabel {
+    font-size: 14px;
+    padding-bottom: 5px;
+  }
+
+  .formInput,
+  .formSelect {
+    height: 48px; /* Slightly smaller height */
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .textareaInput {
+    min-height: 100px; /* Adjust for smaller screens */
+  }
+
+  .submitButtonContainer {
+    padding: 8px 15px;
+    justify-content: center; /* Center button on small screens */
+  }
+
+  .submitButton {
+    min-width: unset;
+    width: 100%; /* Full width button */
+    padding: 0 12px;
+    height: 36px;
+    font-size: 13px;
+  }
+
+  .contactInfoTitle {
+    font-size: 18px;
+    padding: 10px 15px 5px;
+    text-align: center;
+  }
+
+  .contactInfoText {
+    font-size: 14px;
+    padding: 2px 15px 8px;
+    text-align: center;
+  }
+
+  .mapContainer {
+    padding: 8px 15px;
+  }
+}

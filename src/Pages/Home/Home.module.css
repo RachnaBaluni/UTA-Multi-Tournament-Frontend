@@ -1,0 +1,473 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* border: 1px solid green; */
+}
+
+.homeBanner {
+  background-image: url('/bannerHome.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 16px;
+  margin: 40px auto;
+  height: 60vh;
+  padding: 60px 40px;
+  margin: 2rem 10vw;
+  text-align: center;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.homeBanner h1 {
+  font-size: 55px;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.homeBanner p {
+  font-size: 25px;
+  margin-bottom: 35px;
+  font-weight: 400;
+}
+
+.homeBanner a {
+  font-size: 19px;
+  padding: 12px 40px;
+  background-color: #ffffff;
+  color: black;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.homeBanner a:hover {
+  background-color: #969696;
+}
+
+
+
+
+
+
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+    .homeBanner {
+        padding: 40px 20px;
+        margin: 20px 16px;
+    }
+    
+    .homeBanner h1 {
+        font-size: 28px;
+    }
+    
+    .homeBanner p {
+        font-size: 16px;
+    }
+    
+    .homeBanner a {
+        font-size: 15px;
+        padding: 10px 20px;
+    }
+}
+
+
+/* CSS FOR UPCOMING EVENTS */
+.upcomingEvents {
+  margin: 30px 10vw; /* This sets the overall section's margin to align with the banner */
+  /* Add display:flex to make the h2 and Link flexible */
+  display: flex;
+  flex-direction: column; /* Stack the heading/link area and the list items */
+}
+
+/* New container for the heading and "See All Tournaments" link */
+.upcomingEventsHeader {
+  display: flex;
+  justify-content: center; /* Pushes content to the far left and right */
+  align-items: center; /* Vertically aligns them */
+  margin-bottom: 20px; /* Space below this header line */
+}
+
+.upcomingEventsHeader h2 {
+  font-size: 30px;
+  color: #000000;
+  font-weight: 600;
+  margin: 0; /* Remove default margin to control spacing with flexbox */
+  text-align: left; /* Align to the left */
+  position: relative;
+}
+.upcomingEventsHeader h2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -10px; /* Adjustx position below text */
+  width: 80px; /* Length of the underline */
+  height: 4px;
+  background-color: #000000; /* Accent color */
+  border-radius: 2px;
+}
+
+.upcomingEventsListContainer { /* This targets the div containing the ListItems */
+  display: flex; /* Use flexbox for the list items */
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  justify-content: space-between; /* IMPORTANT: Align items to the start of the flex container */
+}
+
+
+/* Responsive Adjustments for Upcoming Events */
+@media screen and (max-width: 768px) {
+  .upcomingEvents {
+    margin: 20px 16px; /* Adjust as per your existing responsive design for smaller screens */
+  }
+
+  .upcomingEventsHeader {
+    flex-direction: column; /* Stack heading and link on small screens */
+    align-items: center; /* Align them to the left */
+    margin-bottom: 0px;
+  }
+
+  .upcomingEventsHeader h2 {
+    font-size: 28px;
+    margin-bottom: 10px; /* Space between heading and link */
+  }
+
+  .upcomingEventsListContainer {
+    /* For smaller screens, you likely want them to stack or center if only one item */
+    justify-content: center; /* Center the list items when they wrap */
+    gap: 15px; /* Adjust gap for smaller screens */
+  }
+}
+
+
+
+/* Home.module.css */
+
+/* ... (Your existing CSS for homeBanner and upcomingEvents) ... */
+
+/* CSS for the new Home Grid Section */
+.homeGridSection {
+  margin: 60px 10vw; /* Top/bottom margin, 10vw for left/right alignment */
+}
+
+.homeGridSectionTitle {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 40px; /* Space below the title */
+  font-weight: 700;
+  text-align: center;
+  position: relative;
+}
+
+.homeGridSectionTitle::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -10px; /* Adjust position below text */
+  width: 80px; /* Length of the underline */
+  height: 4px;
+  background-color: #000000; /* Accent color */
+  border-radius: 2px;
+}
+
+.gridContainer {
+  display: grid;
+  /* For normal screens: 4 columns, each taking equal fractional space */
+  /* Calculate column width: (100% - (3 * gap)) / 4 */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted to allow flexibility, but 4 is target */
+  gap: 25px; /* Space between grid items */
+  /* justify-content: center;  Removed this as it might interfere with left-alignment if not enough items */
+}
+
+.gridItem {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align content to the top */
+  min-height: 220px; /* Ensure a minimum height for consistency */
+}
+
+.gridItem:hover {
+  transform: translateY(-5px);
+  cursor: pointer;
+}
+
+.gridIcon {
+  font-size: 2rem; /* Size of the icon */
+  color: #000000; /* A prominent color for the icon */
+  margin-bottom: 20px; /* Space between icon and heading */
+}
+
+.gridItem h3 {
+  font-size: 1.4rem;
+  color: #333333;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.gridItem p {
+  font-size: 0.95rem;
+  color: #666666;
+  line-height: 1.6;
+  flex-grow: 1; /* Allow paragraph to take available space if description lengths vary */
+}
+
+.homeGridSection a {
+  /* Styles for the "Join Us Now" button */
+  display: block; /* Make it a block-level element */
+  width: fit-content; /* Make its width fit its content */
+  margin: 60px auto 0 auto; /* Top margin, auto horizontal margin to center it */
+  padding: 15px 40px;
+  background-color: #dadada; /* Example primary color */
+  color: black;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+    text-align: center;
+
+}
+
+.homeGridSection a:hover {
+  background-color: #b5b5b5;
+  transform: translateY(-2px);
+}
+
+
+/* Responsive Adjustments for Home Grid Section */
+@media screen and (max-width: 768px) {
+  .homeGridSection {
+    margin: 40px 16px; /* Match mobile margins with other sections */
+  }
+
+  .homeGridSectionTitle {
+    font-size: 28px;
+    margin-bottom: 30px;
+    text-align: center; /* Keep left aligned on mobile */
+  }
+
+  .gridContainer {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Allows 2 columns if space, otherwise 1 */
+    gap: 15px; /* Smaller gap on mobile */
+  }
+
+  .gridItem {
+    padding: 20px 15px; /* Slightly less padding on mobile */
+    min-height: 180px;
+  }
+
+  .gridIcon {
+    font-size: 1.5rem; /* Slightly smaller icon on mobile */
+    margin-bottom: 15px;
+  }
+
+  .gridItem h3 {
+    font-size: 1.2rem;
+  }
+
+  .gridItem p {
+    font-size: 0.9rem;
+  }
+
+  .homeGridSection a {
+    width: 80%; /* Make button wider on mobile */
+    max-width: 300px; /* Cap its max width on mobile */
+    padding: 12px 25px; /* Adjust padding for mobile */
+    font-size: 1rem;
+    margin-top: 40px; /* Adjust top margin for mobile */
+  }
+}
+
+/* Further optimization for very small screens (e.g., iPhone SE) */
+@media screen and (max-width: 480px) {
+  .gridContainer {
+    grid-template-columns: 1fr; /* Stack into a single column on very small screens */
+  }
+
+  .homeGridSection a {
+    width: 100%; /* Full width on very small screens */
+  }
+}
+
+
+
+/* Key Personnel Section - New Styles */
+.keyPersonnelSection {
+  margin: 60px 10vw; /* Consistent section margins */
+  font-family: 'Inter', sans-serif;
+  padding-bottom: 60px;
+  text-align: center; /* Center the title and cards container */
+}
+
+.keyPersonnelTitle {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 40px;
+  font-weight: 700;
+  text-align: center; /* Center the title */
+  position: relative;
+  display: inline-block; /* Allows width for underline */
+}
+
+/* Underline effect for the title */
+.keyPersonnelTitle::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -10px; /* Adjust position below text */
+  width: 80px; /* Length of the underline */
+  height: 4px;
+  background-color: #000000; /* Accent color */
+  border-radius: 2px;
+}
+
+.personnelCardsContainer {
+  display: flex;
+  flex-wrap: wrap; /* Allows cards to wrap to the next line */
+  justify-content: center; /* Center cards horizontally */
+  gap: 30px; /* Space between cards */
+  padding: 20px; /* Padding inside the container */
+}
+
+.personnelCard {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  padding: 30px 20px;
+  text-align: center;
+  flex: 1 1 280px; /* Flexible item: grow, shrink, base width 280px */
+  max-width: 320px; /* Max width to prevent cards from getting too wide */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.personnelCard:hover {
+  transform: translateY(-8px); /* Lift effect on hover */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.personnelIcon {
+  font-size: 50px; /* Size of the main person icon */
+  color: #000000; /* Accent color */
+  margin-bottom: 15px;
+}
+
+.personnelCard h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.personnelPosition,
+.personnelContact {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 8px;
+  display: flex; /* For inline icon and text */
+  align-items: center;
+  justify-content: center; /* Center content within the flex item */
+}
+
+.personnelContact a {
+  color: #007bff;
+  text-decoration: none;
+  margin-left: 5px; /* Space between icon and text */
+  transition: color 0.2s ease;
+}
+
+.personnelContact a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.detailIcon {
+  font-size: 1.1rem; /* Size for the small detail icons */
+  color: #777;
+  margin-right: 8px;
+}
+
+/* Responsive Adjustments for Key Personnel Cards */
+@media screen and (max-width: 992px) {
+  .keyPersonnelSection {
+    margin: 50px 5vw; /* Adjust margins for medium screens */
+    padding-bottom: 50px;
+  }
+
+  .personnelCardsContainer {
+    padding: 15px;
+    gap: 25px;
+  }
+
+  .personnelCard {
+    flex: 1 1 calc(50% - 25px); /* Two cards per row on medium screens */
+    max-width: unset; /* Allow flexible width */
+  }
+
+  .keyPersonnelTitle {
+    font-size: 32px;
+    margin-bottom: 35px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .keyPersonnelSection {
+    margin: 40px 16px; /* Match mobile margins */
+    padding-bottom: 40px;
+  }
+
+  .keyPersonnelTitle {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+
+  .personnelCardsContainer {
+    flex-direction: column; /* Stack cards vertically on smaller mobiles */
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .personnelCard {
+    width: 100%; /* Each card takes full width when stacked */
+    flex: none; /* Remove flex sizing to allow width 100% */
+    max-width: unset; /* Remove max-width */
+    padding: 25px 15px;
+  }
+
+  .personnelIcon {
+    font-size: 45px;
+  }
+
+  .personnelCard h3 {
+    font-size: 1.3rem;
+  }
+
+  .personnelPosition,
+  .personnelContact {
+    font-size: 0.9rem;
+  }
+
+  .detailIcon {
+    font-size: 1rem;
+  }
+}

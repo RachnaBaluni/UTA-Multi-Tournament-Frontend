@@ -1,0 +1,34 @@
+/* LoginPage3.module.css */
+
+.container {
+  padding: var(--spacing-xl);
+  text-align: center;
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-md);
+}
+
+.message {
+  font-size: var(--font-size-lg);
+  color: var(--text-dark);
+  margin-bottom: var(--spacing-xl);
+}
+
+.homeButton {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color var(--transition-speed-normal) var(--transition-ease);
+}
+
+.homeButton:hover {
+  background-color: var(--hover-dark);
+}

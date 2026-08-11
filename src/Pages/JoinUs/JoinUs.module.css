@@ -1,0 +1,329 @@
+/* Ensure global font is applied. Ideally this is done in a global CSS file or public/index.html */
+/* @import url('https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&family=Public+Sans%3Awght%40400%3B500%3B700%3B900'); */
+
+/* Root container for the entire page */
+.rootContainer {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #f8fbfc; /* Corresponds to bg-[#f8fbfc] */
+  overflow-x: hidden;
+  font-family: "Public Sans", "Noto Sans", sans-serif;
+  /* Custom property for select button SVG, if needed globally */
+  --select-button-svg: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724px%27 height=%2724px%27 fill=%27rgb(93,126,137)%27 viewBox=%270 0 256 256%27%3e%3cpath d=%27M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z%27%3e%3c/path%3e%3c/svg%3e');
+}
+
+.errorMessage {
+  color: red;
+  font-size: 14px;
+}
+/* Main content wrapper with horizontal padding */
+.mainContentWrapper {
+  padding-left: 160px; /* px-40 */
+  padding-right: 160px; /* px-40 */
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  padding-top: 20px; /* py-5 */
+  padding-bottom: 20px; /* py-5 */
+}
+
+/* Content container to control max width */
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 960px; /* max-w-[960px] */
+  flex: 1;
+}
+
+/* Intro Section */
+.introSection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px; /* gap-3 */
+  padding: 16px; /* p-4 */
+}
+
+.introHeading {
+  color: #111618; /* text-[#111618] */
+  letter-spacing: -0.025em; /* tracking-light */
+  font-size: 32px; /* text-[32px] */
+  font-weight: 700; /* font-bold */
+  line-height: 1.25; /* leading-tight */
+  min-width: 288px; /* min-w-72 */
+  margin: 0; /* Override default paragraph margin */
+}
+
+.introDescription {
+  color: #5d7e89; /* text-[#5d7e89] */
+  font-size: 14px; /* text-sm */
+  font-weight: 400; /* font-normal */
+  line-height: normal; /* leading-normal */
+  margin: 0; /* Override default paragraph margin */
+}
+
+/* Tabs Container */
+.tabsContainer {
+  padding-bottom: 12px; /* pb-3 */
+  display: flex;
+  border-bottom: 1px solid #d5dfe2; /* border-b border-[#d5dfe2] */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  gap: 32px; /* gap-8 */
+}
+
+.tabLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 3px solid transparent; /* border-b-[3px] border-b-transparent */
+  color: #5d7e89; /* text-[#5d7e89] */
+  padding-bottom: 13px; /* pb-[13px] */
+  padding-top: 16px; /* pt-4 */
+  text-decoration: none; /* Remove underline for links */
+  transition: all 0.2s ease-in-out;
+}
+
+.tabLink.activeTab {
+  border-bottom-color: #c9e4ec; /* border-b-[#c9e4ec] */
+  color: #111618; /* text-[#111618] */
+}
+
+.tabLink:hover {
+  color: #111618; /* Darken text on hover */
+}
+
+.tabText {
+  color: inherit; /* Inherit color from parent .tabLink */
+  font-size: 14px; /* text-sm */
+  font-weight: 700; /* font-bold */
+  line-height: normal; /* leading-normal */
+  letter-spacing: 0.015em; /* tracking-[0.015em] */
+  margin: 0; /* Remove default paragraph margin */
+}
+
+/* Form Section Title */
+.formSectionTitle {
+  color: #111618; /* text-[#111618] */
+  font-size: 18px; /* text-lg */
+  font-weight: 700; /* font-bold */
+  line-height: 1.25; /* leading-tight */
+  letter-spacing: -0.015em; /* tracking-[-0.015em] */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  padding-bottom: 8px; /* pb-2 */
+  padding-top: 16px; /* pt-4 */
+  margin: 0; /* Remove default heading margin */
+}
+
+/* Form Group */
+.formGroup {
+  display: flex;
+  max-width: 480px; /* max-w-[480px] */
+  flex-wrap: wrap;
+  align-items: flex-end; /* items-end */
+  gap: 16px; /* gap-4 */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  padding-top: 12px; /* py-3 */
+  padding-bottom: 12px; /* py-3 */
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  min-width: 160px; /* min-w-40 */
+  flex: 1;
+}
+
+.fieldLabel {
+  color: #111618; /* text-[#111618] */
+  font-size: 16px; /* text-base */
+  font-weight: 500; /* font-medium */
+  line-height: normal; /* leading-normal */
+  padding-bottom: 8px; /* pb-2 */
+  margin: 0; /* Remove default paragraph margin */
+}
+
+.formInput {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+  resize: none;
+  overflow: hidden;
+  border-radius: 12px; /* rounded-xl */
+  color: #111618; /* text-[#111618] */
+  outline: 0; /* focus:outline-0 */
+  box-shadow: none; /* focus:ring-0 */
+  border: 1px solid #d5dfe2; /* border border-[#d5dfe2] */
+  background-color: #f5f5f5; /* bg-gray-50 */
+  height: 56px; /* h-14 */
+  padding: 15px; /* p-[15px] */
+  font-size: 16px; /* text-base */
+  font-weight: 400; /* font-normal */
+  line-height: normal; /* leading-normal */
+}
+
+.formInput:focus {
+  border-color: #d5dfe2; /* focus:border-[#d5dfe2] */
+}
+
+.formInput::placeholder {
+  color: #5d7e89; /* placeholder:text-[#5d7e89] */
+}
+
+.formSelect {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+  resize: none;
+  overflow: hidden;
+  border-radius: 12px; /* rounded-xl */
+  color: #111618; /* text-[#111618] */
+  outline: 0; /* focus:outline-0 */
+  box-shadow: none; /* focus:ring-0 */
+  border: 1px solid #d5dfe2; /* border border-[#d5dfe2] */
+  background-color: #f5f5f5; /* bg-gray-50 */
+  height: 56px; /* h-14 */
+  padding: 15px; /* p-[15px] */
+  font-size: 16px; /* text-base */
+  font-weight: 400; /* font-normal */
+  line-height: normal; /* leading-normal */
+  /* Custom select arrow using background-image and custom property */
+  background-image: var(--select-button-svg); /* bg-[image:--select-button-svg] */
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  -webkit-appearance: none; /* Remove default arrow on WebKit browsers */
+  -moz-appearance: none; /* Remove default arrow on Firefox */
+  appearance: none; /* Remove default arrow */
+  padding-right: 40px; /* Make space for the custom arrow */
+}
+
+.formSelect:focus {
+  border-color: #d5dfe2; /* focus:border-[#d5dfe2] */
+}
+
+/* Submit Button */
+.submitButtonContainer {
+  display: flex;
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  padding-top: 12px; /* py-3 */
+  padding-bottom: 12px; /* py-3 */
+  justify-content: flex-start; /* justify-end */
+}
+
+.submitButton {
+  display: flex;
+  min-width: 84px; /* min-w-[84px] */
+  max-width: 480px; /* max-w-[480px] */
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 9999px; /* rounded-full */
+  height: 40px; /* h-10 */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+  background-color: #c9e4ec; /* bg-[#c9e4ec] */
+  color: #111618; /* text-[#111618] */
+  font-size: 14px; /* text-sm */
+  font-weight: 700; /* font-bold */
+  line-height: normal; /* leading-normal */
+  letter-spacing: 0.015em; /* tracking-[0.015em] */
+  border: none; /* Remove default button border */
+  transition: background-color 0.2s ease-in-out;
+}
+
+.submitButton:hover {
+  background-color: #b2d7e0; /* A darker shade on hover */
+}
+
+.submitButtonText {
+  white-space: nowrap; /* truncate */
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 1024px) {
+  .mainContentWrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .introSection {
+    padding: 10px 15px;
+  }
+
+  .introHeading {
+    font-size: 28px;
+    min-width: unset; /* Remove min-width on small screens */
+    width: 100%; /* Take full width */
+    text-align: center;
+  }
+
+  .introDescription {
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .tabsContainer {
+    padding: 0 15px;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap; /* Allow tabs to wrap */
+  }
+
+  .tabLink {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .tabText {
+    font-size: 13px;
+  }
+
+  .formSectionTitle {
+    font-size: 16px;
+    padding: 10px 15px 5px;
+    text-align: center;
+  }
+
+  .formGroup {
+    padding: 8px 15px;
+    max-width: 100%; /* Allow full width on small screens */
+    gap: 10px;
+  }
+
+  .fieldLabel {
+    font-size: 14px;
+    padding-bottom: 5px;
+  }
+
+  .formInput,
+  .formSelect {
+    height: 48px; /* Slightly smaller height */
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .submitButtonContainer {
+    padding: 8px 15px;
+    justify-content: center; /* Center button on small screens */
+  }
+
+  .submitButton {
+    min-width: unset;
+    width: 100%; /* Full width button */
+    padding: 0 12px;
+    height: 36px;
+    font-size: 13px;
+  }
+}

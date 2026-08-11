@@ -1,0 +1,467 @@
+/* --- Page Container --- */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-light);
+  color: var(--text-dark);
+  font-family: 'Inter', sans-serif;
+  /* Ensures primary content is horizontally centered within the container */
+  align-items: center;
+  padding-bottom: 15px;
+}
+
+/* --- Header Styles: Flexible, Aesthetic, Professional --- */
+.header {
+  display: flex;
+  justify-content: space-between; /* Spreads elements: Logo (left), Title (center), Button (right) */
+  align-items: center; /* Vertically centers all items */
+  padding: var(--spacing-md) var(--spacing-2xl);
+  background-color: var(--background-card);
+  border-bottom: 1px solid var(--border-color-light);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  min-height: 80px;
+  z-index: 1000;
+  transition: padding var(--transition-speed-normal) var(--transition-ease);
+  width: 100%;
+  box-sizing: border-box; /* Ensures padding is included in the width */
+  /* Added min-height to ensure it doesn't collapse too much */
+  min-height: 60px; /* Adjust as needed */
+}
+
+.headerLogoGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin: 10px 0;
+  flex-shrink: 0; /* Prevents the logo group from shrinking */
+}
+
+.logoIcon img {
+  height: 44px;
+  width: 44px;
+  border-radius: var(--border-radius-md);
+  object-fit: contain;
+}
+
+.headerTitle {
+  font-size: var(--font-size-xl);
+  color: var(--text-dark);
+  font-weight: 700;
+  text-align: center;
+  flex-grow: 1; /* Allows title to take available space */
+  /* Allow title to shrink very aggressively and wrap its text */
+  flex-shrink: 10;
+  min-width: 50px; /* CRUCIAL: Allows text inside to wrap without overflowing */
+  padding: 0 var(--spacing-lg); /* Padding to separate title from logo/button */
+  transition: font-size var(--transition-speed-normal) var(--transition-ease);
+  word-wrap: break-word; /* Ensures very long words break */
+  white-space: normal; /* Ensures text wraps naturally */
+  margin: 0; /* Remove any conflicting auto margins */
+}
+
+.header a { /* The "Back to Home" button */
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: 600;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  transition: background-color var(--transition-speed-normal) var(--transition-ease),
+              color var(--transition-speed-normal) var(--transition-ease),
+              transform var(--transition-speed-fast) var(--transition-ease),
+              box-shadow var(--transition-speed-normal) var(--transition-ease);
+  border: 1px solid var(--border-color);
+  /* flex-shrink: 0 is important to keep it on the line, but we need to also reduce its size */
+  flex-shrink: 0;
+  margin-left: var(--spacing-md); /* Space between title and button */
+  /* Added font-size transition for responsiveness */
+  transition: all var(--transition-speed-normal) var(--transition-ease);
+}
+
+.header a:hover {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(74, 144, 226, 0.25);
+}
+
+/* --- Main Content Section --- */
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  /* Centering children (title, filters, table, message) horizontally within mainContent */
+  align-items: center;
+  flex-grow: 1;
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  max-width: 1300px;
+  width: 100%;
+  margin: var(--spacing-xl) auto var(--spacing-3xl) auto; /* Center with auto margins, add vertical space */
+  box-sizing: border-box;
+}
+
+.pageTitle {
+  font-size: var(--font-size-3xl);
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+  margin-top: var(--spacing-xl); /* Ensure enough space from header */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+}
+
+.pageTitle::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: var(--primary-color);
+  margin: var(--spacing-sm) auto 0;
+  border-radius: var(--border-radius-full);
+}
+
+/* --- New Filter and Search Styles --- */
+.filtersContainer {
+  width: 100%;
+  max-width: 1000px; /* Align with table width */
+  display: flex;
+  flex-direction: row; /* Default for larger screens: search and filters side-by-side */
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-md);
+  background-color: var(--background-card);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color-light);
+  flex-wrap: wrap; /* Allow filters to wrap within this container */
+  justify-content: center; /* Center content when it wraps */
+  align-items: center; /* Vertically align items in the container */
+}
+
+.searchBar {
+  flex-grow: 1; /* Allow search bar to take available space */
+  min-width: 200px; /* Minimum width for search bar */
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
+  color: var(--text-dark);
+  transition: border-color var(--transition-speed-fast) var(--transition-ease);
+  box-sizing: border-box; /* Include padding in element's total width and height */
+}
+
+.searchBar:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.eventFilters {
+  display: flex;
+  flex-wrap: wrap; /* Allow filter buttons to wrap within this sub-container */
+  gap: var(--spacing-sm);
+  justify-content: center; /* Center the buttons within their container */
+  flex-grow: 1; /* Allow event filters to take available space */
+  min-width: 0; /* Allow content to shrink */
+}
+
+.filterButton {
+  background-color: var(--background-alt);
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  transition: background-color var(--transition-speed-fast) var(--transition-ease),
+              border-color var(--transition-speed-fast) var(--transition-ease),
+              color var(--transition-speed-fast) var(--transition-ease);
+  white-space: nowrap; /* Prevent button text from wrapping */
+}
+
+.filterButton:hover {
+  background-color: var(--hover-light);
+  border-color: var(--primary-color);
+}
+
+.filterButton.activeFilter {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  border-color: var(--primary-color);
+  box-shadow: 0 2px 5px rgba(74, 144, 226, 0.3);
+}
+
+.filterButton.activeFilter:hover {
+  background-color: var(--hover-dark);
+  border-color: var(--hover-dark);
+}
+
+/* --- Table Styles --- */
+.tableContainer {
+  overflow-x: auto; /* Allows horizontal scrolling for the table on small screens */
+  background-color: var(--background-card);
+  border-radius: var(--border-radius-xl);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color-light);
+  width: 100%; /* Take full width within its flex context */
+  max-width: 1000px; /* Max width for the table */
+}
+
+.playersTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  table-layout: auto;
+}
+
+.playersTable thead {
+  background-color: var(--background-alt);
+  color: var(--text-dark);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.playersTable th {
+  padding: var(--spacing-md) var(--spacing-xl);
+  text-align: left;
+  font-weight: 600;
+  font-size: var(--font-size-base);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.playersTable tbody tr {
+  border-bottom: 1px solid var(--border-color-lighter);
+  transition: background-color var(--transition-speed-fast) var(--transition-ease);
+}
+
+.playersTable tbody tr:last-child {
+  border-bottom: none;
+}
+
+.playersTable tbody tr:nth-child(even) {
+  background-color: var(--background-light);
+}
+
+.playersTable tbody tr:hover {
+  background-color: var(--primary-color-light);
+  cursor: pointer;
+}
+
+.playersTable td {
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: var(--font-size-base);
+  color: var(--text-dark);
+  vertical-align: middle;
+  word-wrap: break-word;
+}
+
+.playersTable td:nth-child(3) {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: var(--font-size-sm);
+}
+
+/* --- Empty State Message --- */
+.noPlayersMessage {
+  text-align: center;
+  padding: var(--spacing-3xl);
+  font-size: var(--font-size-xl);
+  color: var(--text-muted);
+  background-color: var(--background-card);
+  border-radius: var(--border-radius-xl);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  margin-top: var(--spacing-xl);
+  border: 1px solid var(--border-color-light);
+  width: 100%;
+  max-width: 600px;
+}
+
+/* --- Responsive Adjustments --- */
+
+/* Tablets and smaller desktops (992px and below) */
+@media (max-width: 992px) {
+  .header {
+    padding: var(--spacing-md); /* Reduce overall padding */
+    min-height: 55px; /* Slightly reduce header min-height */
+  }
+
+  .logoIcon img {
+    height: 40px; /* Slightly smaller logo */
+    width: 40px;
+  }
+
+  .headerTitle {
+    font-size: var(--font-size-lg); /* Slightly smaller title for tablets */
+    padding: 0 var(--spacing-md); /* Adjust padding around title */
+  }
+
+  .header a { /* "Back to Home" button */
+    font-size: var(--font-size-sm); /* Make button text a bit smaller */
+    padding: var(--spacing-xs) var(--spacing-sm); /* Smaller button padding */
+  }
+
+  .mainContent {
+    padding: var(--spacing-xl);
+  }
+
+  .pageTitle {
+    font-size: var(--font-size-2xl);
+  }
+
+  .filtersContainer {
+    max-width: 768px; /* Adjust filter container width */
+    flex-direction: column; /* Stack search and filters vertically on medium screens */
+    align-items: stretch; /* Stretch children to fill width */
+    gap: var(--spacing-sm);
+  }
+
+  .searchBar {
+    width: 100%; /* Take full width when stacked */
+  }
+
+  .eventFilters {
+    justify-content: center; /* Still center buttons within their row */
+    width: 100%; /* Take full width */
+  }
+}
+
+/* Smaller Tablets & Mobile (768px and below) */
+@media (max-width: 768px) {
+  .header {
+    padding: var(--spacing-sm); /* Even tighter header padding */
+    min-height: 70px; /* Further reduce header min-height */
+  }
+
+  .logoIcon img {
+    height: 32px; /* Smaller logo for mobile */
+    width: 32px;
+  }
+
+  .headerTitle {
+    font-size: var(--font-size-base); /* Standard base font size for better readability on mobile */
+    padding: 0 var(--spacing-sm); /* Tighten padding further */
+    min-width: 30px; /* Allow even smaller min-width for aggressive wrapping */
+  }
+
+  .header a { /* "Back to Home" button */
+    font-size: var(--font-size-xs); /* Smaller font for button */
+    padding: var(--spacing-xxs) var(--spacing-xs); /* Even smaller button padding */
+    margin-left: var(--spacing-sm); /* Adjust margin */
+  }
+
+  .mainContent {
+    padding: var(--spacing-lg); /* Adjust main content padding */
+  }
+
+  .filtersContainer {
+    padding: var(--spacing-sm); /* Adjust padding for filter container */
+  }
+
+  .searchBar {
+    font-size: var(--font-size-sm);
+  }
+
+  .filterButton {
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  /* --- Table specific adjustments - Card-like layout for mobile --- */
+  .playersTable th,
+  .playersTable td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-base);
+  }
+
+  .playersTable thead {
+    display: none; /* Hide table header */
+  }
+
+  .playersTable, .playersTable tbody, .playersTable tr, .playersTable td {
+    display: block; /* Make table elements behave like blocks */
+    width: 100%;
+  }
+
+  .playersTable tr {
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--border-color-light);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: var(--spacing-sm) 0;
+  }
+
+  .playersTable td {
+    text-align: right;
+    padding: var(--spacing-xs) var(--spacing-md);
+    padding-left: 50%; /* Space for pseudo-element label */
+    position: relative;
+    border: none;
+    font-size: var(--font-size-base);
+  }
+
+  .playersTable td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: var(--spacing-md);
+    width: calc(50% - var(--spacing-md));
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: var(--font-size-sm);
+  }
+
+  .playersTable td:nth-of-type(1)::before { content: "Event:"; }
+  .playersTable td:nth-of-type(2)::before { content: "Player 1:"; }
+  .playersTable td:nth-of-type(3)::before { content: "Player 2:"; }
+
+  .noPlayersMessage {
+    padding: var(--spacing-xl);
+    font-size: var(--font-size-base);
+    max-width: 100%;
+  }
+}
+
+/* Extra Small Mobile (480px and below) */
+@media (max-width: 480px) {
+  .header {
+    padding: var(--spacing-xs); /* Minimal header padding */
+    min-height: 45px; /* Smallest header min-height */
+  }
+
+  .headerTitle {
+    font-size: var(--font-size-sm); /* Smallest title size for very tiny screens */
+    padding: 0 var(--spacing-xs); /* Very tight padding */
+  }
+
+  .header a {
+    font-size: var(--font-size-xxs); /* Smallest button font size */
+    padding: var(--spacing-xxs) var(--spacing-xs);
+  }
+
+  .mainContent {
+    padding: var(--spacing-md);
+  }
+
+  .pageTitle {
+    font-size: var(--font-size-xl);
+  }
+
+  .playersTable td {
+    font-size: var(--font-size-sm);
+  }
+
+  .playersTable td::before {
+    font-size: var(--font-size-xs);
+  }
+}

@@ -1,0 +1,147 @@
+/* Sidebar.module.css */
+
+/* Base styles for all screen sizes */
+.sidebarContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #f9fafb; /* bg-gray-50 */
+  padding: 16px; /* p-4 */
+  color: #111618; /* Default text color */
+  box-sizing: border-box; /* Include padding in width/height */
+}
+
+.sidebarTopSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* gap-4 */
+}
+
+.sidebarTitle {
+  font-size: 16px; /* text-base */
+  font-weight: 500; /* font-medium */
+  line-height: normal; /* leading-normal */
+  margin-bottom: 8px; /* Added spacing below title */
+}
+
+.navigationLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* gap-2 */
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* gap-3 */
+  padding: 8px 12px; /* px-3 py-2 */
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+}
+
+.navItem:hover {
+  background-color: #e0e5e7; /* A slightly darker gray on hover */
+  border-radius: 9999px; /* rounded-full */
+}
+
+.navItemActive {
+  background-color: #eaeff1; /* bg-[#eaeff1] */
+  border-radius: 9999px; /* rounded-full */
+}
+
+.navIcon {
+  /* SVG icons inherit color from parent by default if fill="currentColor" */
+}
+
+.navText {
+  font-size: 14px; /* text-sm */
+  font-weight: 500; /* font-medium */
+  line-height: normal; /* leading-normal */
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.sidebarBottomSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* gap-1 */
+  margin-top: 20px; /* Added spacing above logout */
+}
+
+/* Hamburger button (initially hidden) */
+.hamburgerButton {
+  display: none; /* Hidden by default on larger screens */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  position: absolute; /* Position it relative to the viewport */
+  top: 15px; /* Adjust as needed */
+  left: 15px; /* Adjust as needed */
+  z-index: 101; /* Above sidebar and overlay */
+  color: #111618; /* Icon color */
+}
+
+/* Sidebar overlay (initially hidden) */
+.sidebarOverlay {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 99; /* Below sidebar, above content */
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0; /* Will be set to 1 when active */
+}
+
+/* --- Media Queries for Responsiveness --- */
+
+/* Larger Screens (e.g., desktops, tablets in landscape) */
+@media (min-width: 901px) {
+  .sidebarContainer {
+    position: fixed; /* Fixed to the left */
+    top: 0;
+    left: 0;
+    height: 100vh; /* Full viewport height */
+    width: 320px; /* w-80 as per original HTML */
+    border-right: 1px solid #e0e5e7; /* Optional: Add a subtle border */
+    /* Remove min-h-[700px] as height: 100vh takes precedence */
+    min-height: auto;
+  }
+}
+
+/* Smaller Screens (e.g., mobile, tablets in portrait) */
+@media (max-width: 900px) {
+  .sidebarContainer {
+    position: fixed; /* Fixed to the left (or right) */
+    top: 0;
+    left: -320px; /* Hide off-screen by default (width of sidebar) */
+    width: 320px; /* Match desired slide-out width */
+    height: 100vh; /* Full viewport height */
+    z-index: 100; /* Ensure it's above other content */
+    transition: left 0.3s ease-in-out; /* Smooth slide animation */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Optional: add shadow for depth */
+    min-height: auto; /* Allow height to be dynamic based on content */
+  }
+
+  .sidebarOpen {
+    left: 0; /* Slide into view */
+  }
+
+  .hamburgerButton {
+    display: block; /* Show hamburger button on small screens */
+  }
+
+  /* When sidebar is open, show the overlay */
+  .sidebarOpen + .sidebarOverlay { /* This selector is incorrect in JSX structure, see fix below in dashboard.jsx */
+      /* This rule will be applied to the overlay when the sidebar is open. */
+      /* It needs to target the overlay element directly, not via sibling selector from sidebarOpen */
+      /* We will manage overlay visibility via conditional rendering and a separate class */
+  }
+
+  .sidebarOverlay { /* This style needs to be explicitly applied when state is true */
+      display: block; /* Make it visible */
+      opacity: 1; /* Fully opaque */
+  }
+}

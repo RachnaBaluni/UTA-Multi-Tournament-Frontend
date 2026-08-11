@@ -1,0 +1,95 @@
+/* Ensure global font is applied if not already done in index.css */
+/* * {
+  font-family: 'Public Sans', 'Noto Sans', sans-serif;
+} */
+
+.tournamentListing {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Vertically centers content */
+  background-color: transparent; /* No background for individual listing */
+  box-shadow: none; /* No shadow */
+  border-radius: 0; /* No border radius */
+  width: 100%;
+  box-sizing: border-box;
+
+  /* Add subtle separator line */
+  border-bottom: 1px solid #e9ecef; /* Light grey separator */
+  padding: 15px 0; /* Padding above and below the line */
+}
+
+/* Remove bottom border for the last item in a group if needed, handled in JSX for now */
+/* .tournamentListing:last-child {
+  border-bottom: none;
+} */
+
+.tournamentDetails {
+  flex-grow: 1;
+  display: flex; /* Use flexbox for details to align text */
+  flex-direction: column; /* Stack name, city/date vertically */
+  align-items: flex-start; /* Align text to the left */
+}
+
+.tournamentDetails h2 {
+  font-size: 1.1em; /* Smaller name */
+  font-weight: 400; /* As per the provided HTML for tournament name */
+  color: #111618; /* Matching the primary text color */
+  margin-bottom: 5px; /* Space below name */
+  line-height: 1.3; /* Adjust line height */
+}
+
+.tournamentDetails p {
+  font-size: 0.9em; /* Smaller grey text for city/date */
+  color: #5d7e89; /* Matching the secondary text color */
+  margin-bottom: 0; /* No bottom margin */
+  line-height: 1.3; /* Adjust line height */
+}
+
+.registerButton {
+  background-color: #eaeff1; /* Light grey background for button, matches HTML */
+  color: #111618; /* Darker grey text, matches HTML */
+  padding: 8px 18px; /* Adjusted padding */
+  border: 1px solid transparent; /* No explicit border in HTML, rely on background */
+  border-radius: 12px; /* rounded-xl in HTML */
+  cursor: pointer;
+  font-size: 0.9em; /* Smaller font size */
+  font-weight: 500; /* Medium font weight, matches HTML */
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap; /* Prevents text wrap */
+  margin-left: 20px; /* Space from details */
+  height: 32px; /* Corresponds to h-8 */
+  width: fit-content; /* Corresponds to w-fit */
+}
+
+.registerButton:hover {
+  background-color: #dbe4e8; /* Slightly darker on hover */
+  /* border-color: #d6dbdf; (if you want a border on hover) */
+}
+
+/* --- Smaller Screens --- */
+@media (max-width: 767px) {
+  .tournamentListing {
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align text to the left */
+    padding: 15px 0;
+  }
+
+  .tournamentDetails {
+    margin-bottom: 10px; /* Space between details and button */
+  }
+
+  .tournamentDetails h2 {
+    font-size: 1em;
+  }
+
+  .tournamentDetails p {
+    font-size: 0.85em;
+  }
+
+  .registerButton {
+    width: 100%; /* Button takes full width on small screens */
+    text-align: center;
+    margin-left: 0; /* Remove left margin when stacked */
+    padding: 10px;
+  }
+}

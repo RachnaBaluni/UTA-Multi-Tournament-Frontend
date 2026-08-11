@@ -1,0 +1,166 @@
+/* ================= CONTAINER ================= */
+.manageResultContainer {
+ /* padding: 20px;
+  overflow-x: auto;*/
+  
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: var(--spacing-lg);
+}
+
+
+/* ================= FILTER BUTTONS ================= */
+.eventFilterButtons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filterButton {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background: #f5f5f5;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.active {
+  background: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+/* ================= BRACKET ================= */
+.bracketContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 120px;
+
+  padding-left: 40px;
+  padding-right: 40px;
+  align-items: stretch;
+  overflow-x: auto;
+}
+
+/* ================= ROUND ================= */
+.roundContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;           /* 🔥 IMPORTANT */
+  min-height: 600px;
+  min-width: 260px;
+}
+
+.roundTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* ================= MATCH WRAPPER ================= */
+.matchesWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+/* ================= MATCH CARD ================= */
+.matchPair {
+  width: 260px;
+  height: 140px; /* 🔥 MUST match JSX MATCH_HEIGHT */
+
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* ================= MATCH NUMBER ================= */
+.matchNumber {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  background: #eaeaea;
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #555;
+}
+
+/* ================= TEAM SLOT ================= */
+.matchSlot {
+  flex: 1;   /* 🔥 THIS FIXES VS ISSUE */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px;
+  text-align: center;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+}
+
+.matchSlot:last-child {
+  border-bottom: none;
+}
+
+/* ================= TEAM NAME ================= */
+.teamName {
+  font-size: 13px;
+}
+
+/* ================= COLORS ================= */
+/* WINNER - light green */
+/* WINNER - very light green */
+.winner {
+  background-color: #e6ffe6 !important; /* very light green */
+  border: 1px solid #8cff8c;
+  color: #1e4620; /* dark green text (better visibility) */
+}
+
+/* LOSER - matching light red */
+.loser {
+  background-color: #ffe6e6 !important;
+  border: 1px solid #ff8c8c;
+}
+/* ================= VS ================= */
+.vsSeparator {
+  display: block;       /* 🔥 force visible */
+  text-align: center;
+  padding: 4px;
+  font-size: 11px;
+  margin: 6px 0;
+  background: #eee;
+  font-weight: 600;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .bracketContainer {
+    gap: 60px;
+  }
+
+  .matchPair {
+  width: 200px;
+  height: 140px;   /* 🔥 IMPORTANT */
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  position: relative;
+}
+}

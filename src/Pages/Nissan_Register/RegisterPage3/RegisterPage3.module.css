@@ -1,0 +1,124 @@
+/* RegisterPage3.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh; /* Ensure it takes up most of the viewport height */
+  padding: var(--spacing-xl);
+  background-color: var(--background-light);
+  color: var(--text-dark);
+  text-align: center;
+}
+
+.messageCard {
+  background-color: var(--background-card);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 var(--spacing-sm) var(--spacing-xl) var(--shadow-color);
+  padding: var(--spacing-2xl);
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  opacity: 0; /* Start invisible for fade-in */
+  animation: fadeIn var(--transition-speed-slow) var(--transition-ease) forwards; /* Apply fade-in animation */
+}
+
+.loadingSpinner {
+  border: 4px solid var(--border-color);
+  border-top: 4px solid var(--primary-color);
+  border-radius: var(--border-radius-full);
+  width: var(--spacing-2xl);
+  height: var(--spacing-2xl);
+  animation: spin 1s linear infinite; /* Increased speed slightly for a more active spinner */
+  margin-bottom: var(--spacing-md);
+  flex-shrink: 0; /* Prevent it from shrinking */
+}
+
+.successIcon,
+.errorIcon {
+  font-size: var(--font-size-4xl);
+  margin-bottom: var(--spacing-md);
+  animation: popIn var(--transition-speed-normal) var(--transition-ease); /* Add a subtle pop-in effect */
+}
+
+.successIcon {
+  color: var(--secondary-color);
+}
+
+.errorIcon {
+  color: var(--danger-color);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-md);
+  font-weight: 700; /* Make title bolder */
+}
+
+.message {
+  font-size: var(--font-size-lg);
+  line-height: 1.5;
+  margin-bottom: var(--spacing-xl);
+  color: var(--text-dark); /* Ensure consistent text color */
+}
+
+.button {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: var(--spacing-md) var(--spacing-xl);
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: background-color var(--transition-speed-normal) var(--transition-ease), transform var(--transition-speed-fast) var(--transition-ease);
+  font-weight: 600; /* Make button text bolder */
+}
+
+.button:hover {
+  background-color: var(--hover-dark);
+  transform: translateY(-2px); /* Subtle lift on hover */
+}
+
+.button:active {
+  transform: translateY(0); /* Press effect */
+}
+
+/* Animations */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}

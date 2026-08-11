@@ -1,0 +1,81 @@
+.container {
+  background-color: var(--background-card);
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 2px 4px var(--shadow-color);
+  margin: var(--spacing-xl) auto;
+  max-width: 600px;
+}
+
+.heading {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-dark);
+  text-align: center;
+}
+
+.formGroup {
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: var(--font-size-base);
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-dark);
+}
+
+select {
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border-color);
+  font-size: var(--font-size-base);
+  background-color: var(--background-light);
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.error {
+  margin-top: var(--spacing-xs);
+  color: var(--danger-color);
+  font-size: var(--font-size-sm);
+}
+
+.buttonGroup {
+  margin-top: var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+}
+
+.primaryButton,
+.secondaryButton {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+  border: none;
+  border-radius: var(--border-radius-md);
+  transition: background-color var(--transition-speed-normal) var(--transition-ease);
+  cursor: pointer;
+}
+
+.primaryButton {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+}
+
+.primaryButton:hover {
+  background-color: var(--hover-dark);
+}
+
+.secondaryButton {
+  background-color: var(--secondary-color);
+  color: var(--text-light);
+}
+
+.secondaryButton:hover {
+  background-color: #76b852;
+}

@@ -1,0 +1,200 @@
+/* === HEADER === */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-radius: 0 0 var(--border-radius-xl) var(--border-radius-xl);
+  box-shadow: 0 8px 16px var(--shadow-color);
+  animation: headerFadeIn 0.6s var(--transition-ease);
+  position: relative;
+  z-index: 10;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.logoWrapper img {
+  height: 56px;
+  width: 56px;
+  object-fit: contain;
+  transition: transform 0.3s var(--transition-ease);
+}
+
+.logoWrapper img:hover {
+  transform: scale(1.05);
+}
+
+.title {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.headerRight a {
+  font-size: var(--font-size-base);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s var(--transition-ease);
+  border: 1px solid black;
+  padding: 10px 5px;
+}
+
+.headerRight a:hover {
+  color: #2a2a2a;
+}
+
+/* === FORM CONTAINER === */
+.formContainer {
+  background-color: var(--background-card);
+  padding: var(--spacing-2xl);
+  max-width: 900px;
+  margin: var(--spacing-xl) auto;
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 12px 24px var(--shadow-color);
+  animation: fadeInUp 0.5s ease;
+}
+
+/* === STEP INDICATOR === */
+.stepIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.step {
+  flex: 1;
+  text-align: center;
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--border-color);
+  transition: color 0.3s var(--transition-ease);
+  position: relative;
+}
+
+.activeStep {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.stepLine {
+  height: 2px;
+  background-color: var(--border-color);
+  flex: 0.5;
+  margin: 0 var(--spacing-xs);
+  transition: background-color 0.3s var(--transition-ease);
+}
+
+.activeLine {
+  background-color: var(--primary-color);
+}
+
+/* === ANIMATIONS === */
+@keyframes headerFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes underlineGrow {
+  0% {
+    width: 0%;
+    opacity: 0;
+  }
+  100% {
+    width: 60%;
+    opacity: 1;
+  }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+   .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--spacing-lg);
+  }
+
+  .headerLeft {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .title {
+    font-size: var(--font-size-xl);
+    margin-top: var(--spacing-sm);
+  }
+
+  .headerRight {
+    width: 100%;
+    text-align: center;
+    margin-top: var(--spacing-sm);
+  }
+
+  .formContainer {
+    padding: var(--spacing-lg);
+    margin: var(--spacing-lg);
+  }
+
+  .stepIndicator {
+    flex-direction: column;
+  }
+
+  .step,
+  .stepLine {
+    width: 100%;
+    text-align: center;
+  }
+
+  .stepLine {
+    height: 2px;
+    margin: var(--spacing-xs) 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoWrapper img {
+    height: 40px;
+    width: 40px;
+  }
+
+  .title {
+    font-size: var(--font-size-lg);
+  }
+
+  .headerRight a {
+    font-size: var(--font-size-sm);
+  }
+  .formContainer {
+    padding: var(--spacing-md);
+  }
+
+  .step {
+    font-size: var(--font-size-sm);
+  }
+}

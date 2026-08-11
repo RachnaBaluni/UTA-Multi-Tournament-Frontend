@@ -1,0 +1,455 @@
+/* Header.module.css */
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 40px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.headerLogoGroup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logoIcon {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logoIcon img {
+    height: 48px;
+}
+
+.headerTitle {
+    font-size: 24px;
+    font-weight: 600;
+    color: #222;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.headerNavActions {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.navbarNav {
+    display: flex;
+    gap: 60px;
+}
+
+.navbarNav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 18px;
+    transition: color 0.2s ease-in-out;
+}
+
+.navbarNav a:hover {
+    color: #007bff;
+}
+
+.headerButtons {
+    display: flex;
+    gap: 20px;
+}
+
+/* Updated loginButton to be a common style */
+.loginButton {
+    background-color: #e0e0e0;
+    color: #222;
+    padding: 8px 30px;
+    border-radius: 4px;
+    font-size: 18px;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.loginButton:hover {
+    background-color: #c9c9c9;
+}
+
+/* New logoutButton style for consistency, similar to loginButton */
+.logoutButton {
+    background-color: #e0e0e0; /* Match login button background */
+    color: #222; /* Match login button text color */
+    padding: 8px 30px; /* Match login button padding */
+    border-radius: 4px; /* Match login button border-radius */
+    font-size: 18px; /* Match login button font-size */
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.logoutButton:hover {
+    background-color: #c9c9c9; /* Match login button hover */
+}
+
+
+.registerButton {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 15px;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+}
+
+.registerButton:hover {
+    background-color: #0056b3;
+}
+
+.buttonText {
+    font-weight: 500;
+}
+
+.mobileMenuIcon {
+    display: none;
+}
+
+/* Mobile Menu Icon - visible on small screens */
+@media screen and (max-width: 1250px) {
+    .navbarNav,
+    .headerButtons {
+        display: none;
+    }
+
+    .mobileMenuIcon {
+        display: flex;
+        align-items: center;
+    }
+
+    .header {
+        padding: 12px 20px;
+    }
+
+    .logoIcon img {
+        height: 24px;
+    }
+
+    .headerTitle {
+        font-size: 15px;
+    }
+}
+
+.mobileMenuButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.mobileMenuButton:hover {
+    background-color: #f0f0f0;
+}
+
+.mobileMenuSvg {
+    width: 26px;
+    height: 26px;
+    color: #333;
+}
+
+/* Mobile Navigation Overlay */
+.mobileNavOverlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 300px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15);
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 20px;
+    overflow-y: auto; /* Allow scrolling for long menus */
+    justify-content: space-between;
+}
+
+.mobileNavOpen {
+    transform: translateX(0);
+}
+
+.mobileNavHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.mobileCloseButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    padding: 6px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.mobileCloseButton:hover {
+    background-color: #f0f0f0;
+}
+
+.mobileNavLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex-grow: 1;
+}
+
+.mobileNavLinks .navLink {
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+    padding: 6px 0;
+    transition: background-color 0.2s ease, padding 0.2s ease; /* Add transition for padding */
+}
+
+.mobileNavLinks .navLink:hover {
+    color: #007bff;
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    padding-left: 8px;
+}
+
+/* New Indent for profile links in mobile menu */
+.indentedNavLink {
+    padding-left: 20px; /* Add an indent */
+    font-weight: 500;
+}
+
+.indentedNavLink:hover {
+    background-color: #e6f7ff; /* Lighter hover background */
+    color: #007bff;
+    border-radius: 4px;
+    padding-left: 25px; /* Adjust padding-left on hover */
+}
+
+/* Mobile Separator */
+.mobileSeparator {
+    border-top: 1px solid #eee;
+    margin: 10px 0; /* Space above and below separator */
+}
+
+
+.mobileNavButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+    margin-top: auto;
+}
+
+/* Ensure mobile buttons take full width and match desktop login/logout styles */
+.mobileNavButtons .loginButton,
+.mobileNavButtons .logoutButton {
+    width: 100%;
+    font-size: 15px; /* Slightly smaller font for mobile buttons */
+    padding: 10px; /* Increased padding for mobile buttons */
+    text-align: center;
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+
+/* --- Profile and Dropdown Styles --- */
+
+/* Desktop Profile Section */
+.profileSection {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+}
+
+.profileImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease;
+}
+
+.profileImage:hover {
+    background-color: #0056b3;
+}
+
+/* Desktop Dropdown Menu */
+.dropdownMenu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background-color: #ffffff; /* Explicit white background */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* Stronger, more professional shadow */
+    border-radius: 8px;
+    min-width: 220px; /* Slightly wider for better content display */
+    padding: 0; /* Remove overall padding, manage within sections */
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Ensures border-radius applies to content */
+    border: 1px solid #e0e0e0; /* Subtle border for better visibility on white */
+}
+
+/* Desktop Dropdown: Profile Info Header */
+.dropdownProfileHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px; /* Good padding for the info section */
+    /* border-bottom: 1px solid #eee; */
+    background-color: #f9f9f9; /* Slight background for distinction */
+}
+
+.dropdownProfileHeader .profileImage {
+    width: 45px; /* Slightly larger image in dropdown header */
+    height: 45px;
+    font-size: 20px;
+    flex-shrink: 0; /* Prevents image from shrinking */
+}
+
+/* Reuse profileText styles */
+.dropdownProfileHeader .profileText {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.dropdownProfileHeader .profileName {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdownProfileHeader .profileType {
+    font-size: 13px;
+    color: #666;
+}
+
+/* Container for dropdown links */
+.dropdownLinks {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0; /* Padding for the link section */
+}
+
+.dropdownLinks a,
+.dropdownLinks button {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdownLinks a:hover,
+.dropdownLinks button:hover {
+    background-color: #f0f0f0; /* Lighter hover background */
+    color: #007bff;
+}
+
+/* Specific styling for logout button within the dropdown */
+.dropdownLinks .logoutButton {
+    /* Override padding to match other dropdown links */
+    padding: 10px 15px;
+    width: auto; /* Allow button to size naturally */
+    border-top: 1px solid #eee; /* Separator for logout button */
+    margin-top: 8px; /* Space above logout button */
+    background-color: transparent; /* Ensure it doesn't get loginButton's default background */
+    color: #333; /* Default text color */
+    font-weight: 500;
+    border-radius: 0; /* Remove border-radius if it clashes */
+}
+
+.dropdownLinks .logoutButton:hover {
+    background-color: #ffe6e6; /* Reddish hover for logout */
+    color: #dc3545; /* Red text for logout */
+}
+
+
+/* Mobile Profile Info Section within the mobile menu */
+.mobileProfileInfo {
+    display: flex;
+    align-items: center;
+    margin-top: 15px; /* Space from the separator above */
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee; /* Keep a bottom border for distinction */
+}
+
+.mobileProfileInfo .profileImage {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.profileText {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.profileName {
+    font-size: 17px;
+    font-weight: bold;
+    color: #222;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profileType {
+    font-size: 14px;
+    color: #666;
+}
