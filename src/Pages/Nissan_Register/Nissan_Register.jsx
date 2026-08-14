@@ -215,7 +215,15 @@ const Register = () => {
           )}
         </section>
         <section>
-          {currentStep === 3 && <RegisterPage3 formData={formData} />}
+          {currentStep === 3 && (
+            <RegisterPage2
+              formData={formData}
+              handleNext={handleNext}
+              handleBack={handleBack}
+              setFormData={setFormData}
+              events={events}
+            />
+          )}
         </section>
       </section>
       <Footer />
