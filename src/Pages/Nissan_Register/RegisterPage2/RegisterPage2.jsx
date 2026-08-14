@@ -57,6 +57,34 @@ const RegisterPage2 = ({
   return (
     <div className={styles.container}>
       <h2 className={styles.heading}>Register for Events</h2>
+      <div className={styles.formGroup}>
+        <label htmlFor="tournament">Choose Tournament</label>
+
+        <select
+          id="tournament"
+          value={formData.tournamentId || ""}
+          onChange={(e) => {
+            const tournamentId = e.target.value || null;
+
+            setFormData({
+              ...formData,
+              tournamentId,
+              event1: null,
+              partner1: null,
+              event2: null,
+              partner2: null,
+            });
+          }}
+        >
+          <option value="">-- Select a Tournament --</option>
+
+          {tournaments.map((tournament) => (
+            <option key={tournament._id} value={tournament._id}>
+              {tournament.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div className={styles.formGroup}>
         <label htmlFor="event1">Choose Event 1</label>
