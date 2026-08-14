@@ -120,6 +120,10 @@ const Register = () => {
   }, []);
 
   const handleNext = () => {
+    if (currentStep === 2) {
+      getEvents(formData.tournamentId);
+    }
+
     if (currentStep !== 4) {
       setCurrentStep((currentStep) => currentStep + 1);
     }
