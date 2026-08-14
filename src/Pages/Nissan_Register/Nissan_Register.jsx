@@ -185,6 +185,7 @@ const Register = () => {
               handleBack={handleBack}
               events={events}
               players={players}
+              tournaments={tournaments}
             />
           )}
         </section>
