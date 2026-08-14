@@ -222,7 +222,6 @@ const Register = () => {
               handleBack={handleBack}
               setFormData={setFormData}
               events={events}
-              tournaments={tournaments}
             />
           )}
         </section>
