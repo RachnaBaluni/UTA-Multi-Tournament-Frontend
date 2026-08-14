@@ -8,8 +8,10 @@ const RegisterPage2 = ({
   handleBack,
   events,
   players,
+  tournaments,
 }) => {
   console.log(events);
+  console.log("TOURNAMENTS:", tournaments);
   const [errors, setErrors] = useState({});
   const [event2List, setEvent2List] = useState(events);
   const [isEvent2Selected, setIsEvent2Selected] = useState(false);

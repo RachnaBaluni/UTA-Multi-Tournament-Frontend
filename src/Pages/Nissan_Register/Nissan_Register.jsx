@@ -10,6 +10,7 @@ import Footer from "../../Components/Footer/Footer";
 
 const Register = () => {
   const [events, setEvents] = useState([]);
+  const [tournaments, setTournaments] = useState([]);
   const [players, setPlayers] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -26,6 +27,8 @@ const Register = () => {
     stay: false,
     feePaid: false,
     transactionDetails: "",
+    tournamentId: null,
+
     event1: null,
     partner1: null,
     event2: null,
@@ -46,6 +49,23 @@ const Register = () => {
       }
     } catch (error) {
       console.log("Error fetching events:", error);
+    }
+  };
+
+  const getTournaments = async () => {
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/tournaments/`,
+        {
+          withCredentials: true,
+        },
+      );
+
+      if (res.data.success) {
+        setTournaments(res.data.data);
+      }
+    } catch (error) {
+      console.log("Error fetching tournaments:", error);
     }
   };
 
@@ -86,6 +106,7 @@ const Register = () => {
   useEffect(() => {
     console.log("CSS MODULE STYLES: ", styles);
     getEvents();
+    getTournaments();
     getPlayers();
     getRegistrationFields();
     window.scrollTo(0, 0);
