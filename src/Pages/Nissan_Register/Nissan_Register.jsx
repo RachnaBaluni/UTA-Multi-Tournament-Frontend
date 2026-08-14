@@ -229,6 +229,15 @@ const Register = () => {
             />
           )}
         </section>
+        <section>
+          {currentStep === 4 && (
+            <RegisterPage3
+              formData={formData}
+              handleBack={handleBack}
+              setFormData={setFormData}
+            />
+          )}
+        </section>
       </section>
       <Footer />
     </div>

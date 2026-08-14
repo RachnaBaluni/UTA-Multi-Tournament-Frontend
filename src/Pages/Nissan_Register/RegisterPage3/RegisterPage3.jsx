@@ -17,7 +17,7 @@ const RegisterPage3 = ({ formData }) => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
 
       if (res.data.success) {
