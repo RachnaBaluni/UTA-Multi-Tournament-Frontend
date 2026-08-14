@@ -1,10 +1,146 @@
-.container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 30px 20px;
+/* RegisterPageTournament.module.css */
+
+.registerTournamentContainer {
+  padding: var(--spacing-lg);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .heading {
-  text-align: center;
-  margin-bottom: 30px;
+  margin: 0 0 var(--spacing-xl);
+  color: var(--text-dark);
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+}
+
+.formSection {
+  margin-bottom: var(--spacing-md);
+}
+
+.label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-weight: bold;
+  color: var(--text-dark);
+  font-size: var(--font-size-base);
+}
+
+.select {
+  width: 100%;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
+  color: var(--text-dark);
+  background-color: #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  transition:
+    border-color var(--transition-speed-fast) var(--transition-ease),
+    box-shadow var(--transition-speed-fast) var(--transition-ease);
+
+  /* Custom dropdown arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23333333' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right var(--spacing-sm) center;
+  background-size: 20px;
+  padding-right: var(--spacing-xl);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.select:hover {
+  border-color: var(--primary-color);
+}
+
+/* Buttons container */
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+}
+
+/* Back button */
+.backButton {
+  background-color: transparent;
+  color: var(--primary-color);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+
+  transition:
+    background-color var(--transition-speed-normal) var(--transition-ease),
+    color var(--transition-speed-normal) var(--transition-ease);
+}
+
+.backButton:hover {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+}
+
+/* Next button */
+.nextButton {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-speed-normal) var(--transition-ease),
+    opacity var(--transition-speed-normal) var(--transition-ease);
+  min-width: 120px;
+}
+
+.nextButton:hover {
+  background-color: var(--hover-dark);
+}
+
+.nextButton:disabled {
+  background-color: var(--border-color);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .registerTournamentContainer {
+    padding: var(--spacing-md);
+  }
+
+  .heading {
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .label,
+  .select,
+  .backButton,
+  .nextButton {
+    font-size: var(--font-size-sm);
+  }
+
+  .buttonContainer {
+    gap: var(--spacing-sm);
+  }
+
+  .backButton,
+  .nextButton {
+    padding: var(--spacing-sm) var(--spacing-md);
+    min-width: 90px;
+  }
 }
