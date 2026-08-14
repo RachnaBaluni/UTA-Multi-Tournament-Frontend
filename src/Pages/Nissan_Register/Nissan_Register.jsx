@@ -120,7 +120,9 @@ const Register = () => {
   }, []);
 
   const handleNext = () => {
-    if (currentStep !== 3) setCurrentStep((currentStep) => currentStep + 1);
+    if (currentStep !== 4) {
+      setCurrentStep((currentStep) => currentStep + 1);
+    }
   };
   const handleBack = () => {
     if (currentStep !== 1) setCurrentStep((currentStep) => currentStep - 1);
@@ -148,29 +150,47 @@ const Register = () => {
           >
             1. Personal Details
           </div>
+
           <div
             className={`${styles.stepLine} ${
               currentStep >= 2 ? styles.activeLine : ""
             }`}
           ></div>
+
           <div
             className={`${styles.step} ${
               currentStep >= 2 ? styles.activeStep : ""
             }`}
           >
-            2. Event Selection
+            2. Tournament
           </div>
+
           <div
             className={`${styles.stepLine} ${
               currentStep >= 3 ? styles.activeLine : ""
             }`}
           ></div>
+
           <div
             className={`${styles.step} ${
               currentStep >= 3 ? styles.activeStep : ""
             }`}
           >
-            3. Confirmation
+            3. Event Selection
+          </div>
+
+          <div
+            className={`${styles.stepLine} ${
+              currentStep >= 4 ? styles.activeLine : ""
+            }`}
+          ></div>
+
+          <div
+            className={`${styles.step} ${
+              currentStep >= 4 ? styles.activeStep : ""
+            }`}
+          >
+            4. Confirmation
           </div>
         </div>
         <section>
