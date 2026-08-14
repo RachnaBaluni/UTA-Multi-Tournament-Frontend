@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import RegisterPage1 from "./RegisterPage1/RegisterPage1";
 import axios from "axios";
 import RegisterPage2 from "./RegisterPage2/RegisterPage2";
+import RegisterPageTournament from "./RegisterPageTournament/RegisterPageTournament";
 import RegisterPage3 from "./RegisterPage3/RegisterPage3";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
@@ -35,23 +36,29 @@ const Register = () => {
     partner2: null,
   });
 
-  const getEvents = async () => {
+  const getEvents = async (tournamentId) => {
+    if (!tournamentId) {
+      setEvents([]);
+      return;
+    }
+
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/api/events/`,
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/events/?tournamentId=${tournamentId}`,
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         },
       );
+
       if (res.data.success) {
         setEvents(res.data.data);
       }
     } catch (error) {
       console.log("Error fetching events:", error);
+      setEvents([]);
     }
   };
-
   const getTournaments = async () => {
     try {
       const res = await axios.get(
@@ -105,7 +112,7 @@ const Register = () => {
 
   useEffect(() => {
     console.log("CSS MODULE STYLES: ", styles);
-    getEvents();
+
     getTournaments();
     getPlayers();
     getRegistrationFields();
@@ -178,13 +185,11 @@ const Register = () => {
         </section>
         <section>
           {currentStep === 2 && (
-            <RegisterPage2
+            <RegisterPageTournament
               formData={formData}
               handleNext={handleNext}
               setFormData={setFormData}
               handleBack={handleBack}
-              events={events}
-              players={players}
               tournaments={tournaments}
             />
           )}
