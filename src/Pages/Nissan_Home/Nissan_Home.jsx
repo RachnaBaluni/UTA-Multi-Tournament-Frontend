@@ -14,6 +14,7 @@ export default function Home() {
   const [selectedAction, setSelectedAction] = useState("");
 
   const [events, setEvents] = useState([]);
+  const [tournaments, setTournaments] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // State for mobile menu
   const [tournamentDetail, setTournamentDetail] = useState([]);
   const [pricesBenefit, setpricesBenefit] = useState([]);
@@ -35,7 +36,26 @@ export default function Home() {
       console.log("Error fetching events:", error);
     }
   };
+  const getTournaments = async () => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/tournaments/`,
+      );
 
+      const result = await res.json();
+
+      console.log("TOURNAMENTS:", result);
+
+      if (result.success) {
+        setTournaments(result.data);
+      } else {
+        setTournaments([]);
+      }
+    } catch (error) {
+      console.error("Error fetching tournaments:", error);
+      setTournaments([]);
+    }
+  };
   const getTournamentDetail = async () => {
     try {
       const res = await axios.get(
@@ -99,6 +119,7 @@ export default function Home() {
   // Effect hook to fetch events on component mount and scroll to top
   useEffect(() => {
     getEvents();
+    getTournaments();
     getTournamentDetail();
     getPricesBenifit();
     getvenue();
@@ -713,9 +734,9 @@ export default function Home() {
             >
               <option value="">Select Tournament</option>
 
-              {events.map((event) => (
-                <option key={event._id} value={event._id}>
-                  {event.name}
+              {tournaments.map((tournament) => (
+                <option key={tournament._id} value={tournament._id}>
+                  {tournament.name}
                 </option>
               ))}
             </select>
