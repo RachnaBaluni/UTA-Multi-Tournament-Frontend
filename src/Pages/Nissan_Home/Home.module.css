@@ -624,3 +624,168 @@ p {
 li {
   line-height: 1.5;
 }
+
+/* Tournament Selection Modal */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: var(--spacing-md);
+
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+}
+
+.modalBox {
+  width: 100%;
+  max-width: 440px;
+
+  background-color: var(--background-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-xl);
+
+  padding: var(--spacing-xl);
+
+  box-shadow: 0 8px 24px var(--shadow-color);
+
+  animation: tournamentModalIn 0.2s ease-out;
+}
+
+@keyframes tournamentModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modalBox h2 {
+  margin: 0 0 var(--spacing-sm);
+
+  color: var(--text-dark);
+
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+
+  text-align: center;
+}
+
+.modalBox p {
+  margin-bottom: var(--spacing-lg);
+
+  color: var(--text-dark);
+
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+
+  text-align: center;
+}
+
+.modalBox select {
+  width: 100%;
+
+  height: 48px;
+
+  padding: 0 var(--spacing-md);
+
+  background-color: var(--background-light);
+  color: var(--text-dark);
+
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+
+  font-size: var(--font-size-base);
+
+  outline: none;
+  cursor: pointer;
+
+  transition: all var(--transition-speed-normal) var(--transition-ease);
+}
+
+.modalBox select:hover {
+  border-color: var(--primary-color);
+}
+
+.modalBox select:focus {
+  border-color: var(--primary-color);
+
+  box-shadow: 0 0 0 2px rgba(24, 169, 216, 0.15);
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: var(--spacing-sm);
+
+  margin-top: var(--spacing-lg);
+}
+
+.modalButtons button {
+  min-width: 90px;
+  height: 40px;
+
+  padding: 0 var(--spacing-md);
+
+  border: none;
+  border-radius: var(--border-radius-full);
+
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: all var(--transition-speed-normal) var(--transition-ease);
+}
+
+.modalButtons button:first-child {
+  background-color: var(--border-color);
+  color: var(--text-dark);
+}
+
+.modalButtons button:first-child:hover {
+  background-color: var(--hover-light);
+  transform: translateY(-1px);
+}
+
+.modalButtons button:last-child {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+}
+
+.modalButtons button:last-child:hover {
+  background-color: var(--hover-dark);
+  transform: translateY(-1px);
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .modalBox {
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-lg);
+  }
+
+  .modalBox h2 {
+    font-size: var(--font-size-lg);
+  }
+
+  .modalButtons {
+    flex-direction: column-reverse;
+  }
+
+  .modalButtons button {
+    width: 100%;
+  }
+}

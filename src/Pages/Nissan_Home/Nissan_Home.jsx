@@ -1,5 +1,5 @@
 // Home.jsx
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./Home.module.css"; // Import CSS module
@@ -7,6 +7,12 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 
 export default function Home() {
+  const navigate = useNavigate();
+
+  const [showTournamentModal, setShowTournamentModal] = useState(false);
+  const [selectedTournament, setSelectedTournament] = useState("");
+  const [selectedAction, setSelectedAction] = useState("");
+
   const [events, setEvents] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // State for mobile menu
   const [tournamentDetail, setTournamentDetail] = useState([]);
@@ -20,7 +26,7 @@ export default function Home() {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
       if (res.data.success) {
         setEvents(res.data.data);
@@ -37,7 +43,7 @@ export default function Home() {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
       if (res.data.success) {
         setTournamentDetail(res.data.data);
@@ -54,7 +60,7 @@ export default function Home() {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
       if (res.data.success) {
         setpricesBenefit(res.data.data);
@@ -71,7 +77,7 @@ export default function Home() {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
       if (res.data.success) {
         setvenue(res.data.data);
@@ -98,6 +104,34 @@ export default function Home() {
     getvenue();
     window.scrollTo(0, 0);
   }, []);
+
+  const openTournamentSelector = (action) => {
+    setSelectedAction(action);
+    setSelectedTournament("");
+    setShowTournamentModal(true);
+  };
+
+  const continueToTournament = () => {
+    if (!selectedTournament) {
+      alert("Please select a tournament.");
+      return;
+    }
+
+    const routes = {
+      players: "/tournaments/registered-players",
+      teams: "/tournaments/registered-teams",
+      draws: "/tournaments/draws",
+      results: "/tournaments/results",
+      viewresults: "/tournaments/viewresults",
+      orderOfPlay: "/tournaments/view-order-play",
+    };
+
+    const route = routes[selectedAction];
+
+    setShowTournamentModal(false);
+
+    navigate(`${route}?eventId=${selectedTournament}`);
+  };
 
   return (
     <div className={styles.homeContainer}>
@@ -316,30 +350,53 @@ export default function Home() {
             networking opportunities!
           </p>
           <div className={styles.ctaButtons}>
-            <Link
-              to="/tournaments/registered-players"
+            <button
+              type="button"
               className={styles.registerButton}
+              onClick={() => openTournamentSelector("players")}
             >
               <span className={styles.buttonText}>View Registered Players</span>
-            </Link>
-            <Link
-              to="/tournaments/registered-teams"
+            </button>
+
+            <button
+              type="button"
               className={styles.loginButton}
+              onClick={() => openTournamentSelector("teams")}
             >
               <span className={styles.buttonText}>View Registered Teams</span>
-            </Link>
-            <Link to="/tournaments/draws" className={styles.registerButton}>
+            </button>
+
+            <button
+              type="button"
+              className={styles.registerButton}
+              onClick={() => openTournamentSelector("draws")}
+            >
               <span className={styles.buttonText}>View Draws</span>
-            </Link>
-            <Link to="/tournaments/results" className={styles.loginButton}>
+            </button>
+
+            <button
+              type="button"
+              className={styles.loginButton}
+              onClick={() => openTournamentSelector("results")}
+            >
               <span className={styles.buttonText}>View Results</span>
-            </Link>
-            <Link to="/tournaments/viewresults" className={styles.registerButton}>
+            </button>
+
+            <button
+              type="button"
+              className={styles.registerButton}
+              onClick={() => openTournamentSelector("viewresults")}
+            >
               <span className={styles.buttonText}>View Results 2</span>
-            </Link>
-            <Link to="/tournaments/view-order-play" className={styles.loginButton}>
+            </button>
+
+            <button
+              type="button"
+              className={styles.loginButton}
+              onClick={() => openTournamentSelector("orderOfPlay")}
+            >
               <span className={styles.buttonText}>Order Of Play</span>
-            </Link>
+            </button>
           </div>
         </section>
 
@@ -384,7 +441,7 @@ export default function Home() {
                         </>
                       )}
                     </div>
-                  ) : null
+                  ) : null,
                 )}
 
                 {tournamentDetail.map((item) =>
@@ -400,7 +457,7 @@ export default function Home() {
                         </>
                       )}
                     </div>
-                  ) : null
+                  ) : null,
                 )}
                 {/* <p className={styles.tileParagraph}>
                   Any participant who loses both matches in the first round or
@@ -437,7 +494,7 @@ export default function Home() {
                         </>
                       )}
                     </div>
-                  ) : null
+                  ) : null,
                 )}
                 {/* <h4 className={styles.tileSubtitle}>Entry Rules:</h4>
                 <ul className={styles.tileList}>
@@ -463,7 +520,7 @@ export default function Home() {
                         </>
                       )}
                     </div>
-                  ) : null
+                  ) : null,
                 )}
                 {/* <h4 className={styles.tileSubtitle}>Entry Fees</h4>
                 <p className={styles.tileParagraph}>Two events: ₹5,000</p> */}
@@ -501,7 +558,7 @@ export default function Home() {
                       />
                     )}
                   </div>
-                ) : null
+                ) : null,
               )}
               {/* <h3 className={styles.tileTitle}>Prize Money</h3> */}
               {/* <ul className={styles.tileList}>
@@ -525,7 +582,7 @@ export default function Home() {
                       />
                     )}
                   </div>
-                ) : null
+                ) : null,
               )}
 
               {/* <h3 className={styles.tileTitle}>Participant Benefits</h3> */}
@@ -577,7 +634,7 @@ export default function Home() {
                     ></iframe>
                   </div>
                 </div>
-              ) : null
+              ) : null,
             )}
 
             {/* Gala Party & Stay Tile */}
@@ -600,7 +657,7 @@ export default function Home() {
                     ></iframe>
                   </div>
                 </div>
-              ) : null
+              ) : null,
             )}
           </div>
           {/* Important Information Tile - Moved to span full width */}
@@ -616,7 +673,7 @@ export default function Home() {
                     />
                   )}
                 </>
-              ) : null
+              ) : null,
             )}
 
             {/* <h3 className={styles.tileTitle}>Important Information</h3>
@@ -643,7 +700,43 @@ export default function Home() {
           reserved.
         </p>
       </footer> */}
+      {showTournamentModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalBox} onClick={(e) => e.stopPropagation()}>
+            <h2>Select Tournament</h2>
 
+            <p>Select the tournament you want to view.</p>
+
+            <select
+              value={selectedTournament}
+              onChange={(e) => setSelectedTournament(e.target.value)}
+            >
+              <option value="">Select Tournament</option>
+
+              {events.map((event) => (
+                <option key={event._id} value={event._id}>
+                  {event.name}
+                </option>
+              ))}
+            </select>
+
+            <div className={styles.modalButtons}>
+              <button
+                type="button"
+                onClick={() => setShowTournamentModal(false)}
+              >
+                Cancel
+              </button>
+
+              <button type="button" onClick={continueToTournament}>
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <Footer />
       <Footer />
     </div>
   );
