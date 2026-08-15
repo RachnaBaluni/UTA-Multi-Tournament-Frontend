@@ -151,7 +151,7 @@ export default function Home() {
 
     setShowTournamentModal(false);
 
-    navigate(`${route}?eventId=${selectedTournament}`);
+    navigate(`${route}?tournamentId=${selectedTournament}`);
   };
 
   return (

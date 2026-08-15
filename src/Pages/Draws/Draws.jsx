@@ -1,4 +1,5 @@
 import React, { useState, useEffect, memo, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 import styles from "./Draws.module.css";
 import { toast } from "sonner";
 import axios from "axios";
@@ -66,13 +67,15 @@ const Round = memo(({ title, matches, roundIndex, totalRounds }) => {
     <div className={styles.roundContainer}>
       <h2 className={styles.roundTitle}>{title}</h2>
 
-      <div className={styles.matchesContainer} >
+      <div className={styles.matchesContainer}>
         {matches.map((match, idx) => (
           <React.Fragment key={match._id || idx}>
-            <div className={styles.matchPair}
-            style={{
-    marginTop: `${roundIndex * 90}px`,
-  }}>
+            <div
+              className={styles.matchPair}
+              style={{
+                marginTop: `${roundIndex * 90}px`,
+              }}
+            >
               {/* Header */}
               <div className={styles.matchHeader}>
                 <span className={styles.matchNumber}>
@@ -84,9 +87,7 @@ const Round = memo(({ title, matches, roundIndex, totalRounds }) => {
               {/* Meta */}
               <div className={styles.matchMeta}>
                 {match.MatchTime && (
-                  <span className={styles.matchChip}>
-                    {match.MatchTime}
-                  </span>
+                  <span className={styles.matchChip}>{match.MatchTime}</span>
                 )}
                 {match.CourtNumber && (
                   <span className={styles.matchChip}>
@@ -126,6 +127,8 @@ const Round = memo(({ title, matches, roundIndex, totalRounds }) => {
    MANAGE RESULT (VIEW ONLY)
    ========================= */
 const ManageResult = () => {
+  const [searchParams] = useSearchParams();
+  const tournamentId = searchParams.get("tournamentId");
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState("");
   const [draws, setDraws] = useState([]);
@@ -137,7 +140,7 @@ const ManageResult = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `${BASE_URL}/api/nissan-draws/${selectedEvent}`
+        `${BASE_URL}/api/nissan-draws/${selectedEvent}`,
       );
       if (res.data.success) {
         setDraws(res.data.data);
@@ -154,6 +157,7 @@ const ManageResult = () => {
       try {
         const res = await axios.get(`${BASE_URL}/api/events`);
         setEvents(res.data.data);
+        console.log("ALL EVENTS:", res.data.data);
         if (res.data.data.length) {
           setSelectedEvent(res.data.data[0]._id);
         }
@@ -181,9 +185,7 @@ const ManageResult = () => {
       .sort(([a], [b]) => parseInt(a.split(" ")[1]) - parseInt(b.split(" ")[1]))
       .map(([stage, matches]) => ({
         title: stage,
-        matches: matches.sort(
-          (a, b) => a.Match_number - b.Match_number
-        ),
+        matches: matches.sort((a, b) => a.Match_number - b.Match_number),
       }));
   };
 
