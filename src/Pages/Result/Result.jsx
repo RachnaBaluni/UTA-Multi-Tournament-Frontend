@@ -59,7 +59,7 @@ export default function Result() {
     };
 
     fetchAll();
-  }, []);
+  }, [tournamentId]);
 
   /* ================= GROUP BY STAGE ================= */
   const groupByStage = (matches) =>
