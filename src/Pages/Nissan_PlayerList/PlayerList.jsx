@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 import styles from "./ViewPlayerList.module.css";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 
 const PlayerList = () => {
-  const { tournamentId } = useParams();
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,7 +12,7 @@ const PlayerList = () => {
   const fetchPlayers = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/details-frontend/${tournamentId}`,
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/details-frontend`,
         {
           withCredentials: true,
         },
@@ -32,10 +30,9 @@ const PlayerList = () => {
   }, [players]);
 
   useEffect(() => {
-    if (tournamentId) {
-      fetchPlayers();
-    }
-  }, [tournamentId]);
+    fetchPlayers();
+  }, []);
+
   const filteredPlayers = players.filter((player) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
 
