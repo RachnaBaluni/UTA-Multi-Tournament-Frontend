@@ -39,12 +39,16 @@ const PlayerList = () => {
       setTournamentEventNames(eventNames);
 
       // Get all players
+      // Get players for selected tournament
       const res = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/details-frontend`,
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/details-frontend/${tournamentId}`,
         {
           withCredentials: true,
         },
       );
+
+      setPlayers(res.data.data);
+      setLoading(false);
 
       setPlayers(res.data.data);
     } catch (error) {
