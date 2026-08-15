@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import styles from "./ViewOrderOfPlay.module.css";
 import { toast } from "sonner";
@@ -15,7 +16,7 @@ const TIME_SLOTS = [
   "12:45",
   "13:30",
   "14:15",
-  "15:00"
+  "15:00",
 ];
 
 const COURTS = 4;
@@ -35,9 +36,7 @@ const MatchCard = ({ match }) => {
     <div className={styles.card}>
       <div className={styles.time}>{match.MatchTime}</div>
 
-      <div className={styles.category}>
-        {match.category}
-      </div>
+      <div className={styles.category}>{match.category}</div>
 
       <div>{name(match.Team1)}</div>
 
@@ -50,30 +49,39 @@ const MatchCard = ({ match }) => {
 
 /* ================= MAIN ================= */
 export default function ViewOrderOfPlay() {
+  const [searchParams] = useSearchParams();
+  const tournamentId = searchParams.get("tournamentId");
   const [grid, setGrid] = useState([]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [tournamentId]);
 
   const fetchData = async () => {
     try {
+      if (!tournamentId) {
+        toast.error("Tournament not selected");
+        return;
+      }
+
       const eventsRes = await axios.get(
         `${import.meta.env.VITE_APP_BACKEND_URL}/api/events`,
-        { withCredentials: true }
+        { withCredentials: true },
+      );
+
+      const tournamentEvents = eventsRes.data.data.filter(
+        (ev) => ev.tournamentId === tournamentId,
       );
 
       let allMatches = [];
 
-      for (let ev of eventsRes.data.data) {
+      for (let ev of tournamentEvents) {
         const res = await axios.get(
           `${import.meta.env.VITE_APP_BACKEND_URL}/api/nissan-draws/${ev._id}`,
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
-        const matches = res.data.data.filter(
-          (d) => d.Stage === "Round 1"
-        );
+        const matches = res.data.data.filter((d) => d.Stage === "Round 1");
 
         const withCategory = matches.map((m) => ({
           ...m,
@@ -84,13 +92,11 @@ export default function ViewOrderOfPlay() {
       }
 
       buildGrid(allMatches);
-
     } catch (err) {
       console.error(err);
       toast.error("Error loading order of play");
     }
   };
-
   /* ================= GRID ================= */
   const buildGrid = (matches) => {
     let index = 0;
