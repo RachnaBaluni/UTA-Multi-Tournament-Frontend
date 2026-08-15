@@ -1,16 +1,11 @@
 import React, { useState, useEffect, memo } from "react";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import styles from "./ViewResult.module.css";
 import { toast } from "sonner";
 
 /* ================= MATCH ================= */
-const Match = ({
-  team,
-  roundIndex,
-  matchId,
-  onUpdateMatch,
-  matchWinnerId,
-}) => {
+const Match = ({ team, roundIndex, matchId, onUpdateMatch, matchWinnerId }) => {
   let teamDisplayName;
 
   if (!team) {
@@ -24,12 +19,10 @@ const Match = ({
   const winnerId = matchWinnerId?._id || matchWinnerId;
   const hasResult = !!winnerId;
 
-  const isWinner =
-    hasResult && team && String(team._id) === String(winnerId);
+  const isWinner = hasResult && team && String(team._id) === String(winnerId);
 
   const isLoser =
-    hasResult &&
-    ((team && String(team._id) !== String(winnerId)) || !team);
+    hasResult && ((team && String(team._id) !== String(winnerId)) || !team);
 
   const handleClick = async () => {
     if (!team) return;
@@ -82,9 +75,7 @@ const Round = memo(({ title, matches, roundIndex, onUpdateMatch }) => {
       >
         {matches.map((m) => (
           <div key={m._id} className={styles.matchPair}>
-            <div className={styles.matchNumber}>
-              Match {m.Match_number}
-            </div>
+            <div className={styles.matchNumber}>Match {m.Match_number}</div>
 
             <Match
               team={m.Team1}
@@ -112,6 +103,8 @@ const Round = memo(({ title, matches, roundIndex, onUpdateMatch }) => {
 
 /* ================= MAIN ================= */
 const ViewResult = () => {
+  const [searchParams] = useSearchParams();
+  const tournamentId = searchParams.get("tournamentId");
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState("");
   const [draws, setDraws] = useState([]);
@@ -121,8 +114,16 @@ const ViewResult = () => {
   const fetchEvents = async () => {
     try {
       const res = await axios.get(`${API}/api/events`);
-      setEvents(res.data.data);
-      setSelectedEvent(res.data.data[0]?._id);
+
+      const tournamentEvents = res.data.data.filter(
+        (event) => event.tournamentId === tournamentId,
+      );
+
+      setEvents(tournamentEvents);
+
+      if (tournamentEvents.length) {
+        setSelectedEvent(tournamentEvents[0]._id);
+      }
     } catch {
       toast.error("Failed to load events");
     }
@@ -132,9 +133,7 @@ const ViewResult = () => {
     if (!selectedEvent) return;
 
     try {
-      const res = await axios.get(
-        `${API}/api/nissan-draws/${selectedEvent}`
-      );
+      const res = await axios.get(`${API}/api/nissan-draws/${selectedEvent}`);
       setDraws(res.data.data);
     } catch {
       toast.error("Failed to load draws");
@@ -143,7 +142,7 @@ const ViewResult = () => {
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [tournamentId]);
 
   useEffect(() => {
     fetchDraws();
@@ -173,7 +172,7 @@ const ViewResult = () => {
       acc[key].push(d);
 
       return acc;
-    }, {})
+    }, {}),
   ).sort((a, b) => a[0] - b[0]);
 
   /* ================= RENDER ================= */
@@ -201,9 +200,7 @@ const ViewResult = () => {
           <Round
             key={roundNumber}
             title={`Round ${roundNumber}`}
-            matches={matches.sort(
-              (a, b) => a.Match_number - b.Match_number
-            )}
+            matches={matches.sort((a, b) => a.Match_number - b.Match_number)}
             roundIndex={i}
             onUpdateMatch={handleUpdateMatch}
           />
