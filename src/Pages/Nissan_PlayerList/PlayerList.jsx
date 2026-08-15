@@ -49,7 +49,8 @@ const PlayerList = () => {
       setPlayers(res.data.data);
     } catch (error) {
       console.error("Error fetching players:", error);
-    } finally {
+      console.log("PLAYER API ERROR:", error.response?.data);
+      console.log("PLAYER API STATUS:", error.response?.status);
       setLoading(false);
     }
   };
