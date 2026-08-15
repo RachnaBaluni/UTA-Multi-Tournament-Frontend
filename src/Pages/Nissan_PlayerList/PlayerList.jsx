@@ -8,6 +8,7 @@ import Footer from "../../Components/Footer/Footer";
 const PlayerList = () => {
   const [searchParams] = useSearchParams();
   const tournamentId = searchParams.get("tournamentId");
+  console.log("TOURNAMENT ID:", tournamentId);
   const [players, setPlayers] = useState([]);
 
   const [loading, setLoading] = useState(true);
