@@ -1,26 +1,54 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import styles from "./ViewPlayerList.module.css";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 
 const PlayerList = () => {
+  const [searchParams] = useSearchParams();
+  const tournamentId = searchParams.get("tournamentId");
   const [players, setPlayers] = useState([]);
+
   const [loading, setLoading] = useState(true);
+  const [tournamentEventNames, setTournamentEventNames] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const fetchPlayers = async () => {
     try {
+      setLoading(true);
+
+      // Get all events
+      const eventsRes = await axios.get(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/events`,
+        {
+          withCredentials: true,
+        },
+      );
+
+      // Only selected tournament's events/categories
+      const tournamentEvents = eventsRes.data.data.filter(
+        (event) => event.tournamentId === tournamentId,
+      );
+
+      const eventNames = tournamentEvents.map((event) =>
+        event.name.trim().toLowerCase(),
+      );
+
+      setTournamentEventNames(eventNames);
+
+      // Get all players
       const res = await axios.get(
         `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/details-frontend`,
         {
           withCredentials: true,
         },
       );
+
       setPlayers(res.data.data);
-      setLoading(false);
     } catch (error) {
       console.error("Error fetching players:", error);
+    } finally {
       setLoading(false);
     }
   };
@@ -30,13 +58,26 @@ const PlayerList = () => {
   }, [players]);
 
   useEffect(() => {
+    if (!tournamentId) return;
+
     fetchPlayers();
-  }, []);
+  }, [tournamentId]);
 
   const filteredPlayers = players.filter((player) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
 
-    return (
+    const event1MatchesTournament =
+      player.event1 &&
+      tournamentEventNames.includes(player.event1.trim().toLowerCase());
+
+    const event2MatchesTournament =
+      player.event2 &&
+      tournamentEventNames.includes(player.event2.trim().toLowerCase());
+
+    const matchesTournament =
+      event1MatchesTournament || event2MatchesTournament;
+
+    const matchesSearch =
       (player.name &&
         player.name.toLowerCase().includes(lowerCaseSearchTerm)) ||
       (player.event1 &&
@@ -52,10 +93,12 @@ const PlayerList = () => {
       (player.whatsappNumber &&
         String(player.whatsappNumber).includes(lowerCaseSearchTerm)) ||
       (player.dob &&
-        new Date(player.dob).toLocaleDateString().includes(lowerCaseSearchTerm))
-    );
-  });
+        new Date(player.dob)
+          .toLocaleDateString()
+          .includes(lowerCaseSearchTerm));
 
+    return matchesTournament && matchesSearch;
+  });
   return (
     <>
       <Header />
