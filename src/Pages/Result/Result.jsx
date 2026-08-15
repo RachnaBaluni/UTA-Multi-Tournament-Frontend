@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import "./Result.css";
 import axios from "axios";
 
 export default function Result() {
+  const [searchParams] = useSearchParams();
+  const tournamentId = searchParams.get("tournamentId");
   const [allEvents, setAllEvents] = useState([]);
   const [eventNames, setEventNames] = useState({});
 
@@ -15,13 +18,16 @@ export default function Result() {
           {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
-          }
+          },
+        );
+        const tournamentEvents = eventsResp.data.data.filter(
+          (ev) => ev.tournamentId === tournamentId,
         );
 
         const namesMap = {};
         const eventIds = [];
 
-        eventsResp.data.data.forEach((ev) => {
+        tournamentEvents.forEach((ev) => {
           namesMap[ev._id] = ev.name;
           eventIds.push(ev._id);
         });
@@ -36,9 +42,9 @@ export default function Result() {
               {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,
-              }
-            )
-          )
+              },
+            ),
+          ),
         );
 
         const formatted = results.map((res, idx) => ({
@@ -98,7 +104,7 @@ export default function Result() {
 
         // ✅ SORTED STAGES
         const sortedStages = Object.keys(grouped).sort(
-          (a, b) => getRoundNumber(a) - getRoundNumber(b)
+          (a, b) => getRoundNumber(a) - getRoundNumber(b),
         );
 
         return (
@@ -136,10 +142,7 @@ export default function Result() {
 
                     <tbody>
                       {grouped[stage]
-                        .sort(
-                          (a, b) =>
-                            a.Match_number - b.Match_number
-                        )
+                        .sort((a, b) => a.Match_number - b.Match_number)
                         .map((match) => {
                           const winnerId = match.Winner?._id;
                           const scoreParts = match.Score
@@ -154,23 +157,13 @@ export default function Result() {
                                   : `Match ${match.Match_number}`}
                               </td>
 
-                              {renderTeam(
-                                match.Team1,
-                                winnerId
-                              )}
+                              {renderTeam(match.Team1, winnerId)}
 
-                              <td>
-                                {scoreParts[0] || "—"}
-                              </td>
+                              <td>{scoreParts[0] || "—"}</td>
 
-                              {renderTeam(
-                                match.Team2,
-                                winnerId
-                              )}
+                              {renderTeam(match.Team2, winnerId)}
 
-                              <td>
-                                {scoreParts[1] || "—"}
-                              </td>
+                              <td>{scoreParts[1] || "—"}</td>
                             </tr>
                           );
                         })}
