@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+
 import styles from "./RegisteredPlayers.module.css";
 import { Link } from "react-router-dom";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 
 const RegisteredPlayers = () => {
+  const { tournamentId } = useParams();
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState([]);
@@ -16,11 +19,11 @@ const RegisteredPlayers = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/`,
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/details-frontend/${tournamentId}`,
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
       if (res.data.success) {
         setPlayers(res.data.data);
@@ -35,11 +38,11 @@ const RegisteredPlayers = () => {
   const getEvents = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/api/events/`,
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/events/?tournamentId=${tournamentId}`,
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
       if (res.data.success) {
         setEvents(res.data.data);
@@ -50,10 +53,12 @@ const RegisteredPlayers = () => {
   };
 
   useEffect(() => {
+    if (!tournamentId) return;
+
     getPlayers();
     getEvents();
     window.scrollTo(0, 0);
-  }, []);
+  }, [tournamentId]);
 
   useEffect(() => {
     if (events.length > 0 && selectedEvent === null) {
@@ -153,8 +158,7 @@ const RegisteredPlayers = () => {
                         {player.partner1?.name || "N/A"}
                       </td>
                       <td data-label="Player 2">
-                        {player.partner2?.name ||
-                          "Partner Not Yet Registered"}
+                        {player.partner2?.name || "Partner Not Yet Registered"}
                       </td>
                     </tr>
                   ))}
