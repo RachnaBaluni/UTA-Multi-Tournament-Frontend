@@ -156,10 +156,18 @@ const ManageResult = () => {
     const fetchEvents = async () => {
       try {
         const res = await axios.get(`${BASE_URL}/api/events`);
-        setEvents(res.data.data);
-        console.log("ALL EVENTS:", res.data.data);
-        if (res.data.data.length) {
-          setSelectedEvent(res.data.data[0]._id);
+        const allEvents = res.data.data;
+
+        const tournamentEvents = allEvents.filter(
+          (event) => event.tournamentId === tournamentId,
+        );
+
+        setEvents(tournamentEvents);
+
+        console.log("TOURNAMENT EVENTS:", tournamentEvents);
+
+        if (tournamentEvents.length) {
+          setSelectedEvent(tournamentEvents[0]._id);
         }
       } catch {
         toast.error("Error fetching events");
