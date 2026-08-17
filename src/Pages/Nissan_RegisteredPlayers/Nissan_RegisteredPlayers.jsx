@@ -78,6 +78,16 @@ const RegisteredPlayers = () => {
   /* FILTER + SORT LOGIC           */
   /* ============================= */
 
+  console.log(
+    "PLAYER PARTNER DATA:",
+    players.map((p) => ({
+      id: p._id,
+      player1: p.partner1?.name,
+      player2: p.partner2?.name,
+      partner2Value: p.partner2,
+    })),
+  );
+
   const filteredPlayers = players.filter((player) => {
     // Show only players who do not have a partner registered yet
     const hasNoPartner = !player.partner2;
