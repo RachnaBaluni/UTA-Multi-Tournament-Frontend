@@ -79,17 +79,21 @@ const RegisteredPlayers = () => {
   /* ============================= */
 
   const filteredPlayers = players.filter((player) => {
+    // Show only players who do not have a partner registered yet
+    const hasNoPartner = !player.partner2;
+
     const matchesEvent = selectedEvent
       ? player.eventId?._id === selectedEvent
       : true;
 
     const lowerSearch = searchTerm.toLowerCase();
+
     const matchesSearch =
       player.partner1?.name?.toLowerCase().includes(lowerSearch) ||
       player.partner2?.name?.toLowerCase().includes(lowerSearch) ||
       player.eventId?.name?.toLowerCase().includes(lowerSearch);
 
-    return matchesEvent && matchesSearch;
+    return hasNoPartner && matchesEvent && matchesSearch;
   });
 
   const sortedPlayers = [...filteredPlayers].sort((a, b) => {
