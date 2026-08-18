@@ -10,6 +10,7 @@ const RegisterPage2 = ({
   players,
   registrationFields,
 }) => {
+  console.log("REGISTRATION FIELDS:", registrationFields);
   console.log(events);
   const [errors, setErrors] = useState({});
   const [event2List, setEvent2List] = useState(events);
