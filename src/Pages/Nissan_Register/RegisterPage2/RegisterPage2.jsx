@@ -272,25 +272,25 @@ const RegisterPage2 = ({
           </div>
         )}
 
-        {registrationFields?.transactionDetails &&
-          formData.feePaid === true && (
-            <div className={styles.formGroup}>
-              <label htmlFor="transactionDetails">Transaction Details</label>
+        {registrationFields?.transactionDetails && (
+          // formData.feePaid === true && (
+          <div className={styles.formGroup}>
+            <label htmlFor="transactionDetails">Transaction Details</label>
 
-              <input
-                type="text"
-                id="transactionDetails"
-                placeholder="Enter Transaction Details..."
-                value={formData.transactionDetails || ""}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    transactionDetails: e.target.value,
-                  })
-                }
-              />
-            </div>
-          )}
+            <input
+              type="text"
+              id="transactionDetails"
+              placeholder="Enter Transaction Details..."
+              value={formData.transactionDetails || ""}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  transactionDetails: e.target.value,
+                })
+              }
+            />
+          </div>
+        )}
       </div>
 
       <div className={styles.buttonGroup}>
