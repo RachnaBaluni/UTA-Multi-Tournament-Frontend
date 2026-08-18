@@ -84,7 +84,7 @@ const Register = () => {
           withCredentials: true,
         },
       );
-
+      console.log("API REGISTRATION FIELDS:", res.data);
       if (res.data.success) {
         setRegistrationFields(res.data.data);
       }
@@ -203,7 +203,6 @@ const Register = () => {
               formData={formData}
               handleNext={handleNext}
               setFormData={setFormData}
-              registrationFields={registrationFields}
             />
           )}
         </section>
@@ -227,6 +226,7 @@ const Register = () => {
               setFormData={setFormData}
               events={events}
               players={players}
+              registrationFields={registrationFields}
             />
           )}
         </section>
