@@ -8,6 +8,7 @@ const RegisterPage2 = ({
   handleBack,
   events,
   players,
+  registrationFields,
 }) => {
   console.log(events);
   const [errors, setErrors] = useState({});
@@ -143,6 +144,153 @@ const RegisterPage2 = ({
           </select>
         </div>
       )}
+
+      {/* Registration Fields */}
+      <div className={styles.registrationSection}>
+        <h3 className={styles.registrationHeading}>Registration Details</h3>
+
+        {registrationFields?.shirtSize && (
+          <div className={styles.formGroup}>
+            <label htmlFor="shirtSize">Shirt Size</label>
+
+            <select
+              id="shirtSize"
+              value={formData.shirtSize || ""}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  shirtSize: e.target.value,
+                })
+              }
+            >
+              <option value="">Select Shirt Size</option>
+              {["XS", "S", "M", "L", "XL", "XXL"].map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {registrationFields?.foodPreference && (
+          <div className={styles.formGroup}>
+            <label htmlFor="foodPref">Food Preference</label>
+
+            <select
+              id="foodPref"
+              value={formData.foodPref || ""}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  foodPref: e.target.value,
+                })
+              }
+            >
+              <option value="">Select Food Preference</option>
+              <option value="Veg">Veg</option>
+              <option value="Non-Veg">Non-Veg</option>
+              <option value="I Won't Be There">I Won't Be There</option>
+            </select>
+          </div>
+        )}
+
+        {registrationFields?.accommodation && (
+          <div className={styles.formGroup}>
+            <label>Accommodation</label>
+
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  name="stay"
+                  checked={formData.stay === true}
+                  onChange={() =>
+                    setFormData({
+                      ...formData,
+                      stay: true,
+                    })
+                  }
+                />
+                Yes
+              </label>
+
+              <label>
+                <input
+                  type="radio"
+                  name="stay"
+                  checked={formData.stay === false}
+                  onChange={() =>
+                    setFormData({
+                      ...formData,
+                      stay: false,
+                    })
+                  }
+                />
+                No
+              </label>
+            </div>
+          </div>
+        )}
+
+        {registrationFields?.feePaid && (
+          <div className={styles.formGroup}>
+            <label>Fee Paid</label>
+
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  name="feePaid"
+                  checked={formData.feePaid === true}
+                  onChange={() =>
+                    setFormData({
+                      ...formData,
+                      feePaid: true,
+                    })
+                  }
+                />
+                Yes
+              </label>
+
+              <label>
+                <input
+                  type="radio"
+                  name="feePaid"
+                  checked={formData.feePaid === false}
+                  onChange={() =>
+                    setFormData({
+                      ...formData,
+                      feePaid: false,
+                    })
+                  }
+                />
+                No
+              </label>
+            </div>
+          </div>
+        )}
+
+        {registrationFields?.transactionDetails &&
+          formData.feePaid === true && (
+            <div className={styles.formGroup}>
+              <label htmlFor="transactionDetails">Transaction Details</label>
+
+              <input
+                type="text"
+                id="transactionDetails"
+                placeholder="Enter Transaction Details..."
+                value={formData.transactionDetails || ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    transactionDetails: e.target.value,
+                  })
+                }
+              />
+            </div>
+          )}
+      </div>
 
       <div className={styles.buttonGroup}>
         <button onClick={handleBack} className={styles.secondaryButton}>
