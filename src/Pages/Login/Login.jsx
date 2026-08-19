@@ -49,17 +49,10 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post(
-        LOGIN_API_ENDPOINT,
-        {
-          type: loginType,
-          identifier: loginForm.identifier.trim(),
-          password: loginForm.password.trim(),
-        },
-        {
-          withCredentials: true,
-        },
-      );
+      const res = await axios.post(LOGIN_API_ENDPOINT, {
+        whatsappNumber: loginForm.identifier.trim(),
+        dob: loginForm.password.trim(),
+      });
 
       // 🔥 SAVE TOKEN
       localStorage.setItem("token", res.data.token);
