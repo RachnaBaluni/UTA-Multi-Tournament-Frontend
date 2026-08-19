@@ -76,20 +76,28 @@ const Register = () => {
     }
   };
 
-  const getRegistrationFields = async () => {
+  const getRegistrationFields = async (tournamentId) => {
+    if (!tournamentId) {
+      setRegistrationFields({});
+      return;
+    }
+
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/api/registration-fields`,
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/tournaments/${tournamentId}`,
         {
           withCredentials: true,
         },
       );
-      console.log("API REGISTRATION FIELDS:", res.data);
+
+      console.log("TOURNAMENT REGISTRATION FIELDS:", res.data);
+
       if (res.data.success) {
-        setRegistrationFields(res.data.data);
+        setRegistrationFields(res.data.data.registrationFields || {});
       }
     } catch (error) {
-      console.log("Error fetching registration fields:", error);
+      console.log("Error fetching tournament registration fields:", error);
+      setRegistrationFields({});
     }
   };
 
@@ -115,13 +123,13 @@ const Register = () => {
 
     getTournaments();
     getPlayers();
-    getRegistrationFields();
     window.scrollTo(0, 0);
   }, []);
 
   const handleNext = () => {
     if (currentStep === 2) {
       getEvents(formData.tournamentId);
+      getRegistrationFields(formData.tournamentId);
     }
 
     if (currentStep !== 4) {
