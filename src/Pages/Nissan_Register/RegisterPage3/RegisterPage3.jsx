@@ -27,7 +27,10 @@ const RegisterPage3 = ({ formData }) => {
         setErrorMessage(res.data.message || "Registration failed."); // Handle specific error messages if backend provides
       }
     } catch (error) {
-      console.log(error);
+      console.log("REGISTER ERROR RESPONSE:", error.response?.data);
+      console.log("REGISTER ERROR STATUS:", error.response?.status);
+      console.log("REGISTER ERROR:", error);
+
       setSuccess(false);
       if (
         error.response &&
