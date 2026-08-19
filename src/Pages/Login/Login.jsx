@@ -6,6 +6,10 @@ import { toast } from "sonner"; // Import toast from sonner
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/user.slice";
 
+const LOGIN_API_ENDPOINT = `${
+  import.meta.env.VITE_APP_BACKEND_URL
+}/api/player/login`;
+
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,44 +41,42 @@ const Login = () => {
    * Integrates the API call for user login.
    */
   const handleLogin = async () => {
-  if (!loginForm.identifier || !loginForm.password) {
-    toast.warning("Please enter both your email/phone and password.");
-    return;
-  }
+    if (!loginForm.identifier || !loginForm.password) {
+      toast.warning("Please enter both your email/phone and password.");
+      return;
+    }
 
-  setIsLoading(true);
+    setIsLoading(true);
 
-  try {
-    const res = await axios.post(
-      LOGIN_API_ENDPOINT,
-      {
-        type: loginType,
-        identifier: loginForm.identifier.trim(),
-        password: loginForm.password.trim(),
-      },
-      {
-        withCredentials: true,
-      }
-    );
+    try {
+      const res = await axios.post(
+        LOGIN_API_ENDPOINT,
+        {
+          type: loginType,
+          identifier: loginForm.identifier.trim(),
+          password: loginForm.password.trim(),
+        },
+        {
+          withCredentials: true,
+        },
+      );
 
-    // 🔥 SAVE TOKEN
-    localStorage.setItem("token", res.data.token);
-    localStorage.setItem("isAuthenticated", "true");
+      // 🔥 SAVE TOKEN
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("isAuthenticated", "true");
 
-    dispatch(setUser({ ...res.data.user, type: loginType }));
+      dispatch(setUser({ ...res.data.user, type: loginType }));
 
-    toast.success(res.data.message || "Login successful");
+      toast.success(res.data.message || "Login successful");
 
-    navigate("/");
-
-  } catch (err) {
-    console.log(err);
-    toast.error(err.response?.data?.message || "Login failed");
-  } finally {
-    setIsLoading(false);
-  }
-};
-
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      toast.error(err.response?.data?.message || "Login failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className={styles.rootContainer}>
