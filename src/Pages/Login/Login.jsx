@@ -61,6 +61,7 @@ const Login = () => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("isAuthenticated", "true");
 
+      console.log("LOGIN USER:", res.data.user);
       dispatch(setUser({ ...res.data.user, type: loginType }));
 
       toast.success(res.data.message || "Login successful");
