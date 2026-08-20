@@ -42,7 +42,11 @@ const Login = () => {
    */
   const handleLogin = async () => {
     if (!loginForm.identifier || !loginForm.password) {
-      toast.warning("Please enter both your email/phone and password.");
+      toast.warning(
+        loginType === "Player"
+          ? "Please enter your WhatsApp number and date of birth."
+          : "Please enter your email/phone and password.",
+      );
       return;
     }
 
@@ -50,9 +54,8 @@ const Login = () => {
 
     try {
       const res = await axios.post(LOGIN_API_ENDPOINT, {
-        type: loginType,
-        identifier: loginForm.identifier.trim(),
-        password: loginForm.password.trim(),
+        whatsappNumber: loginForm.identifier.trim(),
+        dob: loginForm.password,
       });
       // 🔥 SAVE TOKEN
       localStorage.setItem("token", res.data.token);
@@ -120,10 +123,18 @@ const Login = () => {
 
             <div className={styles.formGroup}>
               <label className={styles.formField}>
-                <p className={styles.fieldLabel}>Email or Phone Number</p>
+                <p className={styles.fieldLabel}>
+                  {loginType === "Player"
+                    ? "WhatsApp Number"
+                    : "Email or Phone Number"}
+                </p>{" "}
                 <input
                   name="identifier"
-                  placeholder="Enter your email or phone number"
+                  placeholder={
+                    loginType === "Player"
+                      ? "Enter your WhatsApp number"
+                      : "Enter your email or phone number"
+                  }
                   className={styles.formInput}
                   type="text"
                   value={loginForm.identifier}
@@ -134,15 +145,22 @@ const Login = () => {
             </div>
             <div className={styles.formGroup}>
               <label className={styles.formField}>
-                <p className={styles.fieldLabel}>Password</p>
+                <p className={styles.fieldLabel}>
+                  {loginType === "Player" ? "Date of Birth" : "Password"}
+                </p>
+
                 <input
                   name="password"
-                  placeholder="Enter your password"
+                  placeholder={
+                    loginType === "Player"
+                      ? "Enter your date of birth"
+                      : "Enter your password"
+                  }
                   className={styles.formInput}
-                  type="password"
+                  type={loginType === "Player" ? "date" : "password"}
                   value={loginForm.password}
                   onChange={handleChange}
-                  disabled={isLoading} // Disable input during loading
+                  disabled={isLoading}
                 />
               </label>
             </div>
