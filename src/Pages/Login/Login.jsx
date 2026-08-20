@@ -19,8 +19,8 @@ const Login = () => {
 
   // State for form data
   const [loginForm, setLoginForm] = useState({
-    identifier: "", // phone number
-    dob: "",
+    identifier: "", // Can be email or phone number
+    password: "",
   });
 
   // State for loading status to disable button during API call
@@ -41,8 +41,8 @@ const Login = () => {
    * Integrates the API call for user login.
    */
   const handleLogin = async () => {
-    if (!loginForm.identifier || !loginForm.dob) {
-      toast.warning("Please enter your WhatsApp number and date of birth.");
+    if (!loginForm.identifier || !loginForm.password) {
+      toast.warning("Please enter both your email/phone and password.");
       return;
     }
 
@@ -50,10 +50,10 @@ const Login = () => {
 
     try {
       const res = await axios.post(LOGIN_API_ENDPOINT, {
-        whatsappNumber: loginForm.identifier.trim(),
-        dob: loginForm.dob.trim(),
+        type: loginType,
+        identifier: loginForm.identifier.trim(),
+        password: loginForm.password.trim(),
       });
-
       // 🔥 SAVE TOKEN
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("isAuthenticated", "true");
@@ -120,10 +120,10 @@ const Login = () => {
 
             <div className={styles.formGroup}>
               <label className={styles.formField}>
-                <p className={styles.fieldLabel}>WhatsApp Number</p>{" "}
+                <p className={styles.fieldLabel}>Email or Phone Number</p>
                 <input
                   name="identifier"
-                  placeholder="Enter your WhatsApp number"
+                  placeholder="Enter your email or phone number"
                   className={styles.formInput}
                   type="text"
                   value={loginForm.identifier}
@@ -134,15 +134,15 @@ const Login = () => {
             </div>
             <div className={styles.formGroup}>
               <label className={styles.formField}>
-                <p className={styles.fieldLabel}>Date of Birth</p>
+                <p className={styles.fieldLabel}>Password</p>
                 <input
-                  name="dob"
-                  placeholder="DD/MM/YYYY"
+                  name="password"
+                  placeholder="Enter your password"
                   className={styles.formInput}
-                  type="text"
-                  value={loginForm.dob}
+                  type="password"
+                  value={loginForm.password}
                   onChange={handleChange}
-                  disabled={isLoading}
+                  disabled={isLoading} // Disable input during loading
                 />
               </label>
             </div>
