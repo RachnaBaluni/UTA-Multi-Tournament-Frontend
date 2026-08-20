@@ -1,15 +1,8 @@
-:root {
-  --primary-color: #10aede;
-  --primary-dark-color: #0e9ccb;
-  --text-dark: #0d181c;
-  --text-medium: #4b889b;
-  --background-light: #f8fbfc;
-  --input-border: #cfe2e8;
-}
+/* PlayerInfo.module.css */
 
 /* Main Container */
 .container {
-  padding: 30px;
+  padding: var(--spacing-lg);
   background-color: var(--background-light);
   min-height: 100vh;
   font-family: "Public Sans", "Noto Sans", sans-serif;
@@ -17,7 +10,7 @@
 
 /* Header */
 .header {
-  margin-bottom: 25px;
+  margin-bottom: var(--spacing-lg);
 }
 
 .header h1 {
@@ -29,26 +22,26 @@
 }
 
 .header p {
-  margin-top: 6px;
+  margin-top: var(--spacing-xs);
   color: var(--text-medium);
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 /* Profile Card */
 .profileCard {
   background: #ffffff;
-  border-radius: 12px;
-  padding: 25px;
-  margin-bottom: 22px;
-  border: 1px solid var(--input-border);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  border: 1px solid var(--border-color);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 /* Profile Title */
 .profileTitle {
-  border-bottom: 1px solid #e5eef1;
-  padding-bottom: 15px;
-  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
 }
 
 .profileTitle h2 {
@@ -62,21 +55,21 @@
 .detailsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  gap: var(--spacing-md);
 }
 
 .detailItem {
   background-color: var(--background-light);
-  padding: 15px;
-  border-radius: 12px;
-  border: 1px solid var(--input-border);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border-color);
 }
 
 .detailItem span {
   display: block;
   color: var(--text-medium);
-  font-size: 13px;
-  margin-bottom: 6px;
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-xs);
 }
 
 .detailItem strong {
@@ -91,24 +84,24 @@
 }
 
 .notPaid {
-  color: #c62828 !important;
+  color: var(--danger-color) !important;
 }
 
 /* Tournament Card */
 .tournamentCard {
   background: #ffffff;
-  border-radius: 12px;
-  padding: 25px;
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-lg);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  border: 1px solid var(--input-border);
+  gap: var(--spacing-lg);
+  border: 1px solid var(--border-color);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .tournamentCard h2 {
-  margin: 0 0 7px;
+  margin: 0 0 var(--spacing-xs);
   font-size: 20px;
   color: var(--text-dark);
   font-weight: 700;
@@ -117,40 +110,41 @@
 .tournamentCard p {
   margin: 0;
   color: var(--text-medium);
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 /* Participate Button */
 .participateBtn {
   border: none;
   background-color: var(--primary-color);
-  color: #ffffff;
-  padding: 12px 20px;
-  border-radius: 9999px;
-  font-size: 14px;
+  color: var(--text-light);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-sm);
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color var(--transition-speed-normal)
+    var(--transition-ease);
 }
 
 .participateBtn:hover {
-  background-color: var(--primary-dark-color);
+  background-color: var(--hover-dark);
 }
 
 /* Tournament List */
 .tournamentList {
   background: #ffffff;
-  border-radius: 12px;
-  padding: 25px;
-  margin-top: 20px;
-  border: 1px solid var(--input-border);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+  border: 1px solid var(--border-color);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .tournamentList h2 {
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
   font-size: 20px;
   color: var(--text-dark);
   font-weight: 700;
@@ -161,8 +155,8 @@
   padding: 30px;
   text-align: center;
   background-color: var(--background-light);
-  border-radius: 12px;
-  border: 1px solid var(--input-border);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border-color);
   color: var(--text-medium);
 }
 
@@ -195,7 +189,7 @@
 
 @media (max-width: 600px) {
   .container {
-    padding: 15px;
+    padding: var(--spacing-md);
   }
 
   .header h1 {
@@ -209,7 +203,7 @@
   .profileCard,
   .tournamentCard,
   .tournamentList {
-    padding: 18px;
+    padding: var(--spacing-md);
   }
 
   .participateBtn {
