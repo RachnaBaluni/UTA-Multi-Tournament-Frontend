@@ -19,7 +19,12 @@ const PlayerInfo = () => {
       const response = await axios.get(`${BACKEND}/api/tournaments`);
 
       if (response.data.success) {
-        setTournaments(response.data.data);
+        const availableTournaments = response.data.data.filter(
+          (tournament) =>
+            tournament.status === "Upcoming" || tournament.status === "Active",
+        );
+
+        setTournaments(availableTournaments);
       }
     } catch (error) {
       console.error("FETCH TOURNAMENTS ERROR:", error);
@@ -159,6 +164,7 @@ const PlayerInfo = () => {
                 <button
                   className={styles.participateBtn}
                   onClick={() => {
+                    console.log("Selected Tournament:", tournament);
                     console.log("Selected Tournament ID:", tournament._id);
                   }}
                 >
