@@ -49,12 +49,13 @@ const Login = () => {
     setIsLoading(true);
     const LOGIN_API_ENDPOINT = `${
       import.meta.env.VITE_APP_BACKEND_URL
-    }/api/${loginType.toLowerCase()}/login`;
+    }/api/member/login`;
 
     try {
       const res = await axios.post(LOGIN_API_ENDPOINT, {
-        whatsappNumber: loginForm.identifier.trim(),
-        dob: loginForm.password,
+        type: loginType,
+        identifier: loginForm.identifier.trim(),
+        password: loginForm.password,
       });
       // 🔥 SAVE TOKEN
       localStorage.setItem("token", res.data.token);
