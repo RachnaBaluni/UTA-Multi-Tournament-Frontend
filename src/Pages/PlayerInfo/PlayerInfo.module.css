@@ -1,14 +1,14 @@
 /* PlayerInfo.module.css */
 
-/* Main Container */
 .container {
-  padding: var(--spacing-lg);
-  background-color: var(--background-light);
   min-height: 100vh;
-  font-family: "Public Sans", "Noto Sans", sans-serif;
+  background-color: var(--background-light);
+  padding: var(--spacing-xl);
+  color: var(--text-dark);
 }
 
 /* Header */
+
 .header {
   margin-bottom: var(--spacing-lg);
 }
@@ -16,123 +16,119 @@
 .header h1 {
   margin: 0;
   font-size: 30px;
-  color: var(--text-dark);
+  color: var(--primary-color);
   font-weight: 700;
   letter-spacing: -0.025em;
 }
 
-.header p {
-  margin-top: var(--spacing-xs);
+/* Profile Card */
+
+.profileCard {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-lg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Profile Header */
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: var(--spacing-lg);
+}
+
+.profileIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.profileTitle h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.profileTitle p {
+  margin: 0;
   color: var(--text-medium);
   font-size: var(--font-size-sm);
 }
 
-/* Profile Card */
-.profileCard {
-  background: #ffffff;
-  border-radius: var(--border-radius-md);
-  padding: var(--spacing-lg);
-  margin-bottom: var(--spacing-lg);
-  border: 1px solid var(--border-color);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
+/* Section Heading */
 
-/* Profile Title */
-.profileTitle {
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: var(--spacing-md);
-  margin-bottom: var(--spacing-lg);
-}
-
-.profileTitle h2 {
-  margin: 0;
+.sectionTitle {
+  margin: 0 0 var(--spacing-md);
   font-size: 20px;
-  color: var(--text-dark);
+  color: var(--primary-color);
   font-weight: 700;
 }
 
 /* Details Grid */
+
 .detailsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-md);
 }
 
+/* Individual Detail */
+
 .detailItem {
   background-color: var(--background-light);
-  padding: var(--spacing-md);
-  border-radius: var(--border-radius-md);
   border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  padding: 14px 16px;
+  transition: all 0.2s ease;
+}
+
+.detailItem:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 3px 8px rgba(16, 174, 222, 0.08);
 }
 
 .detailItem span {
   display: block;
-  color: var(--text-medium);
+  color: var(--primary-color);
   font-size: var(--font-size-sm);
-  margin-bottom: var(--spacing-xs);
+  font-weight: 600;
+  margin-bottom: 6px;
 }
 
 .detailItem strong {
+  display: block;
   color: var(--text-dark);
   font-size: 15px;
   font-weight: 600;
+  word-break: break-word;
 }
 
-/* Fee Status */
+/* Paid / Not Paid */
+
 .paid {
-  color: #16803c !important;
+  color: #198754 !important;
 }
 
 .notPaid {
-  color: var(--danger-color) !important;
-}
-
-/* Tournament Card */
-.tournamentCard {
-  background: #ffffff;
-  border-radius: var(--border-radius-md);
-  padding: var(--spacing-lg);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-lg);
-  border: 1px solid var(--border-color);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-.tournamentCard h2 {
-  margin: 0 0 var(--spacing-xs);
-  font-size: 20px;
-  color: var(--text-dark);
-  font-weight: 700;
-}
-
-.tournamentCard p {
-  margin: 0;
-  color: var(--text-medium);
-  font-size: var(--font-size-sm);
-}
-
-/* Participate Button */
-.participateBtn {
-  border: none;
-  background-color: var(--primary-color);
-  color: var(--text-light);
-  padding: var(--spacing-sm) var(--spacing-lg);
-  border-radius: var(--border-radius-md);
-  font-size: var(--font-size-sm);
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background-color var(--transition-speed-normal)
-    var(--transition-ease);
-}
-
-.participateBtn:hover {
-  background-color: var(--hover-dark);
+  color: #dc3545 !important;
 }
 
 /* Tournament List */
+
 .tournamentList {
   background: #ffffff;
   border-radius: var(--border-radius-md);
@@ -146,11 +142,94 @@
   margin-top: 0;
   margin-bottom: var(--spacing-lg);
   font-size: 20px;
-  color: var(--text-dark);
+  color: var(--primary-color);
   font-weight: 700;
 }
 
+/* Tournament Card */
+
+.tournamentCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  background-color: var(--background-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  transition: all 0.2s ease;
+}
+
+.tournamentCard:last-child {
+  margin-bottom: 0;
+}
+
+.tournamentCard:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 10px rgba(16, 174, 222, 0.08);
+}
+
+.tournamentCard h2 {
+  margin: 0 0 var(--spacing-xs);
+  font-size: 20px;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.tournamentCard p {
+  margin: 4px 0;
+  color: var(--text-medium);
+  font-size: var(--font-size-sm);
+}
+
+/* Tournament Information */
+
+.tournamentInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.tournamentInfo h3 {
+  margin: 0 0 6px;
+  color: var(--text-dark);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.tournamentInfo p {
+  margin: 3px 0;
+  color: var(--text-medium);
+  font-size: 14px;
+}
+
+/* Participate Button */
+
+.participateBtn {
+  border: none;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  padding: 11px 20px;
+  border-radius: var(--border-radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.participateBtn:hover {
+  background-color: var(--primary-dark-color);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(16, 174, 222, 0.2);
+}
+
+.participateBtn:active {
+  transform: translateY(0);
+}
+
 /* Empty State */
+
 .emptyState {
   padding: 30px;
   text-align: center;
@@ -165,14 +244,46 @@
 }
 
 /* Loading */
+
 .loading {
   padding: 40px;
   text-align: center;
   color: var(--text-medium);
 }
 
-/* Responsive */
+/* Error */
+
+.error {
+  padding: 30px;
+  text-align: center;
+  color: #dc3545;
+  background-color: #fff5f5;
+  border: 1px solid #f1caca;
+  border-radius: var(--border-radius-md);
+}
+
+/* Profile Name */
+
+.name {
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
+/* Email / Phone */
+
+.email,
+.phone {
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+/* Responsive - Tablet */
+
 @media (max-width: 900px) {
+  .container {
+    padding: var(--spacing-lg);
+  }
+
   .detailsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -187,6 +298,8 @@
   }
 }
 
+/* Responsive - Mobile */
+
 @media (max-width: 600px) {
   .container {
     padding: var(--spacing-md);
@@ -196,17 +309,35 @@
     font-size: 24px;
   }
 
-  .detailsGrid {
-    grid-template-columns: 1fr;
-  }
-
   .profileCard,
   .tournamentCard,
   .tournamentList {
     padding: var(--spacing-md);
   }
 
+  .profileHeader {
+    align-items: flex-start;
+  }
+
+  .profileIcon {
+    width: 52px;
+    height: 52px;
+    font-size: 22px;
+  }
+
+  .profileTitle h2 {
+    font-size: 19px;
+  }
+
+  .detailsGrid {
+    grid-template-columns: 1fr;
+  }
+
   .participateBtn {
     width: 100%;
+  }
+
+  .tournamentCard {
+    gap: var(--spacing-md);
   }
 }

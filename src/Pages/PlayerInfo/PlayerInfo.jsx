@@ -70,46 +70,104 @@ const PlayerInfo = () => {
           </div>
 
           <div className={styles.detailItem}>
-            <span>WhatsApp Number</span>
-            <strong>{user.whatsappNumber || "-"}</strong>
+            <span>Email</span>
+            <strong>{user.email || user.emailAddress || "-"}</strong>
           </div>
 
           <div className={styles.detailItem}>
-            <span>Date of Birth</span>
-            <strong>{user.dob || "-"}</strong>
-          </div>
-
-          <div className={styles.detailItem}>
-            <span>City</span>
-            <strong>{user.city || "-"}</strong>
-          </div>
-
-          <div className={styles.detailItem}>
-            <span>Shirt Size</span>
-            <strong>{user.shirtSize || "-"}</strong>
-          </div>
-
-          <div className={styles.detailItem}>
-            <span>Short Size</span>
-            <strong>{user.shortSize || "-"}</strong>
-          </div>
-
-          <div className={styles.detailItem}>
-            <span>Food Preference</span>
-            <strong>{user.foodPref || "-"}</strong>
-          </div>
-
-          <div className={styles.detailItem}>
-            <span>Accommodation</span>
-            <strong>{user.stay || "-"}</strong>
-          </div>
-
-          <div className={styles.detailItem}>
-            <span>Fee Status</span>
-            <strong className={user.feePaid ? styles.paid : styles.notPaid}>
-              {user.feePaid ? "Paid" : "Not Paid"}
+            <span>Phone Number</span>
+            <strong>
+              {user.number ||
+                user.contactNumber ||
+                user.generalContactPhone ||
+                "-"}
             </strong>
           </div>
+
+          {user.type === "Player" && (
+            <>
+              <div className={styles.detailItem}>
+                <span>Date of Birth</span>
+                <strong>{user.dob || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>City</span>
+                <strong>{user.city || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Shirt Size</span>
+                <strong>{user.shirtSize || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Short Size</span>
+                <strong>{user.shortSize || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Food Preference</span>
+                <strong>{user.foodPref || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Accommodation</span>
+                <strong>{user.stay || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Fee Status</span>
+                <strong className={user.feePaid ? styles.paid : styles.notPaid}>
+                  {user.feePaid ? "Paid" : "Not Paid"}
+                </strong>
+              </div>
+            </>
+          )}
+
+          {user.type === "Coach" && (
+            <>
+              <div className={styles.detailItem}>
+                <span>Date of Birth</span>
+                <strong>{user.dob || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Gender</span>
+                <strong>{user.gender || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Address</span>
+                <strong>{user.address || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Experience</span>
+                <strong>{user.experience ?? "-"} years</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Academy</span>
+                <strong>{user.academy || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Academy Phone</span>
+                <strong>{user.academyPhone || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Academy Email</span>
+                <strong>{user.academyEmail || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Status</span>
+                <strong>{user.status || "-"}</strong>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
