@@ -40,13 +40,12 @@ const LoginPage1 = ({ player, handleNext, setPlayer, id }) => {
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/${id}/updatePlayer`,
-        { formData },
+        formData,
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
-
       if (res.data.success) {
         setPlayer(formData);
         handleNext();
