@@ -6,10 +6,6 @@ import { toast } from "sonner"; // Import toast from sonner
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/user.slice";
 
-const LOGIN_API_ENDPOINT = `${
-  import.meta.env.VITE_APP_BACKEND_URL
-}/api/player/login`;
-
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -51,6 +47,9 @@ const Login = () => {
     }
 
     setIsLoading(true);
+    const LOGIN_API_ENDPOINT = `${
+      import.meta.env.VITE_APP_BACKEND_URL
+    }/api/${loginType.toLowerCase()}/login`;
 
     try {
       const res = await axios.post(LOGIN_API_ENDPOINT, {
