@@ -11,6 +11,7 @@ const LoginPage2 = ({
   handleNext,
   handleBack,
   playerTeam, // This is the player's current registered teams
+  selectedTournament, // This is the selected tournament ID
 }) => {
   const [formData, setFormData] = useState({
     event1: "",
@@ -80,7 +81,7 @@ const LoginPage2 = ({
       // Set event2List (events excluding the selected event1)
       if (initialFormData.event1) {
         setEvent2List(
-          events.filter((event) => event._id !== initialFormData.event1)
+          events.filter((event) => event._id !== initialFormData.event1),
         );
       } else {
         setEvent2List(events); // If no event1 selected, all events are available for event2
@@ -90,7 +91,7 @@ const LoginPage2 = ({
       const getPartnersForEvent = (
         eventId,
         currentPlayerId,
-        currentPartner
+        currentPartner,
       ) => {
         let availablePartners = players
           .filter((team) => team.eventId._id === eventId && !team.partner2)
@@ -109,7 +110,7 @@ const LoginPage2 = ({
           ...new Map(
             availablePartners
               .filter((p) => p && p._id)
-              .map((item) => [item["_id"], item])
+              .map((item) => [item["_id"], item]),
           ).values(),
         ];
       };
@@ -120,9 +121,9 @@ const LoginPage2 = ({
             getPartnersForEvent(
               initialFormData.event1,
               player._id,
-              currentPartner1
-            )
-          )
+              currentPartner1,
+            ),
+          ),
         );
       } else {
         setPlayersEvent1List([]); // Clear if no event is selected
@@ -136,9 +137,9 @@ const LoginPage2 = ({
             getPartnersForEvent(
               initialFormData.event2,
               player._id,
-              currentPartner2
-            )
-          )
+              currentPartner2,
+            ),
+          ),
         );
       } else {
         setIsEvent2Selected(false);
@@ -162,7 +163,7 @@ const LoginPage2 = ({
         (team) =>
           team.eventId._id === event1Id &&
           (team.partner1?._id === player._id ||
-            team.partner2?._id === player._id)
+            team.partner2?._id === player._id),
       );
       let existingPartner = null;
       if (currentTeamForEvent1) {
@@ -188,7 +189,7 @@ const LoginPage2 = ({
         ...new Map(
           availablePartners
             .filter((p) => p && p._id)
-            .map((item) => [item["_id"], item])
+            .map((item) => [item["_id"], item]),
         ).values(),
       ];
       setPlayersEvent1List(sortPlayersByName(uniquePlayers));
@@ -211,7 +212,7 @@ const LoginPage2 = ({
         (team) =>
           team.eventId._id === event2Id &&
           (team.partner1?._id === player._id ||
-            team.partner2?._id === player._id)
+            team.partner2?._id === player._id),
       );
       let existingPartner = null;
       if (currentTeamForEvent2) {
@@ -238,7 +239,7 @@ const LoginPage2 = ({
         ...new Map(
           availablePartners
             .filter((p) => p && p._id)
-            .map((item) => [item["_id"], item])
+            .map((item) => [item["_id"], item]),
         ).values(),
       ];
       setPlayersEvent2List(sortPlayersByName(uniquePlayers));
@@ -268,7 +269,7 @@ const LoginPage2 = ({
           {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
-          }
+          },
         );
         toast.success("Teams updated successfully");
         handleNext();
@@ -281,6 +282,16 @@ const LoginPage2 = ({
 
   return (
     <div className={styles.loginPage2Container}>
+      {playerTeam.length > 0 && (
+        <div className={styles.tournamentInfo}>
+          <label className={styles.label}>Tournament:</label>
+          <div className={styles.tournamentBox}>
+            {console.log("playerTeam:", playerTeam)}
+            {playerTeam[0]?.eventId?.tournamentId?.name || "Tournament"}
+          </div>
+        </div>
+      )}
+
       <section className={styles.formSection}>
         <label htmlFor="event1" className={styles.label}>
           Choose Event 1

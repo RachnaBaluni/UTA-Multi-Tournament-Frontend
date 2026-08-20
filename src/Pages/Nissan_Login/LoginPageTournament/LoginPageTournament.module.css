@@ -1,6 +1,6 @@
-/* LoginPage2.module.css */
+/* LoginPageTournament.module.css */
 
-.loginPage2Container {
+.container {
   padding: var(--spacing-lg);
 }
 
@@ -68,6 +68,11 @@
   background-color: var(--hover-dark);
 }
 
+.primaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .secondaryButton {
   background-color: #e0e0e0;
   color: #222;
@@ -75,26 +80,4 @@
 
 .secondaryButton:hover {
   background-color: #c9c9c9;
-}
-
-.error {
-  font-size: var(--font-size-sm);
-  color: var(--danger-color);
-  margin-top: var(--spacing-xs);
-  display: block;
-}
-.tournamentInfo {
-  margin-bottom: var(--spacing-lg);
-}
-
-.tournamentBox {
-  width: 100%;
-  padding: var(--spacing-sm);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius-sm);
-  background: #f5f5f5;
-  color: var(--text-dark);
-  font-size: var(--font-size-base);
-  font-weight: 600;
-  box-sizing: border-box;
 }

@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import LoginPage1 from "./LoginPage1/LoginPage1";
 import LoginPage2 from "./LoginPage2/LoginPage2";
 import LoginPage3 from "./LoginPage3/LoginPage3";
+import LoginPageTournament from "./LoginPageTournament/LoginPageTournament";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 
@@ -14,6 +15,8 @@ const LoginPage = () => {
   const [players, setPlayers] = useState([]);
   const [currentPlayer, setCurrentPlayer] = useState({});
   const [currentPlayerTeam, setCurrentPlayerTeam] = useState([]);
+  const [tournaments, setTournaments] = useState([]);
+  const [selectedTournament, setSelectedTournament] = useState("");
   const [currentStep, setCurrentStep] = useState(1);
   const params = useParams();
 
@@ -24,7 +27,7 @@ const LoginPage = () => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
       if (res.data.success) {
         setEvents(res.data.data);
@@ -41,7 +44,7 @@ const LoginPage = () => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
       if (res.data.success) {
         setPlayers(res.data.data);
@@ -58,7 +61,7 @@ const LoginPage = () => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
       if (res.data.success) {
         setCurrentPlayer(res.data.data);
@@ -75,14 +78,34 @@ const LoginPage = () => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
 
       if (res.data.success) {
-        setCurrentPlayerTeam(res.data.data);
+        const teams = res.data.data;
+
+        setCurrentPlayerTeam(teams);
+
+        const uniqueTournaments = [
+          ...new Map(
+            teams
+              .filter((team) => team.eventId?.tournamentId)
+              .map((team) => [
+                team.eventId.tournamentId._id,
+                team.eventId.tournamentId,
+              ]),
+          ).values(),
+        ];
+
+        setTournaments(uniqueTournaments);
+
+        //automatically select the tournament if there's only one unique tournament
+        if (uniqueTournaments.length === 1) {
+          setSelectedTournament(uniqueTournaments[0]._id);
+        }
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching player teams:", error);
     }
   };
 
@@ -95,7 +118,9 @@ const LoginPage = () => {
   }, []);
 
   const handleNext = () => {
-    if (currentStep !== 3) setCurrentStep((currentStep) => currentStep + 1);
+    if (currentStep !== 4) {
+      setCurrentStep((currentStep) => currentStep + 1);
+    }
   };
   const handleBack = () => {
     if (currentStep !== 1) setCurrentStep((currentStep) => currentStep - 1);
@@ -113,7 +138,7 @@ const LoginPage = () => {
           <Link to="/tournaments">Back to Home</Link>
         </div>
       </header> */}
-  <Header />
+      <Header />
       <section className={styles.formContainer}>
         <div className={styles.stepIndicator}>
           <div
@@ -123,29 +148,47 @@ const LoginPage = () => {
           >
             1. Personal Details
           </div>
+
           <div
             className={`${styles.stepLine} ${
               currentStep >= 2 ? styles.activeLine : ""
             }`}
           ></div>
+
           <div
             className={`${styles.step} ${
               currentStep >= 2 ? styles.activeStep : ""
             }`}
           >
-            2. Event Selection
+            2. Tournament
           </div>
+
           <div
             className={`${styles.stepLine} ${
               currentStep >= 3 ? styles.activeLine : ""
             }`}
           ></div>
+
           <div
             className={`${styles.step} ${
               currentStep >= 3 ? styles.activeStep : ""
             }`}
           >
-            3. Confirmation
+            3. Event Selection
+          </div>
+
+          <div
+            className={`${styles.stepLine} ${
+              currentStep >= 4 ? styles.activeLine : ""
+            }`}
+          ></div>
+
+          <div
+            className={`${styles.step} ${
+              currentStep >= 4 ? styles.activeStep : ""
+            }`}
+          >
+            4. Confirmation
           </div>
         </div>
         <section>
@@ -160,6 +203,17 @@ const LoginPage = () => {
         </section>
         <section>
           {currentStep === 2 && (
+            <LoginPageTournament
+              tournaments={tournaments}
+              selectedTournament={selectedTournament}
+              setSelectedTournament={setSelectedTournament}
+              handleNext={handleNext}
+              handleBack={handleBack}
+            />
+          )}
+        </section>
+        <section>
+          {currentStep === 3 && (
             <LoginPage2
               player={currentPlayer}
               events={events}
@@ -167,10 +221,11 @@ const LoginPage = () => {
               handleNext={handleNext}
               handleBack={handleBack}
               playerTeam={currentPlayerTeam}
+              selectedTournament={selectedTournament}
             />
           )}
         </section>
-        <section>{currentStep === 3 && <LoginPage3 />}</section>
+        <section>{currentStep === 4 && <LoginPage3 />}</section>{" "}
       </section>
 
       <Footer />
