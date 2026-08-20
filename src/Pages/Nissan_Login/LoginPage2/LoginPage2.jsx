@@ -90,10 +90,12 @@ const LoginPage2 = ({
       // Set event2List (events excluding the selected event1)
       if (initialFormData.event1) {
         setEvent2List(
-          events.filter((event) => event._id !== initialFormData.event1),
+          tournamentEvents.filter(
+            (event) => event._id !== initialFormData.event1,
+          ),
         );
       } else {
-        setEvent2List(events); // If no event1 selected, all events are available for event2
+        setEvent2List(tournamentEvents); // If no event1 selected, all events are available for event2
       }
 
       // Helper function to get unique partners for a given event
@@ -163,8 +165,7 @@ const LoginPage2 = ({
     setFormData((prev) => ({ ...prev, event1: event1Id, partner1: "" }));
 
     // Update event2List based on selected event1
-    setEvent2List(events.filter((event) => event._id !== event1Id));
-
+    setEvent2List(tournamentEvents.filter((event) => event._id !== event1Id));
     // Update playerEvent1List
     if (event1Id) {
       // Find the current partner for this event in playerTeam (if editing existing team)
@@ -203,7 +204,7 @@ const LoginPage2 = ({
       ];
       setPlayersEvent1List(sortPlayersByName(uniquePlayers));
     } else {
-      setPlayersEvent2List(sortPlayersByName(uniquePlayers));
+      setPlayersEvent2List([]); // Clear if no event is selected
     }
     setErrors((prev) => ({ ...prev, event1: null }));
   };
