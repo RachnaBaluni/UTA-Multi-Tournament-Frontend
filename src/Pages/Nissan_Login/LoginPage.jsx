@@ -20,15 +20,18 @@ const LoginPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const params = useParams();
 
-  const getEvents = async () => {
+  const getEvents = async (tournamentId) => {
     try {
+      if (!tournamentId) return;
+
       const res = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/api/events/`,
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/events/?tournamentId=${tournamentId}`,
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         },
       );
+
       if (res.data.success) {
         setEvents(res.data.data);
       }
@@ -110,13 +113,16 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    getEvents();
     getPlayers();
     getLoggedInPlayer();
     getLoggedInPlayerTeam();
     window.scrollTo(0, 0);
   }, []);
-
+  useEffect(() => {
+    if (selectedTournament) {
+      getEvents(selectedTournament);
+    }
+  }, [selectedTournament]);
   const handleNext = () => {
     if (currentStep !== 4) {
       setCurrentStep((currentStep) => currentStep + 1);

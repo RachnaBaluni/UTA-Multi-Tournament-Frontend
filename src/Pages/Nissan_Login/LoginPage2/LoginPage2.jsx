@@ -25,6 +25,10 @@ const LoginPage2 = ({
   const [playerEvent2List, setPlayersEvent2List] = useState([]);
   const [errors, setErrors] = useState({});
   const params = useParams();
+  const tournamentEvents = events.filter(
+    (event) =>
+      event.tournamentId?.toString() === selectedTournament?.toString(),
+  );
 
   const sortPlayersByName = (list) => {
     return [...list].sort((a, b) => a.name.localeCompare(b.name));
@@ -38,7 +42,12 @@ const LoginPage2 = ({
     player._id = params.id;
 
     // Only proceed if essential data is available
-    if (player?._id && events.length > 0 && players.length > 0) {
+    if (
+      player?._id &&
+      selectedTournament &&
+      events.length > 0 &&
+      players.length > 0
+    ) {
       const initialFormData = {
         event1: "",
         partner1: "",
@@ -303,7 +312,7 @@ const LoginPage2 = ({
           className={styles.select}
         >
           <option value="">-- Select an Event --</option>
-          {events.map((event) => (
+          {tournamentEvents.map((event) => (
             <option key={event._id} value={event._id}>
               {event.name}
             </option>
