@@ -122,6 +122,10 @@ const LoginPage = () => {
       setCurrentStep((currentStep) => currentStep + 1);
     }
   };
+
+  const selectedTournamentEvents = events.filter(
+    (event) => event.tournamentId?._id === selectedTournament,
+  );
   const handleBack = () => {
     if (currentStep !== 1) setCurrentStep((currentStep) => currentStep - 1);
   };
