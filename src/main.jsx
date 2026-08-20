@@ -32,6 +32,7 @@ import Draws from "./Pages/Draws/Draws.jsx";
 import DrawDisplay from "./Pages/DrawDisplay/DrawDisplay.jsx";
 import DrawDisplaySetup from "./Pages/DrawDisplay/DrawDisplaySetup.jsx";
 import ViewOrderOfPlay from "./Pages/OrderOfPlay/ViewOrderOfPlay.jsx";
+import PlayerInfo from "./Pages/PlayerInfo/PlayerInfo";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -57,6 +58,8 @@ const router = createBrowserRouter(
         />
         <Route path="/login" element={<Login />} />
       </Route>
+
+      <Route path="/player-info" element={<PlayerInfo />} />
 
       <Route path="/tournaments/drawdisplay" element={<DrawDisplay />} />
       <Route path="/tournaments" element={<Nissan_Home />} />

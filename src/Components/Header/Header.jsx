@@ -31,14 +31,14 @@ const Header = () => {
       // console.log("Attempting to fetch user details from backend..."); // Keep for debugging
       const token = localStorage.getItem("token");
 
-if (!token) return;
+      if (!token) return;
 
-const response = await axios.get(`${API_BASE_URL}/api/member/me`, {
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  },
-});
+      const response = await axios.get(`${API_BASE_URL}/api/member/me`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (response.data.success && response.data.user) {
         // console.log("API call successful. User data received:", response.data.user); // Keep for debugging
         dispatch(setUser(response.data.user)); // Populate Redux store
@@ -51,7 +51,7 @@ const response = await axios.get(`${API_BASE_URL}/api/member/me`, {
       console.error(
         "Error fetching user details:",
         error.response?.status,
-        error.response?.data?.message || error.message
+        error.response?.data?.message || error.message,
       );
       dispatch(setUser({})); // Clear user state on error (e.g., token expired, invalid)
       // Do not show toast here, as it's a silent background check
@@ -80,7 +80,7 @@ const response = await axios.get(`${API_BASE_URL}/api/member/me`, {
         {},
         {
           withCredentials: true,
-        }
+        },
       );
       dispatch(setUser({}));
       toast.success("Logged out successfully!");
@@ -88,7 +88,7 @@ const response = await axios.get(`${API_BASE_URL}/api/member/me`, {
     } catch (error) {
       console.error("Logout failed:", error);
       toast.error(
-        error.response?.data?.message || "Logout failed. Please try again."
+        error.response?.data?.message || "Logout failed. Please try again.",
       );
     } finally {
       setShowDropdown(false);
@@ -188,18 +188,12 @@ const response = await axios.get(`${API_BASE_URL}/api/member/me`, {
                       </div>
                     </div>
                     <div className={styles.dropdownLinks}>
-                      {/* <Link
-                        to="/profile"
+                      <Link
+                        to="/player-info"
                         onClick={() => setShowDropdown(false)}
                       >
-                        Profile
+                        My Profile
                       </Link>
-                      <Link to="/status" onClick={() => setShowDropdown(false)}>
-                        Status
-                      </Link>
-                      <Link to="/events" onClick={() => setShowDropdown(false)}>
-                        Events
-                      </Link> */}
                       <button
                         className={styles.logoutButton} // Using the new logoutButton class
                         onClick={handleLogout}
