@@ -74,7 +74,7 @@ const Login = () => {
       localStorage.setItem("isAuthenticated", "true");
 
       console.log("LOGIN RESPONSE:", res.data);
-      //  dispatch(setUser({ ...res.data.user, type: loginType }));
+      dispatch(setUser({ ...res.data.user, type: loginType }));
 
       toast.success(res.data.message || "Login successful");
 
