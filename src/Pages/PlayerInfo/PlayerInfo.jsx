@@ -6,6 +6,8 @@ import styles from "./PlayerInfo.module.css";
 const PlayerInfo = () => {
   const user = useSelector((state) => state.user.user);
   console.log("PROFILE USER:", user);
+  console.log("CURRENT USER ID:", user?._id);
+  console.log("CURRENT USER TYPE:", user?.type);
 
   const [showTournaments, setShowTournaments] = useState(false);
   const [tournaments, setTournaments] = useState([]);
