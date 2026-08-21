@@ -23,7 +23,11 @@ const RegisterPage1 = ({ formData, setFormData, handleNext }) => {
     if (!formData.city.trim()) {
       newErrors.city = "City is required.";
     }
-
+    if (!formData.email.trim()) {
+      newErrors.email = "Email Address is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -103,6 +107,28 @@ const RegisterPage1 = ({ formData, setFormData, handleNext }) => {
           onChange={(e) => setFormData({ ...formData, city: e.target.value })}
           className={styles.input}
         />
+
+        <section className={styles.formSection}>
+          <label htmlFor="email" className={styles.label}>
+            Email Address
+          </label>
+
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Enter your email..."
+            value={formData.email}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
+            className={styles.input}
+          />
+
+          {errors.email && (
+            <span className={styles.errorText}>{errors.email}</span>
+          )}
+        </section>
         {errors.city && <span className={styles.errorText}>{errors.city}</span>}
       </section>
       <button onClick={handleSubmit} className={styles.nextButton}>

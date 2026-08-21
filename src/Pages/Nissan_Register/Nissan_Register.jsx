@@ -21,6 +21,7 @@ const Register = () => {
     name: "",
     whatsappNumber: "",
     dob: "",
+    email: "",
     city: "",
     shirtSize: "",
     shortSize: "M",
@@ -34,6 +35,9 @@ const Register = () => {
     partner1: null,
     event2: null,
     partner2: null,
+
+    password: "",
+    confirmPassword: "",
   });
 
   const getEvents = async (tournamentId) => {
