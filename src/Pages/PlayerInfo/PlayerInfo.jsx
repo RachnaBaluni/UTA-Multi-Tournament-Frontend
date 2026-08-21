@@ -84,7 +84,7 @@ const PlayerInfo = () => {
             </strong>
           </div>
 
-          {user.type === "Player" && user.playerType === "NormalPlayer" && (
+          {user.type === "Player" && (
             <>
               <div className={styles.detailItem}>
                 <span>Date of Birth</span>
