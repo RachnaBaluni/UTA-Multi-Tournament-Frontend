@@ -38,11 +38,7 @@ const Login = () => {
    */
   const handleLogin = async () => {
     if (!loginForm.identifier || !loginForm.password) {
-      toast.warning(
-        loginType === "Player"
-          ? "Please enter your WhatsApp number and date of birth."
-          : "Please enter your email/phone and password.",
-      );
+      toast.warning("Please enter your email and password.");
       return;
     }
 
@@ -125,15 +121,13 @@ const Login = () => {
             <div className={styles.formGroup}>
               <label className={styles.formField}>
                 <p className={styles.fieldLabel}>
-                  {loginType === "Player"
-                    ? "WhatsApp Number"
-                    : "Email or Phone Number"}
-                </p>{" "}
+                  {loginType === "Player" ? "Email" : "Email or Phone Number"}
+                </p>
                 <input
                   name="identifier"
                   placeholder={
                     loginType === "Player"
-                      ? "Enter your WhatsApp number"
+                      ? "Enter your email"
                       : "Enter your email or phone number"
                   }
                   className={styles.formInput}
@@ -146,19 +140,13 @@ const Login = () => {
             </div>
             <div className={styles.formGroup}>
               <label className={styles.formField}>
-                <p className={styles.fieldLabel}>
-                  {loginType === "Player" ? "Date of Birth" : "Password"}
-                </p>
+                <p className={styles.fieldLabel}>Password</p>
 
                 <input
                   name="password"
-                  placeholder={
-                    loginType === "Player"
-                      ? "Enter your date of birth"
-                      : "Enter your password"
-                  }
+                  placeholder="Enter your password"
                   className={styles.formInput}
-                  type={loginType === "Player" ? "date" : "password"}
+                  type="password"
                   value={loginForm.password}
                   onChange={handleChange}
                   disabled={isLoading}
