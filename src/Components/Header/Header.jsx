@@ -10,6 +10,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
+  console.log("HEADER REDUX USER 👉", user);
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -140,6 +141,7 @@ const Header = () => {
   };
 
   const isLoggedIn = Object.keys(user).length > 0;
+  console.log("HEADER IS LOGGED IN 👉", isLoggedIn);
 
   return (
     <>
