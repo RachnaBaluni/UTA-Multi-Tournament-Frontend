@@ -141,8 +141,7 @@ const Header = () => {
   };
 
   const isLoggedIn = Object.keys(user).length > 0;
-  console.log("HEADER IS LOGGED IN 👉", isLoggedIn);
-
+  console.log("HEADER REDUX USER 👉", JSON.stringify(user, null, 2));
   return (
     <>
       <header className={styles.header}>
