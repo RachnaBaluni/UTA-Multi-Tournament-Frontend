@@ -43,22 +43,38 @@ const Login = () => {
     }
 
     setIsLoading(true);
-    const LOGIN_API_ENDPOINT = `${
-      import.meta.env.VITE_APP_BACKEND_URL
-    }/api/member/login`;
+    let LOGIN_API_ENDPOINT;
 
+    if (loginType === "Player") {
+      LOGIN_API_ENDPOINT = `${
+        import.meta.env.VITE_APP_BACKEND_URL
+      }/api/player/login`;
+    } else {
+      LOGIN_API_ENDPOINT = `${
+        import.meta.env.VITE_APP_BACKEND_URL
+      }/api/member/login`;
+    }
     try {
-      const res = await axios.post(LOGIN_API_ENDPOINT, {
-        type: loginType,
-        identifier: loginForm.identifier.trim(),
-        password: loginForm.password,
-      });
+      let res;
+
+      if (loginType === "Player") {
+        res = await axios.post(LOGIN_API_ENDPOINT, {
+          email: loginForm.identifier.trim(),
+          password: loginForm.password,
+        });
+      } else {
+        res = await axios.post(LOGIN_API_ENDPOINT, {
+          type: loginType,
+          identifier: loginForm.identifier.trim(),
+          password: loginForm.password,
+        });
+      }
       // 🔥 SAVE TOKEN
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("isAuthenticated", "true");
 
-      console.log("LOGIN USER:", res.data.user);
-      dispatch(setUser({ ...res.data.user, type: loginType }));
+      console.log("LOGIN RESPONSE:", res.data);
+      //  dispatch(setUser({ ...res.data.user, type: loginType }));
 
       toast.success(res.data.message || "Login successful");
 

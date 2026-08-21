@@ -5,65 +5,40 @@ import styles from "./PlayerInfo.module.css";
 
 const PlayerInfo = () => {
   const user = useSelector((state) => state.user.user);
-  console.log("PROFILE USER:", user);
-  console.log("CURRENT USER ID:", user?._id);
-  console.log("CURRENT USER TYPE:", user?.type);
 
   const [showTournaments, setShowTournaments] = useState(false);
   const [tournaments, setTournaments] = useState([]);
-  const [registeredTournaments, setRegisteredTournaments] = useState([]);
   const [loadingTournaments, setLoadingTournaments] = useState(false);
 
   const BACKEND = import.meta.env.VITE_APP_BACKEND_URL;
 
-  const fetchTournamentData = async () => {
+  const fetchTournaments = async () => {
     try {
       setLoadingTournaments(true);
 
-      const [tournamentResponse, registeredResponse] = await Promise.all([
-        axios.get(`${BACKEND}/api/tournaments`),
-        axios.get(`${BACKEND}/api/teams/${user._id}`),
-      ]);
+      const response = await axios.get(`${BACKEND}/api/tournaments`);
 
-      const registeredTeams = registeredResponse.data.success
-        ? registeredResponse.data.data
-        : [];
-      console.log("REGISTERED TEAMS:", registeredTeams);
+      if (response.data.success) {
+        const availableTournaments = response.data.data.filter(
+          (tournament) =>
+            tournament.status === "Upcoming" || tournament.status === "Active",
+        );
 
-      setRegisteredTournaments(registeredTeams);
-
-      const registeredTournamentIds = new Set(
-        registeredTeams
-          .map((team) => team.eventId?.tournamentId?._id?.toString())
-          .filter(Boolean),
-      );
-      console.log("REGISTERED TOURNAMENT IDS:", [...registeredTournamentIds]);
-
-      const availableTournaments = tournamentResponse.data.success
-        ? tournamentResponse.data.data.filter(
-            (tournament) =>
-              (tournament.status === "Upcoming" ||
-                tournament.status === "Active") &&
-              !registeredTournamentIds.has(tournament._id?.toString()),
-          )
-        : [];
-      console.log("AVAILABLE TOURNAMENTS:", availableTournaments);
-
-      setTournaments(availableTournaments);
+        setTournaments(availableTournaments);
+      }
     } catch (error) {
-      console.error("FETCH TOURNAMENT DATA ERROR:", error);
+      console.error("FETCH TOURNAMENTS ERROR:", error);
       setTournaments([]);
-      setRegisteredTournaments([]);
     } finally {
       setLoadingTournaments(false);
     }
   };
 
   useEffect(() => {
-    if (showTournaments && user?._id) {
-      fetchTournamentData();
+    if (showTournaments) {
+      fetchTournaments();
     }
-  }, [showTournaments, user?._id]);
+  }, [showTournaments]);
 
   if (!user) {
     return (
@@ -109,7 +84,7 @@ const PlayerInfo = () => {
             </strong>
           </div>
 
-          {user.type === "Player" && (
+          {user.type === "Player" && user.playerType === "NormalPlayer" && (
             <>
               <div className={styles.detailItem}>
                 <span>Date of Birth</span>
@@ -213,60 +188,6 @@ const PlayerInfo = () => {
           {showTournaments ? "Hide Tournaments" : "Participate in Tournament"}
         </button>
       </div>
-      {/* Already Registered Tournaments */}
-      {registeredTournaments.length > 0 && (
-        <div className={styles.tournamentList}>
-          <h2>Already Registered Tournaments</h2>
-
-          {registeredTournaments.map((team) => {
-            const tournament = team.eventId?.tournamentId;
-            const event = team.eventId;
-
-            const currentUserId = user?._id?.toString();
-
-            const isPartner1 = team.partner1?._id?.toString() === currentUserId;
-
-            const partner = isPartner1 ? team.partner2 : team.partner1;
-
-            return (
-              <div key={team._id} className={styles.tournamentItem}>
-                <h3>{tournament?.name || "Tournament"}</h3>
-
-                <p>
-                  <strong>Event:</strong> {event?.name || "-"}
-                </p>
-
-                <p>
-                  <strong>Start Date:</strong>{" "}
-                  {tournament?.startDate
-                    ? new Date(tournament.startDate).toLocaleDateString()
-                    : "-"}
-                </p>
-
-                <p>
-                  <strong>End Date:</strong>{" "}
-                  {tournament?.endDate
-                    ? new Date(tournament.endDate).toLocaleDateString()
-                    : "-"}
-                </p>
-
-                <p>
-                  <strong>My Team:</strong> {user.name || "-"}
-                </p>
-
-                <p>
-                  <strong>Partner:</strong> {partner?.name || "No Partner"}
-                </p>
-
-                <p>
-                  <strong>Status:</strong>{" "}
-                  <span className={styles.paid}>Already Registered</span>
-                </p>
-              </div>
-            );
-          })}
-        </div>
-      )}
 
       {/* Tournament List */}
       {showTournaments && (
