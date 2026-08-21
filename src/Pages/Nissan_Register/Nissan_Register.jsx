@@ -226,6 +226,7 @@ const Register = () => {
               setFormData={setFormData}
               handleBack={handleBack}
               tournaments={tournaments}
+              registrationFields={registrationFields}
             />
           )}
         </section>

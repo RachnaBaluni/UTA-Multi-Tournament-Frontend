@@ -9,8 +9,35 @@ const PlayerInfo = () => {
   const [showTournaments, setShowTournaments] = useState(false);
   const [tournaments, setTournaments] = useState([]);
   const [loadingTournaments, setLoadingTournaments] = useState(false);
+  const [myTournamentRegistrations, setMyTournamentRegistrations] = useState(
+    [],
+  );
+  const [loadingMyTournaments, setLoadingMyTournaments] = useState(false);
 
   const BACKEND = import.meta.env.VITE_APP_BACKEND_URL;
+
+  const fetchMyTournamentRegistrations = async () => {
+    if (!user?._id) return;
+
+    try {
+      setLoadingMyTournaments(true);
+
+      const response = await axios.get(
+        `${BACKEND}/api/player/tournament-registrations/${user._id}`,
+      );
+
+      if (response.data.success) {
+        setMyTournamentRegistrations(response.data.data || []);
+      } else {
+        setMyTournamentRegistrations([]);
+      }
+    } catch (error) {
+      console.error("FETCH MY TOURNAMENT REGISTRATIONS ERROR:", error);
+      setMyTournamentRegistrations([]);
+    } finally {
+      setLoadingMyTournaments(false);
+    }
+  };
 
   const fetchTournaments = async () => {
     try {
@@ -35,11 +62,10 @@ const PlayerInfo = () => {
   };
 
   useEffect(() => {
-    if (showTournaments) {
-      fetchTournaments();
+    if (user?._id) {
+      fetchMyTournamentRegistrations();
     }
-  }, [showTournaments]);
-
+  }, [user?._id]);
   if (!user) {
     return (
       <div className={styles.container}>
@@ -95,33 +121,6 @@ const PlayerInfo = () => {
                 <span>City</span>
                 <strong>{user.city || "-"}</strong>
               </div>
-
-              <div className={styles.detailItem}>
-                <span>Shirt Size</span>
-                <strong>{user.shirtSize || "-"}</strong>
-              </div>
-
-              <div className={styles.detailItem}>
-                <span>Short Size</span>
-                <strong>{user.shortSize || "-"}</strong>
-              </div>
-
-              <div className={styles.detailItem}>
-                <span>Food Preference</span>
-                <strong>{user.foodPref || "-"}</strong>
-              </div>
-
-              <div className={styles.detailItem}>
-                <span>Accommodation</span>
-                <strong>{user.stay || "-"}</strong>
-              </div>
-
-              <div className={styles.detailItem}>
-                <span>Fee Status</span>
-                <strong className={user.feePaid ? styles.paid : styles.notPaid}>
-                  {user.feePaid ? "Paid" : "Not Paid"}
-                </strong>
-              </div>
             </>
           )}
 
@@ -169,6 +168,158 @@ const PlayerInfo = () => {
             </>
           )}
         </div>
+      </div>
+
+      {/* My Tournament Details */}
+      <div className={styles.profileCard}>
+        <div className={styles.profileTitle}>
+          <h2>Tournament Details</h2>
+        </div>
+
+        {loadingMyTournaments ? (
+          <div className={styles.loading}>Loading tournament details...</div>
+        ) : myTournamentRegistrations.length === 0 ? (
+          <div className={styles.emptyState}>
+            <p>You have not participated in any tournament yet.</p>
+          </div>
+        ) : (
+          <div>
+            {myTournamentRegistrations.map((registration) => {
+              const tournament = registration.tournament;
+
+              return (
+                <div
+                  key={registration._id}
+                  className={styles.tournamentDetails}
+                >
+                  <h3>{tournament?.name || "Tournament"}</h3>
+
+                  <div className={styles.detailsGrid}>
+                    <div className={styles.detailItem}>
+                      <span>Start Date</span>
+                      <strong>
+                        {tournament?.startDate
+                          ? new Date(tournament.startDate).toLocaleDateString()
+                          : "-"}
+                      </strong>
+                    </div>
+
+                    <div className={styles.detailItem}>
+                      <span>End Date</span>
+                      <strong>
+                        {tournament?.endDate
+                          ? new Date(tournament.endDate).toLocaleDateString()
+                          : "-"}
+                      </strong>
+                    </div>
+                  </div>
+
+                  {/* Events */}
+                  <h4>Events</h4>
+
+                  {registration.events?.length > 0 ? (
+                    <div className={styles.eventsList}>
+                      {registration.events.map((event) => (
+                        <div key={event.teamId} className={styles.eventCard}>
+                          <div className={styles.detailItem}>
+                            <span>Event</span>
+                            <strong>{event.eventName || "-"}</strong>
+                          </div>
+
+                          <div className={styles.detailItem}>
+                            <span>Event Date</span>
+                            <strong>
+                              {event.eventDate
+                                ? new Date(event.eventDate).toLocaleDateString()
+                                : "-"}
+                            </strong>
+                          </div>
+
+                          <div className={styles.detailItem}>
+                            <span>Partner / Team</span>
+                            <strong>
+                              {event.partner?.name || "No Partner"}
+                            </strong>
+                          </div>
+
+                          <div className={styles.detailItem}>
+                            <span>Showing</span>
+                            <strong>{event.eventShowing ? "Yes" : "No"}</strong>
+                          </div>
+
+                          <div className={styles.detailItem}>
+                            <span>Rules</span>
+                            <strong>
+                              {event.eventRules?.length > 0
+                                ? event.eventRules.join(", ")
+                                : "No rules specified"}
+                            </strong>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p>No event information available.</p>
+                  )}
+
+                  {/* Registration Details */}
+                  <h4>Tournament Details</h4>
+
+                  <div className={styles.detailsGrid}>
+                    {registration.registrationFields?.shirtSize && (
+                      <div className={styles.detailItem}>
+                        <span>Shirt Size</span>
+                        <strong>{registration.shirtSize || "-"}</strong>
+                      </div>
+                    )}
+
+                    {registration.registrationFields?.foodPreference && (
+                      <div className={styles.detailItem}>
+                        <span>Food Preference</span>
+                        <strong>{registration.foodPref || "-"}</strong>
+                      </div>
+                    )}
+
+                    {registration.registrationFields?.accommodation && (
+                      <div className={styles.detailItem}>
+                        <span>Accommodation</span>
+                        <strong>
+                          {registration.accommodation === true
+                            ? "Yes"
+                            : registration.accommodation === false
+                              ? "No"
+                              : "-"}
+                        </strong>
+                      </div>
+                    )}
+
+                    {registration.registrationFields?.feePaid && (
+                      <div className={styles.detailItem}>
+                        <span>Fee Paid</span>
+                        <strong>
+                          {registration.feePaid === true
+                            ? "Yes"
+                            : registration.feePaid === false
+                              ? "No"
+                              : "-"}
+                        </strong>
+                      </div>
+                    )}
+
+                    {registration.registrationFields?.transactionDetails && (
+                      <div className={styles.detailItem}>
+                        <span>Transaction Details</span>
+                        <strong>
+                          {registration.transactionDetails || "-"}
+                        </strong>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Tournament Section */}
