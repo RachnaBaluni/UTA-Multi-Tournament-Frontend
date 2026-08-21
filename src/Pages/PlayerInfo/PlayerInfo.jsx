@@ -5,9 +5,11 @@ import styles from "./PlayerInfo.module.css";
 
 const PlayerInfo = () => {
   const user = useSelector((state) => state.user.user);
+  console.log("PROFILE USER:", user);
 
   const [showTournaments, setShowTournaments] = useState(false);
   const [tournaments, setTournaments] = useState([]);
+  const [registeredTournaments, setRegisteredTournaments] = useState([]);
   const [loadingTournaments, setLoadingTournaments] = useState(false);
 
   const BACKEND = import.meta.env.VITE_APP_BACKEND_URL;
