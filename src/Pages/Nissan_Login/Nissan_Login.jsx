@@ -9,16 +9,14 @@ import Footer from "../../Components/Footer/Footer";
 const Nissan_Login = () => {
   const navigate = useNavigate();
   const [login, setLogin] = useState({
-    whatsappNumber: "",
-    dob: "",
+    email: "",
+    password: "",
   });
 
   const loginHandler = async (e) => {
     e.preventDefault();
-    if (!login.whatsappNumber || !login.dob) {
-      return toast.error(
-        "Please enter your WhatsApp number and date of birth."
-      );
+    if (!login.email || !login.password) {
+      return toast.error("Please enter your email and password.");
     }
     try {
       const res = await axios.post(
@@ -27,19 +25,19 @@ const Nissan_Login = () => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
       if (res.data.success) {
-  console.log("LOGIN RESPONSE ", res.data);
-   console.log("PLAYER DATA ", res.data.data);
+        console.log("LOGIN RESPONSE ", res.data);
+        console.log("PLAYER DATA ", res.data.data);
 
-  const token = res.data.token || res.data.data?.token;
+        const token = res.data.token || res.data.data?.token;
 
-  localStorage.setItem("token", token);
+        localStorage.setItem("token", token);
 
-  navigate(`/tournaments/login/${res.data.data.id}`);
-  toast.success(res.data.message);
-}
+        navigate(`/tournaments/login/${res.data.data.id}`);
+        toast.success(res.data.message);
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || "Incorrect Credentials");
       console.log(error);
@@ -59,7 +57,7 @@ const Nissan_Login = () => {
           <Link to="/tournaments">Back to Home</Link>
         </div>
       </header> */}
-    <Header />
+      <Header />
       <section className={styles.formContainer}>
         <form className={styles.loginForm} onSubmit={loginHandler}>
           <h2 className={styles.formTitle}>Player Login</h2>
@@ -68,32 +66,33 @@ const Nissan_Login = () => {
           </p>
 
           <div className={styles.inputGroup}>
-            <label htmlFor="whatsappNumber" className={styles.label}>
-              WhatsApp Number
+            <label htmlFor="email" className={styles.label}>
+              Email
             </label>
+
             <input
-              type="tel"
-              id="whatsappNumber"
+              type="email"
+              id="email"
               className={styles.input}
-              placeholder="Enter your WhatsApp number"
-              value={login.whatsappNumber}
-              onChange={(e) =>
-                setLogin({ ...login, whatsappNumber: e.target.value })
-              }
+              placeholder="Enter your email"
+              value={login.email}
+              onChange={(e) => setLogin({ ...login, email: e.target.value })}
               required
             />
           </div>
 
           <div className={styles.inputGroup}>
-            <label htmlFor="dob" className={styles.label}>
-              Date of Birth
+            <label htmlFor="password" className={styles.label}>
+              Password
             </label>
+
             <input
-              type="date"
-              id="dob"
+              type="password"
+              id="password"
               className={styles.input}
-              value={login.dob}
-              onChange={(e) => setLogin({ ...login, dob: e.target.value })}
+              placeholder="Enter your password"
+              value={login.password}
+              onChange={(e) => setLogin({ ...login, password: e.target.value })}
               required
             />
           </div>
