@@ -4,8 +4,8 @@ import axios from "axios";
 import styles from "./PlayerInfo.module.css";
 
 const PlayerInfo = () => {
-  const user = useSelector((state) => state.user.user);
-
+  const reduxUser = useSelector((state) => state.user.user);
+  const user = reduxUser?.user || reduxUser;
   const [showTournaments, setShowTournaments] = useState(false);
   const [tournaments, setTournaments] = useState([]);
   const [loadingTournaments, setLoadingTournaments] = useState(false);
