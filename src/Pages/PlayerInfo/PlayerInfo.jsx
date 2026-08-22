@@ -93,6 +93,7 @@ const PlayerInfo = () => {
         </div>
 
         <div className={styles.detailsGrid}>
+          {/* Common fields */}
           <div className={styles.detailItem}>
             <span>Name</span>
             <strong>{user.name || "-"}</strong>
@@ -103,83 +104,12 @@ const PlayerInfo = () => {
             <strong>{user.email || user.emailAddress || "-"}</strong>
           </div>
 
-          <div className={styles.detailItem}>
-            <span>Phone Number</span>
-            <strong>
-              {user.number ||
-                user.contactNumber ||
-                user.generalContactPhone ||
-                "-"}
-            </strong>
-          </div>
-          <div className={styles.detailsGrid}>
-            {/* =========================
-      MEMBER PLAYER
-  ========================= */}
-            {playerType === "MemberPlayer" && (
-              <>
-                <div className={styles.detailItem}>
-                  <span>Phone Number</span>
-                  <strong>{user.number || "-"}</strong>
-                </div>
-
-                <div className={styles.detailItem}>
-                  <span>Gender</span>
-                  <strong>{user.gender || "-"}</strong>
-                </div>
-
-                <div className={styles.detailItem}>
-                  <span>Address</span>
-                  <strong>{user.address || "-"}</strong>
-                </div>
-
-                <div className={styles.detailItem}>
-                  <span>Experience</span>
-                  <strong>{user.experience || "-"}</strong>
-                </div>
-
-                <div className={styles.detailItem}>
-                  <span>Academy</span>
-                  <strong>{user.academy || "-"}</strong>
-                </div>
-
-                <div className={styles.detailItem}>
-                  <span>Status</span>
-                  <strong>{user.status || "-"}</strong>
-                </div>
-              </>
-            )}
-
-            {/* =========================
-      NORMAL PLAYER
-  ========================= */}
-            {playerType === "NormalPlayer" && (
-              <>
-                <div className={styles.detailItem}>
-                  <span>WhatsApp Number</span>
-                  <strong>{user.whatsappNumber || "-"}</strong>
-                </div>
-
-                <div className={styles.detailItem}>
-                  <span>Date of Birth</span>
-                  <strong>
-                    {user.dob ? new Date(user.dob).toLocaleDateString() : "-"}
-                  </strong>
-                </div>
-
-                <div className={styles.detailItem}>
-                  <span>City</span>
-                  <strong>{user.city || "-"}</strong>
-                </div>
-              </>
-            )}
-          </div>
-
-          {user.type === "Coach" && (
+          {/* MEMBER PLAYER */}
+          {playerType === "MemberPlayer" && (
             <>
               <div className={styles.detailItem}>
-                <span>Date of Birth</span>
-                <strong>{user.dob || "-"}</strong>
+                <span>Phone Number</span>
+                <strong>{user.number || "-"}</strong>
               </div>
 
               <div className={styles.detailItem}>
@@ -194,7 +124,76 @@ const PlayerInfo = () => {
 
               <div className={styles.detailItem}>
                 <span>Experience</span>
-                <strong>{user.experience ?? "-"} years</strong>
+                <strong>{user.experience || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Academy</span>
+                <strong>{user.academy || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Status</span>
+                <strong>{user.status || "-"}</strong>
+              </div>
+            </>
+          )}
+
+          {/* NORMAL PLAYER */}
+          {playerType === "NormalPlayer" && (
+            <>
+              <div className={styles.detailItem}>
+                <span>WhatsApp Number</span>
+                <strong>{user.whatsappNumber || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Date of Birth</span>
+                <strong>
+                  {user.dob ? new Date(user.dob).toLocaleDateString() : "-"}
+                </strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>City</span>
+                <strong>{user.city || "-"}</strong>
+              </div>
+            </>
+          )}
+
+          {/* COACH */}
+          {user.type === "Coach" && (
+            <>
+              <div className={styles.detailItem}>
+                <span>Phone Number</span>
+                <strong>
+                  {user.number ||
+                    user.contactNumber ||
+                    user.generalContactPhone ||
+                    "-"}
+                </strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Date of Birth</span>
+                <strong>
+                  {user.dob ? new Date(user.dob).toLocaleDateString() : "-"}
+                </strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Gender</span>
+                <strong>{user.gender || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Address</span>
+                <strong>{user.address || "-"}</strong>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span>Experience</span>
+                <strong>{user.experience ?? "-"}</strong>
               </div>
 
               <div className={styles.detailItem}>
