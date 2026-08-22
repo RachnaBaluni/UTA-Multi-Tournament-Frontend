@@ -426,7 +426,7 @@ const PlayerInfo = () => {
             </div>
           ) : (
             tournaments.map((tournament) => (
-              <div key={tournament._id}>
+              <div key={tournament._id} className={styles.tournamentItem}>
                 <h3>{tournament.name}</h3>
 
                 <p>
