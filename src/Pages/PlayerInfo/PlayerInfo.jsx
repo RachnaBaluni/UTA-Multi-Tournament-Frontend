@@ -6,6 +6,7 @@ import styles from "./PlayerInfo.module.css";
 const PlayerInfo = () => {
   const reduxUser = useSelector((state) => state.user.user);
   const user = reduxUser?.user || reduxUser;
+  const playerType = reduxUser?.playerType || user?.playerType;
   const [showTournaments, setShowTournaments] = useState(false);
   const [tournaments, setTournaments] = useState([]);
   const [loadingTournaments, setLoadingTournaments] = useState(false);
@@ -112,20 +113,10 @@ const PlayerInfo = () => {
             </strong>
           </div>
           <div className={styles.detailsGrid}>
-            <div className={styles.detailItem}>
-              <span>Name</span>
-              <strong>{user.name || "-"}</strong>
-            </div>
-
-            <div className={styles.detailItem}>
-              <span>Email</span>
-              <strong>{user.email || user.emailAddress || "-"}</strong>
-            </div>
-
             {/* =========================
       MEMBER PLAYER
   ========================= */}
-            {user.playerType === "MemberPlayer" && (
+            {playerType === "MemberPlayer" && (
               <>
                 <div className={styles.detailItem}>
                   <span>Phone Number</span>
@@ -162,7 +153,7 @@ const PlayerInfo = () => {
             {/* =========================
       NORMAL PLAYER
   ========================= */}
-            {user.playerType === "NormalPlayer" && (
+            {playerType === "NormalPlayer" && (
               <>
                 <div className={styles.detailItem}>
                   <span>WhatsApp Number</span>
