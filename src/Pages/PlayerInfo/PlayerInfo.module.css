@@ -272,36 +272,81 @@
     padding: 18px;
   }
 }
+/* Registered Tournament Details */
 .tournamentDetails {
-  margin-top: 20px;
-  padding: 20px;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  background: #fafafa;
+  margin-top: 12px;
+  padding: 14px;
+  border: 1px solid #dce8ec;
+  border-radius: 8px;
+  background: #ffffff;
 }
 
 .tournamentDetails h3 {
-  margin: 0 0 20px;
-  font-size: 20px;
+  margin: 0 0 12px;
+  color: #10aede;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .tournamentDetails h4 {
-  margin: 24px 0 12px;
-  font-size: 16px;
+  margin: 16px 0 8px;
+  color: #10aede;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* Tournament start/end dates */
+.tournamentDetails > .detailsGrid {
+  padding: 0;
+  gap: 8px;
 }
 
 .tournamentDetails .detailItem {
-  margin-bottom: 10px;
+  min-height: 52px;
+  padding: 8px 11px;
+  margin-bottom: 0;
+  border-radius: 6px;
 }
 
+/* Events container */
+.eventsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Individual event */
+.eventCard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 10px;
+  background: #fbfdfe;
+  border: 1px solid #cfe2e8;
+  border-radius: 7px;
+}
+
+/* Event fields */
+.eventCard .detailItem {
+  min-height: 50px;
+}
+
+/* Make Rules slightly wider when needed */
+.eventCard .detailItem:nth-child(5) {
+  min-width: 0;
+}
+
+/* Compact text */
 .tournamentDetails .detailItem span {
-  display: block;
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 4px;
+  color: #10aede;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 3px;
 }
 
 .tournamentDetails .detailItem strong {
-  display: block;
-  font-size: 15px;
+  color: #0d181c;
+  font-size: 13px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
 }

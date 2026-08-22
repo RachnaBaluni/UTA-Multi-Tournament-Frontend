@@ -305,66 +305,62 @@ const PlayerInfo = () => {
                                 : "No rules specified"}
                             </strong>
                           </div>
+
+                          {registration.registrationFields?.foodPreference && (
+                            <div className={styles.detailItem}>
+                              <span>Food Preference</span>
+                              <strong>{registration.foodPref || "-"}</strong>
+                            </div>
+                          )}
+
+                          {registration.registrationFields?.shirtSize && (
+                            <div className={styles.detailItem}>
+                              <span>Shirt Size</span>
+                              <strong>{registration.shirtSize || "-"}</strong>
+                            </div>
+                          )}
+
+                          {registration.registrationFields?.accommodation && (
+                            <div className={styles.detailItem}>
+                              <span>Accommodation</span>
+                              <strong>
+                                {registration.accommodation === true
+                                  ? "Yes"
+                                  : registration.accommodation === false
+                                    ? "No"
+                                    : "-"}
+                              </strong>
+                            </div>
+                          )}
+
+                          {registration.registrationFields?.feePaid && (
+                            <div className={styles.detailItem}>
+                              <span>Fee Paid</span>
+                              <strong>
+                                {registration.feePaid === true
+                                  ? "Yes"
+                                  : registration.feePaid === false
+                                    ? "No"
+                                    : "-"}
+                              </strong>
+                            </div>
+                          )}
+
+                          {registration.registrationFields
+                            ?.transactionDetails && (
+                            <div className={styles.detailItem}>
+                              <span>Transaction Details</span>
+                              <strong>
+                                {registration.transactionDetails || "-"}
+                              </strong>
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
                   ) : (
                     <p>No event information available.</p>
                   )}
-
-                  {/* Registration Details */}
-                  <h4>Tournament Details</h4>
-
-                  <div className={styles.detailsGrid}>
-                    {registration.registrationFields?.shirtSize && (
-                      <div className={styles.detailItem}>
-                        <span>Shirt Size</span>
-                        <strong>{registration.shirtSize || "-"}</strong>
-                      </div>
-                    )}
-
-                    {registration.registrationFields?.foodPreference && (
-                      <div className={styles.detailItem}>
-                        <span>Food Preference</span>
-                        <strong>{registration.foodPref || "-"}</strong>
-                      </div>
-                    )}
-
-                    {registration.registrationFields?.accommodation && (
-                      <div className={styles.detailItem}>
-                        <span>Accommodation</span>
-                        <strong>
-                          {registration.accommodation === true
-                            ? "Yes"
-                            : registration.accommodation === false
-                              ? "No"
-                              : "-"}
-                        </strong>
-                      </div>
-                    )}
-
-                    {registration.registrationFields?.feePaid && (
-                      <div className={styles.detailItem}>
-                        <span>Fee Paid</span>
-                        <strong>
-                          {registration.feePaid === true
-                            ? "Yes"
-                            : registration.feePaid === false
-                              ? "No"
-                              : "-"}
-                        </strong>
-                      </div>
-                    )}
-
-                    {registration.registrationFields?.transactionDetails && (
-                      <div className={styles.detailItem}>
-                        <span>Transaction Details</span>
-                        <strong>
-                          {registration.transactionDetails || "-"}
-                        </strong>
-                      </div>
-                    )}
-                  </div>
                 </div>
               );
             })}
