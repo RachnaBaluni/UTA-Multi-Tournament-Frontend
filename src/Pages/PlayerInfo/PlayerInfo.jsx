@@ -66,6 +66,8 @@ const PlayerInfo = () => {
       fetchMyTournamentRegistrations();
     }
   }, [user?._id]);
+
+  console.log("PLAYER INFO REDUX USER 👉", user);
   if (!user) {
     return (
       <div className={styles.container}>
