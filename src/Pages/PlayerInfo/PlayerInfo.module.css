@@ -150,6 +150,8 @@
 }
 
 /* Registered tournament card */
+/* Registered tournament card */
+
 .tournamentItem {
   padding: 16px;
   margin-bottom: 12px;
@@ -177,7 +179,6 @@
 .tournamentItem p strong {
   color: #10aede;
 }
-
 .paid {
   color: #159447 !important;
   font-weight: 700 !important;
