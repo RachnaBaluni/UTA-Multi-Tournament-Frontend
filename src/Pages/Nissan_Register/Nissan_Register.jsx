@@ -8,10 +8,14 @@ import RegisterPageTournament from "./RegisterPageTournament/RegisterPageTournam
 import RegisterPage3 from "./RegisterPage3/RegisterPage3";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
+import { useSearchParams } from "react-router-dom";
 
 const Register = () => {
   const [events, setEvents] = useState([]);
   const [tournaments, setTournaments] = useState([]);
+  const [searchParams] = useSearchParams();
+  const tournamentId = searchParams.get("tournamentId");
+  console.log("SELECTED TOURNAMENT ID 👉", tournamentId);
   const [players, setPlayers] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -128,7 +132,17 @@ const Register = () => {
     getTournaments();
     getPlayers();
     window.scrollTo(0, 0);
-  }, []);
+
+    if (tournamentId) {
+      setFormData((prev) => ({
+        ...prev,
+        tournamentId: tournamentId,
+      }));
+
+      getEvents(tournamentId);
+      getRegistrationFields(tournamentId);
+    }
+  }, [tournamentId]);
 
   const handleNext = () => {
     if (currentStep === 2) {
@@ -226,7 +240,6 @@ const Register = () => {
               setFormData={setFormData}
               handleBack={handleBack}
               tournaments={tournaments}
-              registrationFields={registrationFields}
             />
           )}
         </section>

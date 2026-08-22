@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import styles from "./PlayerInfo.module.css";
 
 const PlayerInfo = () => {
+  const navigate = useNavigate();
   const reduxUser = useSelector((state) => state.user.user);
   const user = reduxUser?.user || reduxUser;
   const playerType = reduxUser?.playerType || user?.playerType;
@@ -47,12 +49,30 @@ const PlayerInfo = () => {
       const response = await axios.get(`${BACKEND}/api/tournaments`);
 
       if (response.data.success) {
-        const availableTournaments = response.data.data.filter(
-          (tournament) =>
-            tournament.status === "Upcoming" || tournament.status === "Active",
+        // Already participated tournaments ke IDs
+        const participatedTournamentIds = new Set(
+          myTournamentRegistrations
+            .map((registration) => registration.tournament?._id)
+            .filter(Boolean)
+            .map((id) => id.toString()),
         );
 
+        const availableTournaments = response.data.data.filter((tournament) => {
+          const tournamentId = tournament._id?.toString();
+
+          // Completed tournaments hide
+          const isCompleted = tournament.status?.toLowerCase() === "completed";
+
+          // Already participated tournaments hide
+          const alreadyParticipated =
+            participatedTournamentIds.has(tournamentId);
+
+          return !isCompleted && !alreadyParticipated;
+        });
+
         setTournaments(availableTournaments);
+      } else {
+        setTournaments([]);
       }
     } catch (error) {
       console.error("FETCH TOURNAMENTS ERROR:", error);
@@ -380,7 +400,14 @@ const PlayerInfo = () => {
 
         <button
           className={styles.participateBtn}
-          onClick={() => setShowTournaments(!showTournaments)}
+          onClick={() => {
+            const nextState = !showTournaments;
+            setShowTournaments(nextState);
+
+            if (nextState) {
+              fetchTournaments();
+            }
+          }}
         >
           {showTournaments ? "Hide Tournaments" : "Participate in Tournament"}
         </button>
@@ -419,8 +446,9 @@ const PlayerInfo = () => {
                 <button
                   className={styles.participateBtn}
                   onClick={() => {
-                    console.log("Selected Tournament:", tournament);
-                    console.log("Selected Tournament ID:", tournament._id);
+                    navigate(
+                      `/tournaments/register?tournamentId=${tournament._id}`,
+                    );
                   }}
                 >
                   Participate
