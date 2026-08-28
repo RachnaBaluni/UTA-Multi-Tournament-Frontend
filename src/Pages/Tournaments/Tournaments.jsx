@@ -4,6 +4,8 @@ import axios from "axios";
 import styles from "./Tournaments.module.css";
 
 const Tournaments = () => {
+  console.log("🔥🔥🔥 NEW TOURNAMENT COMPONENT RUNNING 🔥🔥🔥");
+
   const [tournaments, setTournaments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -29,62 +31,65 @@ const Tournaments = () => {
 
   if (loading) {
     return (
-      <div className={styles.pageContainer}>
-        <h2>Loading tournaments...</h2>
+      <div style={{ padding: "50px" }}>
+        <h1>Loading tournaments...</h1>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className={styles.pageContainer}>
-        <h2>{error}</h2>
+      <div style={{ padding: "50px" }}>
+        <h1>{error}</h1>
       </div>
     );
   }
 
   return (
-    <div>
+    <div style={{ padding: "50px" }}>
       <h1 style={{ color: "red", fontSize: "50px" }}>NEW TOURNAMENT PAGE</h1>
 
-      <div className={styles.pageContainer}>
-        <div className={styles.contentContainer}>
-          <h1 className={styles.pageTitle}>Tournaments</h1>
+      <h2>Tournaments</h2>
 
-          {tournaments.length === 0 ? (
-            <p className={styles.noResults}>No tournaments available.</p>
-          ) : (
-            <div className={styles.tournamentList}>
-              {tournaments.map((tournament) => (
-                <Link
-                  key={tournament._id}
-                  to={`/tournaments/${tournament._id}`}
-                  className={styles.tournamentCard}
-                >
-                  <div className={styles.tournamentInfo}>
-                    <h2>{tournament.name}</h2>
+      {tournaments.length === 0 ? (
+        <p>No tournaments available.</p>
+      ) : (
+        <div>
+          {tournaments.map((tournament) => (
+            <Link
+              key={tournament._id}
+              to={`/tournaments/${tournament._id}`}
+              style={{
+                display: "block",
+                padding: "20px",
+                marginBottom: "15px",
+                border: "1px solid #ccc",
+                textDecoration: "none",
+                color: "black",
+              }}
+            >
+              <h2>{tournament.name}</h2>
 
-                    {tournament.date && (
-                      <p>
-                        <strong>Date:</strong>{" "}
-                        {new Date(tournament.date).toLocaleDateString()}
-                      </p>
-                    )}
+              {tournament.date && (
+                <p>
+                  <strong>Date:</strong>{" "}
+                  {new Date(tournament.date).toLocaleDateString()}
+                </p>
+              )}
 
-                    {tournament.location && (
-                      <p>
-                        <strong>Location:</strong> {tournament.location}
-                      </p>
-                    )}
-                  </div>
+              {tournament.location && (
+                <p>
+                  <strong>Location:</strong> {tournament.location}
+                </p>
+              )}
 
-                  <span className={styles.viewDetails}>View Details →</span>
-                </Link>
-              ))}
-            </div>
-          )}
+              <strong>View Details →</strong>
+            </Link>
+          ))}
         </div>
-      </div>
+      )}
     </div>
   );
 };
+
+export default Tournaments;
