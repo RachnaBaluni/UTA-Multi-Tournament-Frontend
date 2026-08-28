@@ -44,10 +44,11 @@ const Tournaments = () => {
   }
 
   return (
-    <div className={styles.pageContainer}>
-      <div className={styles.contentContainer}>
+    <div style={{ padding: "50px" }}>
+      {" "}
+      <div>
+        {" "}
         <h1 className={styles.pageTitle}>Tournaments</h1>
-
         {tournaments.length === 0 ? (
           <p className={styles.noResults}>No tournaments available.</p>
         ) : (
