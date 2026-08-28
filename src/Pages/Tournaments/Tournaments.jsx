@@ -16,6 +16,8 @@ const Tournaments = () => {
         const response = await axios.get(
           `${import.meta.env.VITE_APP_BACKEND_URL}/api/main-events`,
         );
+        console.log("🔥 MAIN EVENTS RESPONSE:", response.data);
+        console.log("🔥🔥 ALL TOURNAMENTS:", response.data.data);
 
         setTournaments(response.data.data || []);
       } catch (err) {
