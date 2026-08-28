@@ -1,94 +1,85 @@
-import React from "react";
-import styles from "./Tournaments.module.css";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import TournamentListing from "../../Components/TournamentListing/TournamentListing";
-import { FaSearch } from "react-icons/fa";
-// import axios from "axios";
+import axios from "axios";
+import styles from "./Tournaments.module.css";
 
 const Tournaments = () => {
-  // const [tournaments, setTournaments] = useState([]);
-  // const [searchTerm, setSearchTerm] = useState("");
+  const [tournaments, setTournaments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  // useEffect(() => {
-  //   const fetchTournaments = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${import.meta.env.VITE_APP_BACKEND_URL}/api/main-events`
-  //       );
-  //       setTournaments(response.data.data || []);
-  //     } catch (error) {
-  //       console.error("Error fetching tournaments:", error);
-  //       setTournaments([]);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchTournaments = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_APP_BACKEND_URL}/api/main-events`,
+        );
 
-  //   fetchTournaments();
-  // }, []);
+        setTournaments(response.data.data || []);
+      } catch (err) {
+        console.error("Error fetching tournaments:", err);
+        setError("Unable to load tournaments.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // const handleSearchChange = (event) => {
-  //   setSearchTerm(event.target.value);
-  // };
+    fetchTournaments();
+  }, []);
 
-  // const filteredTournaments = tournaments.filter((tournament) =>
-  //   tournament.name.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
+  if (loading) {
+    return (
+      <div className={styles.pageContainer}>
+        <h2>Loading tournaments...</h2>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.pageContainer}>
+        <h2>{error}</h2>
+      </div>
+    );
+  }
 
   return (
-    <div className={styles.rootContainer}>
-      <div className={styles.mainContentWrapper}>
-        <div className={styles.contentContainer}>
-          {/* Hero Section */}
-          <section className={styles.tournamentsHeroSection}>
-            <h2 className={styles.tournamentsHeroHeading}>
-              All India Open Seniors Tennis Tournament 2025, Dehradun
-            </h2>
-            <p className={styles.tournamentsHeroParagraph}>
-              Join us for an exciting tournament in the heart of Dehradun!
-            </p>
-            <Link to="/Nissan" className={styles.exploreButton}>
-              Explore
-            </Link>
-          </section>
+    <div className={styles.pageContainer}>
+      <div className={styles.contentContainer}>
+        <h1 className={styles.pageTitle}>Tournaments</h1>
 
-          {/* Upcoming Tournaments Section */}
-          {/* <section className={styles.upcomingTournaments}>
-            <h1 className={styles.sectionTitle}>Upcoming Tournaments</h1> */}
+        {tournaments.length === 0 ? (
+          <p className={styles.noResults}>No tournaments available.</p>
+        ) : (
+          <div className={styles.tournamentList}>
+            {tournaments.map((tournament) => (
+              <Link
+                key={tournament._id}
+                to={`/tournaments/${tournament._id}`}
+                className={styles.tournamentCard}
+              >
+                <div className={styles.tournamentInfo}>
+                  <h2>{tournament.name}</h2>
 
-            {/* Search Bar with Icon */}
-            {/* <label className={styles.searchLabel}>
-              <div className={styles.searchInnerWrapper}>
-                <div className={styles.searchIconWrapper}>
-                  <FaSearch className={styles.searchIcon} aria-hidden="true" />
+                  {tournament.date && (
+                    <p>
+                      <strong>Date:</strong>{" "}
+                      {new Date(tournament.date).toLocaleDateString()}
+                    </p>
+                  )}
+
+                  {tournament.location && (
+                    <p>
+                      <strong>Location:</strong> {tournament.location}
+                    </p>
+                  )}
                 </div>
-                <input
-                  placeholder="Search tournaments by name"
-                  className={styles.searchInput}
-                  type="text"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                  aria-label="Search tournaments"
-                />
-              </div>
-            </label> */}
 
-            {/* Render Tournament Listings */}
-            {/* {filteredTournaments.length > 0 ? (
-              filteredTournaments.map((tournament) => (
-                <TournamentListing
-                  key={tournament._id}
-                  id={tournament._id}
-                  name={tournament.name}
-                  city={tournament.location}
-                  date={new Date(tournament.date).toLocaleDateString()}
-                />
-              ))
-            ) : (
-              <p className={styles.noResults}>
-                No tournaments found matching your criteria.
-              </p>
-            )}
-          </section> */}
-        </div>
+                <span className={styles.viewDetails}>View Details →</span>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
