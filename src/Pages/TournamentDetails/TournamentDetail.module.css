@@ -7,7 +7,8 @@
 .banner {
   width: 100%;
   height: 40vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/banner.jpg');
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/banner.jpg");
   background-size: cover;
   background-position: center;
   display: flex;
@@ -67,7 +68,9 @@
   font-size: 1.2rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .registerButton:hover {
@@ -141,4 +144,58 @@
     padding: 1rem;
     font-size: 1rem;
   }
+}
+.actionSection {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.actionSection h2 {
+  margin-bottom: 0.75rem;
+  color: #222;
+  font-size: 1.8rem;
+}
+
+.actionDescription {
+  margin-bottom: 1.5rem;
+  color: #666;
+}
+
+.actionButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.actionButton,
+.actionButtonGrey {
+  display: inline-block;
+  padding: 0.9rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.actionButton {
+  background: #007bff;
+  color: white;
+}
+
+.actionButton:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+.actionButtonGrey {
+  background: #555;
+  color: white;
+}
+
+.actionButtonGrey:hover {
+  background: #333;
+  transform: translateY(-2px);
 }
