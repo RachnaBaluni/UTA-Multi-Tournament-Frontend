@@ -6,57 +6,45 @@ import styles from "./Tournaments.module.css";
 const Tournaments = () => {
   const [tournaments, setTournaments] = useState([]);
   const [mainEvents, setMainEvents] = useState([]);
-  const [tournamentDetail, setTournamentDetail] = useState([]);
-  const [pricesBenefit, setPricesBenefit] = useState([]);
   const [venue, setVenue] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchAllData = async () => {
+    const fetchData = async () => {
       try {
         const backend = import.meta.env.VITE_APP_BACKEND_URL;
 
-        const [
-          tournamentsResponse,
-          mainEventsResponse,
-          tournamentDetailsResponse,
-          pricesBenefitResponse,
-          venueResponse,
-        ] = await Promise.all([
-          axios.get(`${backend}/api/tournaments/`),
-          axios.get(`${backend}/api/main-events`),
-          axios.get(`${backend}/api/tournament-details/`),
-          axios.get(`${backend}/api/prices-benifit/`),
-          axios.get(`${backend}/api/venue/`),
-        ]);
+        const [tournamentsResponse, mainEventsResponse, venueResponse] =
+          await Promise.all([
+            axios.get(`${backend}/api/tournaments/`),
+            axios.get(`${backend}/api/main-events`),
+            axios.get(`${backend}/api/venue/`),
+          ]);
 
-        console.log("🔥 ALL TOURNAMENTS:", tournamentsResponse.data);
+        console.log("🔥 TOURNAMENTS:", tournamentsResponse.data);
         console.log("🔥 MAIN EVENTS:", mainEventsResponse.data);
-        console.log("🔥 TOURNAMENT DETAILS:", tournamentDetailsResponse.data);
-        console.log("🔥 PRICES BENEFIT:", pricesBenefitResponse.data);
         console.log("🔥 VENUE:", venueResponse.data);
 
         setTournaments(tournamentsResponse.data.data || []);
         setMainEvents(mainEventsResponse.data.data || []);
-        setTournamentDetail(tournamentDetailsResponse.data.data || []);
-        setPricesBenefit(pricesBenefitResponse.data.data || []);
         setVenue(venueResponse.data.data || []);
       } catch (err) {
-        console.error("Error fetching tournament page data:", err);
-        setError("Unable to load tournament information.");
+        console.error("Error fetching tournaments:", err);
+        setError("Unable to load tournaments.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchAllData();
+    fetchData();
   }, []);
 
   // ============================
   // LOADING
   // ============================
+
   if (loading) {
     return (
       <div style={{ padding: "50px" }}>
@@ -68,6 +56,7 @@ const Tournaments = () => {
   // ============================
   // ERROR
   // ============================
+
   if (error) {
     return (
       <div style={{ padding: "50px" }}>
@@ -76,289 +65,144 @@ const Tournaments = () => {
     );
   }
 
-  // ============================
-  // FILTER TOURNAMENTS
-  // ============================
-  const normalTournaments = tournaments.filter(
-    (tournament) => tournament.type === "normal",
-  );
+  // =====================================================
+  // COMBINE NORMAL + DISPLAY TOURNAMENTS + MAIN EVENTS
+  // =====================================================
 
-  const displayTournaments = tournaments.filter(
-    (tournament) => tournament.type === "display",
-  );
+  const allTournaments = [
+    ...tournaments.map((tournament) => ({
+      ...tournament,
+      sourceType: "tournament",
+    })),
+
+    ...mainEvents.map((event) => ({
+      ...event,
+      sourceType: "mainEvent",
+    })),
+  ];
 
   return (
     <div className={styles.rootContainer}>
       <div className={styles.mainContentWrapper}>
         <div className={styles.contentContainer}>
           {/* ========================================= */}
-          {/* PAGE TITLE */}
-          {/* ========================================= */}
-
-          <h1 className={styles.sectionTitle}>Tournaments</h1>
-
-          {/* ========================================= */}
-          {/* NORMAL TOURNAMENTS */}
+          {/* TOURNAMENTS */}
           {/* ========================================= */}
 
           <section className={styles.upcomingTournaments}>
-            <h2 className={styles.monthlyHeader}>Normal Tournaments</h2>
+            <h1 className={styles.sectionTitle}>Tournaments</h1>
 
-            {normalTournaments.length === 0 ? (
-              <p className={styles.noResults}>
-                No normal tournaments available.
-              </p>
+            {allTournaments.length === 0 ? (
+              <p className={styles.noResults}>No tournaments available.</p>
             ) : (
               <div>
-                {normalTournaments.map((tournament) => (
-                  <Link
-                    key={tournament._id}
-                    to={`/tournaments/${tournament._id}`}
-                    style={{
-                      display: "block",
-                      padding: "20px",
-                      marginBottom: "15px",
-                      border: "1px solid #ccc",
-                      borderRadius: "12px",
-                      textDecoration: "none",
-                      color: "black",
-                      backgroundColor: "#ffffff",
-                    }}
-                  >
-                    <h2>{tournament.name}</h2>
+                {allTournaments.map((item) => {
+                  // -----------------------------------
+                  // NORMAL / DISPLAY TOURNAMENT
+                  // -----------------------------------
 
-                    {tournament.startDate && (
-                      <p>
-                        <strong>Start Date:</strong>{" "}
-                        {new Date(tournament.startDate).toLocaleDateString()}
-                      </p>
-                    )}
+                  if (item.sourceType === "tournament") {
+                    return (
+                      <Link
+                        key={`tournament-${item._id}`}
+                        to={`/tournaments/${item._id}`}
+                        style={{
+                          display: "block",
+                          padding: "20px",
+                          marginBottom: "15px",
+                          border: "1px solid #ccc",
+                          borderRadius: "12px",
+                          textDecoration: "none",
+                          color: "black",
+                          backgroundColor: "#ffffff",
+                        }}
+                      >
+                        <h2>{item.name}</h2>
 
-                    {tournament.endDate && (
-                      <p>
-                        <strong>End Date:</strong>{" "}
-                        {new Date(tournament.endDate).toLocaleDateString()}
-                      </p>
-                    )}
+                        {/* Date */}
 
-                    {tournament.location && (
-                      <p>
-                        <strong>Location:</strong> {tournament.location}
-                      </p>
-                    )}
+                        {item.date && (
+                          <p>
+                            <strong>Date:</strong>{" "}
+                            {new Date(item.date).toLocaleDateString()}
+                          </p>
+                        )}
 
-                    {tournament.director && (
-                      <p>
-                        <strong>Director:</strong> {tournament.director}
-                      </p>
-                    )}
+                        {item.startDate && (
+                          <p>
+                            <strong>Start Date:</strong>{" "}
+                            {new Date(item.startDate).toLocaleDateString()}
+                          </p>
+                        )}
 
-                    {tournament.status && (
-                      <p>
-                        <strong>Status:</strong> {tournament.status}
-                      </p>
-                    )}
+                        {item.endDate && (
+                          <p>
+                            <strong>End Date:</strong>{" "}
+                            {new Date(item.endDate).toLocaleDateString()}
+                          </p>
+                        )}
 
-                    <strong>View Details →</strong>
-                  </Link>
-                ))}
+                        {/* Location */}
+
+                        {item.location && (
+                          <p>
+                            <strong>Location:</strong> {item.location}
+                          </p>
+                        )}
+
+                        <strong>View Details →</strong>
+                      </Link>
+                    );
+                  }
+
+                  // -----------------------------------
+                  // MAIN EVENT
+                  // -----------------------------------
+
+                  return (
+                    <Link
+                      key={`main-event-${item._id}`}
+                      to={`/tournaments/main-event/${item._id}`}
+                      style={{
+                        display: "block",
+                        padding: "20px",
+                        marginBottom: "15px",
+                        border: "1px solid #ccc",
+                        borderRadius: "12px",
+                        textDecoration: "none",
+                        color: "black",
+                        backgroundColor: "#ffffff",
+                      }}
+                    >
+                      <h2>{item.name}</h2>
+
+                      {item.date && (
+                        <p>
+                          <strong>Date:</strong>{" "}
+                          {new Date(item.date).toLocaleDateString()}
+                        </p>
+                      )}
+
+                      {item.location && (
+                        <p>
+                          <strong>Location:</strong> {item.location}
+                        </p>
+                      )}
+
+                      <strong>View Details →</strong>
+                    </Link>
+                  );
+                })}
               </div>
             )}
           </section>
 
           {/* ========================================= */}
-          {/* DISPLAY TOURNAMENTS */}
+          {/* VENUE ONLY */}
           {/* ========================================= */}
 
-          <section className={styles.upcomingTournaments}>
-            <h2 className={styles.monthlyHeader}>Display Tournaments</h2>
-
-            {displayTournaments.length === 0 ? (
-              <p className={styles.noResults}>
-                No display tournaments available.
-              </p>
-            ) : (
-              <div>
-                {displayTournaments.map((tournament) => (
-                  <Link
-                    key={tournament._id}
-                    to={`/tournaments/${tournament._id}`}
-                    style={{
-                      display: "block",
-                      padding: "20px",
-                      marginBottom: "15px",
-                      border: "1px solid #ccc",
-                      borderRadius: "12px",
-                      textDecoration: "none",
-                      color: "black",
-                      backgroundColor: "#ffffff",
-                    }}
-                  >
-                    <h2>{tournament.name}</h2>
-
-                    {tournament.description && <p>{tournament.description}</p>}
-
-                    {tournament.date && (
-                      <p>
-                        <strong>Date:</strong>{" "}
-                        {new Date(tournament.date).toLocaleDateString()}
-                      </p>
-                    )}
-
-                    {tournament.location && (
-                      <p>
-                        <strong>Location:</strong> {tournament.location}
-                      </p>
-                    )}
-
-                    {tournament.organizer && (
-                      <p>
-                        <strong>Organizer:</strong> {tournament.organizer}
-                      </p>
-                    )}
-
-                    <strong>View Details →</strong>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </section>
-
-          {/* ========================================= */}
-          {/* MAIN EVENTS */}
-          {/* ========================================= */}
-
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Main Events</h2>
-
-            <div className={styles.gridContainer}>
-              {mainEvents.length === 0 ? (
-                <p className={styles.noResults}>No main events available.</p>
-              ) : (
-                mainEvents.map((event) => (
-                  <div className={styles.tile} key={event._id}>
-                    <h3 className={styles.tileTitle}>{event.name}</h3>
-
-                    {event.description && (
-                      <p className={styles.tileParagraph}>
-                        {event.description}
-                      </p>
-                    )}
-
-                    {event.date && (
-                      <p className={styles.tileParagraph}>
-                        <strong>Date:</strong>{" "}
-                        {new Date(event.date).toLocaleDateString()}
-                      </p>
-                    )}
-
-                    {event.location && (
-                      <p className={styles.tileParagraph}>
-                        <strong>Location:</strong> {event.location}
-                      </p>
-                    )}
-
-                    {event.organizer && (
-                      <p className={styles.tileParagraph}>
-                        <strong>Organizer:</strong> {event.organizer}
-                      </p>
-                    )}
-
-                    {event.rules && (
-                      <div>
-                        <h4>Rules</h4>
-
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: event.rules,
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                ))
-              )}
-            </div>
-          </section>
-
-          {/* ========================================= */}
-          {/* TOURNAMENT DETAILS */}
-          {/* ========================================= */}
-
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Tournament Details</h2>
-
-            <div className={styles.gridContainer}>
-              {tournamentDetail.length === 0 ? (
-                <p className={styles.noResults}>
-                  No tournament details available.
-                </p>
-              ) : (
-                tournamentDetail
-                  .filter((item) => item.showing)
-                  .map((item) => (
-                    <div className={styles.tile} key={item._id}>
-                      {item.title && (
-                        <h3 className={styles.tileTitle}>{item.title}</h3>
-                      )}
-
-                      {item.value && (
-                        <div
-                          className="db-content"
-                          dangerouslySetInnerHTML={{
-                            __html: item.value,
-                          }}
-                        />
-                      )}
-                    </div>
-                  ))
-              )}
-            </div>
-          </section>
-
-          {/* ========================================= */}
-          {/* PRIZES & BENEFITS */}
-          {/* ========================================= */}
-
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Prizes & Benefits</h2>
-
-            <div className={styles.gridContainer}>
-              {pricesBenefit.length === 0 ? (
-                <p className={styles.noResults}>
-                  No prizes or benefits available.
-                </p>
-              ) : (
-                pricesBenefit
-                  .filter((item) => item.showing)
-                  .map((item) => (
-                    <div className={styles.tile} key={item._id}>
-                      {item.title && (
-                        <h3 className={styles.tileTitle}>{item.title}</h3>
-                      )}
-
-                      {item.value && (
-                        <div
-                          className="db-content"
-                          dangerouslySetInnerHTML={{
-                            __html: item.value,
-                          }}
-                        />
-                      )}
-                    </div>
-                  ))
-              )}
-            </div>
-          </section>
-
-          {/* ========================================= */}
-          {/* VENUE */}
-          {/* ========================================= */}
-
-          <section className={styles.section} id="contactInfo">
-            <h2 className={styles.sectionTitle}>
-              Venue & Important Information
-            </h2>
+          <section className={styles.section} id="venue">
+            <h2 className={styles.sectionTitle}>Venue</h2>
 
             <div className={styles.gridContainerMaps}>
               {venue.length === 0 ? (
@@ -380,14 +224,17 @@ const Tournaments = () => {
                         <p className={styles.tileParagraph}>{item.address}</p>
                       )}
 
-                      {item.value && (
+                      {/* In case venue data is stored in value */}
+
+                      {item.value && !item.venue && (
                         <div
-                          className="db-content"
                           dangerouslySetInnerHTML={{
                             __html: item.value,
                           }}
                         />
                       )}
+
+                      {/* Google Map */}
 
                       {item.mapLink && (
                         <div className={styles.mapContainer}>
@@ -403,7 +250,7 @@ const Tournaments = () => {
                             referrerPolicy="no-referrer-when-downgrade"
                             className={styles.mapFrame}
                             title={item.title || "Tournament Venue"}
-                          ></iframe>
+                          />
                         </div>
                       )}
                     </div>
