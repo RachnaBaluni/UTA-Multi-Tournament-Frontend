@@ -646,9 +646,8 @@ export default function Tournaments() {
 
                 {extraDetails.map((item) => (
                   <div key={item._id} className={styles.detailBlock}>
-                    {/* KEY */}
-
-                    {item.key && <h4>{item.key}</h4>}
+                    {/* TITLE */}
+                    {item.title && <h4>{item.title}</h4>}
 
                     {/* VALUE */}
 
