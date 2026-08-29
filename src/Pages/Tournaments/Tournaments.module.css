@@ -807,3 +807,183 @@
     width: 100%;
   }
 }
+/* =========================================================
+   TOURNAMENT CARD SELECTED
+========================================================= */
+
+.tournamentCardSelected {
+  border-color: #12aede;
+  box-shadow: 0 8px 25px rgba(18, 174, 222, 0.16);
+}
+
+.tournamentCardMain {
+  cursor: pointer;
+}
+
+.tournamentCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.tournamentBadge {
+  background: #12aede;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   INLINE DETAILS
+========================================================= */
+
+.inlineDetails {
+  margin-top: 5px;
+  animation: openDetails 0.25s ease;
+}
+
+@keyframes openDetails {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.inlineDetailsDivider {
+  height: 1px;
+  background: #d5dfe2;
+  margin: 20px 0;
+}
+
+.inlineDetailsHeading {
+  font-size: 21px;
+  color: #111618;
+  margin: 0 0 20px;
+}
+
+.inlineInfoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.inlineInfoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.inlineInfoItem strong {
+  font-size: 13px;
+  color: #111618;
+}
+
+.inlineInfoItem span {
+  font-size: 14px;
+  color: #5d7e89;
+}
+
+/* =========================================================
+   DETAIL BLOCKS
+========================================================= */
+
+.inlineDetailBlock {
+  border-top: 1px solid #e1e8ea;
+  padding-top: 18px;
+  margin-top: 18px;
+}
+
+.inlineDetailBlock h5 {
+  margin: 0 0 9px;
+  font-size: 17px;
+  color: #111618;
+}
+
+.inlineDetailBlock p {
+  margin: 0;
+  color: #36464c;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.detailValue {
+  margin: 0;
+}
+
+.detailList {
+  margin: 0;
+  padding-left: 20px;
+  color: #5d7e89;
+}
+
+.detailList li {
+  margin-bottom: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.detailList strong {
+  color: #111618;
+}
+
+.rulesContent {
+  color: #36464c;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   INLINE REGISTER
+========================================================= */
+
+.inlineRegisterWrapper {
+  margin-top: 25px;
+}
+
+.registerButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #12aede;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 30px;
+  padding: 13px 25px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: 0.2s ease;
+}
+
+.registerButton:hover {
+  background-color: #079dcc;
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   CLOSE DETAILS
+========================================================= */
+
+.closeDetailsButton {
+  display: block;
+  margin: 20px auto 0;
+  border: none;
+  background: transparent;
+  color: #5d7e89;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.closeDetailsButton:hover {
+  color: #12aede;
+}

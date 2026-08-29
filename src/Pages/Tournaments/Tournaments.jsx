@@ -2,31 +2,36 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./Tournaments.module.css";
+import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 
 export default function Tournaments() {
   const navigate = useNavigate();
 
-  // ============================
+  // =========================================================
   // STATES
-  // ============================
+  // =========================================================
+
   const [tournaments, setTournaments] = useState([]);
   const [mainEvents, setMainEvents] = useState([]);
   const [venue, setVenue] = useState([]);
 
-  const [selectedTournament, setSelectedTournament] = useState(null);
+  // Only stores which card is opened
+  const [selectedTournamentId, setSelectedTournamentId] = useState(null);
 
+  // Tournament action modal
   const [showTournamentModal, setShowTournamentModal] = useState(false);
-  const [selectedTournamentId, setSelectedTournamentId] = useState("");
+  const [actionTournamentId, setActionTournamentId] = useState("");
   const [selectedAction, setSelectedAction] = useState("");
 
   const [loading, setLoading] = useState(true);
 
   const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
-  // ============================
+  // =========================================================
   // FETCH TOURNAMENTS
-  // ============================
+  // =========================================================
+
   const getTournaments = async () => {
     try {
       const res = await axios.get(`${BACKEND_URL}/api/tournaments/`);
@@ -41,9 +46,10 @@ export default function Tournaments() {
     }
   };
 
-  // ============================
+  // =========================================================
   // FETCH MAIN EVENTS
-  // ============================
+  // =========================================================
+
   const getMainEvents = async () => {
     try {
       const res = await axios.get(`${BACKEND_URL}/api/main-events`);
@@ -59,9 +65,10 @@ export default function Tournaments() {
     }
   };
 
-  // ============================
+  // =========================================================
   // FETCH VENUE
-  // ============================
+  // =========================================================
+
   const getVenue = async () => {
     try {
       const res = await axios.get(`${BACKEND_URL}/api/venue/`, {
@@ -80,9 +87,10 @@ export default function Tournaments() {
     }
   };
 
-  // ============================
-  // INITIAL FETCH
-  // ============================
+  // =========================================================
+  // INITIAL LOAD
+  // =========================================================
+
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
@@ -97,10 +105,11 @@ export default function Tournaments() {
     window.scrollTo(0, 0);
   }, []);
 
-  // ============================
-  // MERGE ALL
-  // NORMAL + DISPLAY + MAIN EVENTS
-  // ============================
+  // =========================================================
+  // MERGE TOURNAMENTS + MAIN EVENTS
+  // USER KO SAB TOURNAMENTS ME HI DIKHENGE
+  // =========================================================
+
   const allTournaments = [
     ...tournaments.map((item) => ({
       ...item,
@@ -114,38 +123,84 @@ export default function Tournaments() {
     })),
   ];
 
-  // ============================
-  // OPEN TOURNAMENT DETAILS
-  // ============================
-  const handleTournamentClick = (tournament) => {
-    setSelectedTournament(tournament);
+  // =========================================================
+  // FORMAT DATE
+  // =========================================================
 
-    setTimeout(() => {
-      const element = document.getElementById("tournamentDetails");
+  const formatDate = (date) => {
+    if (!date) return "Date not available";
 
-      if (element) {
-        element.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    }, 100);
+    const parsedDate = new Date(date);
+
+    if (Number.isNaN(parsedDate.getTime())) {
+      return "Date not available";
+    }
+
+    return parsedDate.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
   };
 
-  // ============================
-  // OPEN ACTION SELECTOR
-  // ============================
+  // =========================================================
+  // GET DATE
+  // =========================================================
+
+  const getTournamentDate = (item) => {
+    if (item.itemType === "mainEvent") {
+      return item.date;
+    }
+
+    if (item.startDate) {
+      return item.startDate;
+    }
+
+    if (item.date) {
+      return item.date;
+    }
+
+    return null;
+  };
+
+  // =========================================================
+  // GET LOCATION
+  // =========================================================
+
+  const getLocation = (item) => {
+    return item.location || "Dehradun";
+  };
+
+  // =========================================================
+  // VIEW DETAILS
+  // SAME CARD ME OPEN/CLOSE
+  // =========================================================
+
+  const handleTournamentClick = (tournament) => {
+    if (selectedTournamentId === tournament._id) {
+      setSelectedTournamentId(null);
+    } else {
+      setSelectedTournamentId(tournament._id);
+    }
+  };
+
+  // =========================================================
+  // ACTION SELECTOR
+  // =========================================================
+
   const openTournamentSelector = (action) => {
     setSelectedAction(action);
-    setSelectedTournamentId("");
+    setActionTournamentId("");
     setShowTournamentModal(true);
   };
 
-  // ============================
+  // =========================================================
   // CONTINUE ACTION
-  // ============================
+  // OLD FLOW PRESERVED
+  // =========================================================
+
   const continueToTournament = () => {
-    if (!selectedTournamentId) {
+    if (!actionTournamentId) {
       alert("Please select a tournament.");
       return;
     }
@@ -167,57 +222,253 @@ export default function Tournaments() {
 
     setShowTournamentModal(false);
 
-    navigate(`${route}?tournamentId=${selectedTournamentId}`);
+    navigate(`${route}?tournamentId=${actionTournamentId}`);
   };
 
-  // ============================
-  // FORMAT DATE
-  // ============================
-  const formatDate = (date) => {
-    if (!date) return "Date not available";
+  // =========================================================
+  // RENDER ARRAY / LIST DATA
+  // =========================================================
 
-    const parsedDate = new Date(date);
+  const renderArrayData = (data) => {
+    if (!data) return null;
 
-    if (Number.isNaN(parsedDate.getTime())) {
-      return "Date not available";
+    if (Array.isArray(data)) {
+      if (data.length === 0) return null;
+
+      return (
+        <ul className={styles.detailList}>
+          {data.map((item, index) => {
+            if (typeof item === "object") {
+              return (
+                <li key={index}>
+                  {item.name ||
+                    item.title ||
+                    item.category ||
+                    item.event ||
+                    JSON.stringify(item)}
+                </li>
+              );
+            }
+
+            return <li key={index}>{item}</li>;
+          })}
+        </ul>
+      );
     }
 
-    return parsedDate.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
+    if (typeof data === "object") {
+      return (
+        <ul className={styles.detailList}>
+          {Object.entries(data).map(([key, value]) => (
+            <li key={key}>
+              <strong>
+                {key
+                  .replace(/([A-Z])/g, " $1")
+                  .replace(/^./, (str) => str.toUpperCase())}
+                :
+              </strong>{" "}
+              {Array.isArray(value) ? value.join(", ") : String(value)}
+            </li>
+          ))}
+        </ul>
+      );
+    }
+
+    return <p className={styles.detailValue}>{data}</p>;
   };
 
-  // ============================
-  // GET DATE
-  // ============================
-  const getTournamentDate = (item) => {
-    if (item.itemType === "mainEvent") {
-      return item.date;
-    }
+  // =========================================================
+  // TOURNAMENT DETAILS INSIDE CARD
+  // =========================================================
 
-    if (item.startDate) {
-      return item.startDate;
-    }
+  const renderTournamentDetails = (tournament) => {
+    return (
+      <div
+        className={styles.inlineDetails}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={styles.inlineDetailsDivider} />
 
-    if (item.date) {
-      return item.date;
-    }
+        <h4 className={styles.inlineDetailsHeading}>Tournament Details</h4>
 
-    return null;
+        {/* BASIC INFORMATION */}
+
+        <div className={styles.inlineInfoGrid}>
+          <div className={styles.inlineInfoItem}>
+            <strong>Date</strong>
+            <span>{formatDate(getTournamentDate(tournament))}</span>
+          </div>
+
+          <div className={styles.inlineInfoItem}>
+            <strong>Location</strong>
+            <span>{getLocation(tournament)}</span>
+          </div>
+
+          {tournament.organizer && (
+            <div className={styles.inlineInfoItem}>
+              <strong>Organizer</strong>
+              <span>{tournament.organizer}</span>
+            </div>
+          )}
+
+          {tournament.director && (
+            <div className={styles.inlineInfoItem}>
+              <strong>Tournament Director</strong>
+              <span>{tournament.director}</span>
+            </div>
+          )}
+
+          {tournament.directorPhone && (
+            <div className={styles.inlineInfoItem}>
+              <strong>Contact</strong>
+              <span>{tournament.directorPhone}</span>
+            </div>
+          )}
+
+          {tournament.registrationFee && (
+            <div className={styles.inlineInfoItem}>
+              <strong>Registration Fee</strong>
+              <span>{tournament.registrationFee}</span>
+            </div>
+          )}
+
+          {tournament.fee && (
+            <div className={styles.inlineInfoItem}>
+              <strong>Fee</strong>
+              <span>{tournament.fee}</span>
+            </div>
+          )}
+        </div>
+
+        {/* =================================================
+            CATEGORY
+        ================================================= */}
+
+        {tournament.category && (
+          <div className={styles.inlineDetailBlock}>
+            <h5>Category</h5>
+            {renderArrayData(tournament.category)}
+          </div>
+        )}
+
+        {tournament.categories && (
+          <div className={styles.inlineDetailBlock}>
+            <h5>Categories</h5>
+            {renderArrayData(tournament.categories)}
+          </div>
+        )}
+
+        {/* =================================================
+            EVENTS
+        ================================================= */}
+
+        {tournament.events && (
+          <div className={styles.inlineDetailBlock}>
+            <h5>Events</h5>
+            {renderArrayData(tournament.events)}
+          </div>
+        )}
+
+        {/* =================================================
+            DESCRIPTION
+        ================================================= */}
+
+        {tournament.description && (
+          <div className={styles.inlineDetailBlock}>
+            <h5>Description</h5>
+            <p>{tournament.description}</p>
+          </div>
+        )}
+
+        {/* =================================================
+            PRIZE
+        ================================================= */}
+
+        {tournament.prize && (
+          <div className={styles.inlineDetailBlock}>
+            <h5>Prize</h5>
+            {renderArrayData(tournament.prize)}
+          </div>
+        )}
+
+        {tournament.prizes && (
+          <div className={styles.inlineDetailBlock}>
+            <h5>Prizes</h5>
+            {renderArrayData(tournament.prizes)}
+          </div>
+        )}
+
+        {tournament.prizeMoney && (
+          <div className={styles.inlineDetailBlock}>
+            <h5>Prize Money</h5>
+            {renderArrayData(tournament.prizeMoney)}
+          </div>
+        )}
+
+        {/* =================================================
+            ELIGIBILITY
+        ================================================= */}
+
+        {tournament.eligibility && (
+          <div className={styles.inlineDetailBlock}>
+            <h5>Eligibility</h5>
+            {renderArrayData(tournament.eligibility)}
+          </div>
+        )}
+
+        {/* =================================================
+            RULES
+        ================================================= */}
+
+        {tournament.rules && (
+          <div className={styles.inlineDetailBlock}>
+            <h5>Rules</h5>
+
+            <div
+              className={styles.rulesContent}
+              dangerouslySetInnerHTML={{
+                __html: tournament.rules,
+              }}
+            />
+          </div>
+        )}
+
+        {/* =================================================
+            REGISTER BUTTON
+        ================================================= */}
+
+        {tournament.itemType === "tournament" && (
+          <div className={styles.inlineRegisterWrapper}>
+            <Link
+              to={`/tournaments/register?tournamentId=${tournament._id}`}
+              className={styles.registerButton}
+              onClick={(e) => e.stopPropagation()}
+            >
+              Register Now
+            </Link>
+          </div>
+        )}
+
+        {/* CLOSE */}
+
+        <button
+          type="button"
+          className={styles.closeDetailsButton}
+          onClick={(e) => {
+            e.stopPropagation();
+            setSelectedTournamentId(null);
+          }}
+        >
+          Close Details ↑
+        </button>
+      </div>
+    );
   };
 
-  // ============================
-  // GET LOCATION
-  // ============================
-  const getLocation = (item) => {
-    return item.location || "Dehradun";
-  };
+  // =========================================================
+  // VENUE
+  // =========================================================
 
-  // ============================
-  // VENUE CONTENT
-  // ============================
   const renderVenue = (item) => {
     const venueName = item.venue || item.name;
     const address = item.address;
@@ -228,7 +479,6 @@ export default function Tournaments() {
 
         {address && <p className={styles.venueAddress}>{address}</p>}
 
-        {/* OLD VENUE API */}
         {item.mapLink && (
           <div className={styles.mapContainer}>
             <iframe
@@ -245,7 +495,6 @@ export default function Tournaments() {
           </div>
         )}
 
-        {/* NEW VENUE SCHEMA */}
         {!item.venue && !item.address && item.value && (
           <div
             className={styles.venueContent}
@@ -258,18 +507,20 @@ export default function Tournaments() {
     );
   };
 
+  // =========================================================
+  // RETURN
+  // =========================================================
+
   return (
     <div className={styles.rootContainer}>
-      {/* =====================================================
-          HEADER REMOVED
-          Header already comes from Layout/main.jsx
-      ====================================================== */}
+      <Header />
 
       <main className={styles.mainContentWrapper}>
         <div className={styles.contentContainer}>
-          {/* =====================================================
+          {/* =================================================
               ALL TOURNAMENTS
-          ====================================================== */}
+          ================================================= */}
+
           <section className={styles.upcomingTournaments} id="tournamentList">
             <h1 className={styles.sectionTitle}>All Tournaments</h1>
 
@@ -279,71 +530,82 @@ export default function Tournaments() {
               <div className={styles.noResults}>No tournaments available.</div>
             ) : (
               <div className={styles.tournamentGrid}>
-                {allTournaments.map((tournament) => (
-                  <div
-                    key={`${tournament.itemType}-${tournament._id}`}
-                    className={styles.tournamentCard}
-                    onClick={() => handleTournamentClick(tournament)}
-                  >
-                    {/* TOURNAMENT NAME */}
-                    <div className={styles.tournamentNameWrapper}>
-                      <h3 className={styles.tournamentName}>
-                        {tournament.name}
-                      </h3>
+                {allTournaments.map((tournament) => {
+                  const isSelected = selectedTournamentId === tournament._id;
 
-                      {tournament.itemType === "mainEvent" && (
-                        <span className={styles.eventBadge}>Main Event</span>
-                      )}
-
-                      {tournament.itemType === "tournament" &&
-                        tournament.type === "display" && (
-                          <span className={styles.eventBadge}>Display</span>
-                        )}
-                    </div>
-
-                    {/* DATE + LOCATION */}
-                    <div className={styles.tournamentInfo}>
-                      <p>
-                        <strong>Date:</strong>{" "}
-                        <span>{formatDate(getTournamentDate(tournament))}</span>
-                      </p>
-
-                      <p>
-                        <strong>Location:</strong>{" "}
-                        <span>{getLocation(tournament)}</span>
-                      </p>
-                    </div>
-
-                    {/* VIEW DETAILS */}
-                    <button
-                      type="button"
-                      className={styles.viewDetailsButton}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleTournamentClick(tournament);
-                      }}
+                  return (
+                    <div
+                      key={`${tournament.itemType}-${tournament._id}`}
+                      className={`${styles.tournamentCard} ${
+                        isSelected ? styles.tournamentCardSelected : ""
+                      }`}
                     >
-                      View Details →
-                    </button>
-                  </div>
-                ))}
+                      {/* CARD BASIC CONTENT */}
+
+                      <div
+                        className={styles.tournamentCardMain}
+                        onClick={() => handleTournamentClick(tournament)}
+                      >
+                        <div className={styles.tournamentCardTop}>
+                          <h3 className={styles.tournamentName}>
+                            {tournament.name}
+                          </h3>
+
+                          {tournament.type === "display" && (
+                            <span className={styles.tournamentBadge}>
+                              Tournament
+                            </span>
+                          )}
+                        </div>
+
+                        <div className={styles.tournamentInfo}>
+                          <p>
+                            <strong>Date:</strong>{" "}
+                            <span>
+                              {formatDate(getTournamentDate(tournament))}
+                            </span>
+                          </p>
+
+                          <p>
+                            <strong>Location:</strong>{" "}
+                            <span>{getLocation(tournament)}</span>
+                          </p>
+                        </div>
+
+                        <button
+                          type="button"
+                          className={styles.viewDetailsButton}
+                          onClick={() => handleTournamentClick(tournament)}
+                        >
+                          {isSelected ? "Hide Details ↑" : "View Details →"}
+                        </button>
+                      </div>
+
+                      {/* =================================================
+                          DETAILS OPEN INSIDE SAME CARD
+                      ================================================= */}
+
+                      {isSelected && renderTournamentDetails(tournament)}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </section>
 
-          {/* =====================================================
+          {/* =================================================
               TOURNAMENT ACTIONS
               OLD FLOW PRESERVED
-          ====================================================== */}
+          ================================================= */}
+
           <section className={styles.actionSection}>
-            <h2 className={styles.actionHeading}>Tournament Information</h2>
+            <h2 className={styles.sectionTitle}>Tournament Information</h2>
 
             <p className={styles.actionDescription}>
               Select an option below to view tournament information.
             </p>
 
             <div className={styles.actionButtons}>
-              {/* REGISTERED PLAYERS */}
               <button
                 type="button"
                 className={styles.actionButton}
@@ -352,7 +614,6 @@ export default function Tournaments() {
                 View Registered Players
               </button>
 
-              {/* REGISTERED TEAMS */}
               <button
                 type="button"
                 className={styles.actionButtonGrey}
@@ -361,7 +622,6 @@ export default function Tournaments() {
                 View Registered Teams
               </button>
 
-              {/* DRAWS */}
               <button
                 type="button"
                 className={styles.actionButton}
@@ -370,7 +630,6 @@ export default function Tournaments() {
                 View Draws
               </button>
 
-              {/* RESULTS */}
               <button
                 type="button"
                 className={styles.actionButtonGrey}
@@ -379,7 +638,6 @@ export default function Tournaments() {
                 View Results
               </button>
 
-              {/* RESULTS 2 */}
               <button
                 type="button"
                 className={styles.actionButton}
@@ -388,7 +646,6 @@ export default function Tournaments() {
                 View Results 2
               </button>
 
-              {/* ORDER OF PLAY */}
               <button
                 type="button"
                 className={styles.actionButtonGrey}
@@ -399,110 +656,15 @@ export default function Tournaments() {
             </div>
           </section>
 
-          {/* =====================================================
-              SELECTED TOURNAMENT DETAILS
-              ONLY SHOW AFTER CLICK
-          ====================================================== */}
-          {selectedTournament && (
-            <section className={styles.detailsSection} id="tournamentDetails">
-              <h2 className={styles.detailsHeading}>Tournament Details</h2>
-
-              <div className={styles.detailsCard}>
-                {/* NAME */}
-                <div className={styles.detailsNameBox}>
-                  <h2 className={styles.detailsTitle}>
-                    {selectedTournament.name}
-                  </h2>
-
-                  {selectedTournament.itemType === "mainEvent" && (
-                    <span className={styles.detailsBadge}>Main Event</span>
-                  )}
-
-                  {selectedTournament.itemType === "tournament" &&
-                    selectedTournament.type === "display" && (
-                      <span className={styles.detailsBadge}>
-                        Display Tournament
-                      </span>
-                    )}
-                </div>
-
-                {/* DETAILS GRID */}
-                <div className={styles.detailsGrid}>
-                  <div>
-                    <strong>Date</strong>
-                    <p>{formatDate(getTournamentDate(selectedTournament))}</p>
-                  </div>
-
-                  <div>
-                    <strong>Location</strong>
-                    <p>{getLocation(selectedTournament)}</p>
-                  </div>
-
-                  {selectedTournament.organizer && (
-                    <div>
-                      <strong>Organizer</strong>
-                      <p>{selectedTournament.organizer}</p>
-                    </div>
-                  )}
-
-                  {selectedTournament.director && (
-                    <div>
-                      <strong>Tournament Director</strong>
-                      <p>{selectedTournament.director}</p>
-                    </div>
-                  )}
-
-                  {selectedTournament.directorPhone && (
-                    <div>
-                      <strong>Contact</strong>
-                      <p>{selectedTournament.directorPhone}</p>
-                    </div>
-                  )}
-                </div>
-
-                {/* DESCRIPTION */}
-                {selectedTournament.description && (
-                  <div className={styles.descriptionBlock}>
-                    <h3>Description</h3>
-
-                    <p>{selectedTournament.description}</p>
-                  </div>
-                )}
-
-                {/* RULES */}
-                {selectedTournament.rules && (
-                  <div className={styles.descriptionBlock}>
-                    <h3>Rules</h3>
-
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: selectedTournament.rules,
-                      }}
-                    />
-                  </div>
-                )}
-
-                {/* REGISTER */}
-                {selectedTournament.itemType === "tournament" && (
-                  <div className={styles.registerWrapper}>
-                    <Link
-                      to={`/tournaments/register?tournamentId=${selectedTournament._id}`}
-                      className={styles.registerButton}
-                    >
-                      Register Now
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </section>
-          )}
-
-          {/* =====================================================
+          {/* =================================================
               VENUE
               ALWAYS VISIBLE
-          ====================================================== */}
+          ================================================= */}
+
           <section className={styles.venueSection}>
-            <h2 className={styles.venueSectionTitle}>Venue Information</h2>
+            <h2 className={styles.sectionTitle}>
+              Venue & Important Information
+            </h2>
 
             {venue.length === 0 ? (
               <div className={styles.noResults}>
@@ -520,9 +682,9 @@ export default function Tournaments() {
       </main>
 
       {/* =====================================================
-          TOURNAMENT SELECT MODAL
-          OLD FLOW PRESERVED
+          SELECT TOURNAMENT MODAL
       ====================================================== */}
+
       {showTournamentModal && (
         <div
           className={styles.modalOverlay}
@@ -534,8 +696,8 @@ export default function Tournaments() {
             <p>Select the tournament you want to view.</p>
 
             <select
-              value={selectedTournamentId}
-              onChange={(e) => setSelectedTournamentId(e.target.value)}
+              value={actionTournamentId}
+              onChange={(e) => setActionTournamentId(e.target.value)}
               className={styles.tournamentSelect}
             >
               <option value="">Select Tournament</option>
@@ -546,12 +708,6 @@ export default function Tournaments() {
                   value={tournament._id}
                 >
                   {tournament.name}
-
-                  {tournament.itemType === "mainEvent"
-                    ? " (Main Event)"
-                    : tournament.type === "display"
-                      ? " (Display)"
-                      : ""}
                 </option>
               ))}
             </select>
