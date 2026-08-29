@@ -778,7 +778,7 @@ export default function Tournaments() {
                   Register Now
                 </Link>
                 <Link
-                  to="/player-login"
+                  to={`/tournaments/login/${selectedTournament._id}`}
                   className={styles.loginButton}
                   onClick={closeDetails}
                 >
