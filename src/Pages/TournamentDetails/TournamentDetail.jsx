@@ -405,6 +405,54 @@ const TournamentDetail = () => {
             </section>
           )}
 
+          {/* =================================================
+    ENTRY & PARTICIPATION
+================================================== */}
+          {(selectedTournament.registrationStartDate ||
+            selectedTournament.registrationEndDate ||
+            selectedTournament.entryParticipationRules?.length > 0) && (
+            <div className={styles.modalSection}>
+              <h3>Entry & Participation</h3>
+
+              {/* REGISTRATION DATES */}
+              {(selectedTournament.registrationStartDate ||
+                selectedTournament.registrationEndDate) && (
+                <div className={styles.detailBlock}>
+                  <h4>Registration Period</h4>
+
+                  {selectedTournament.registrationStartDate && (
+                    <p className={styles.modalParagraph}>
+                      <strong>Registration Starts:</strong>{" "}
+                      {formatDate(selectedTournament.registrationStartDate)}
+                    </p>
+                  )}
+
+                  {selectedTournament.registrationEndDate && (
+                    <p className={styles.modalParagraph}>
+                      <strong>Registration Ends:</strong>{" "}
+                      {formatDate(selectedTournament.registrationEndDate)}
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {/* ENTRY & PARTICIPATION RULES */}
+              {Array.isArray(selectedTournament.entryParticipationRules) &&
+                selectedTournament.entryParticipationRules.length > 0 && (
+                  <div className={styles.detailBlock}>
+                    <h4>Rules</h4>
+
+                    <ul className={styles.detailList}>
+                      {selectedTournament.entryParticipationRules.map(
+                        (rule, index) => (
+                          <li key={index}>{rule}</li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                )}
+            </div>
+          )}
           {/* =====================================================
               EXTRA TOURNAMENT DETAILS
           ====================================================== */}
