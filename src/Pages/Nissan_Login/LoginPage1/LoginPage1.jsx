@@ -38,24 +38,41 @@ const LoginPage1 = ({ player, handleNext, setPlayer, id }) => {
 
   const handleSubmit = async () => {
     try {
+      console.log("NEXT CLICKED");
+      console.log("PLAYER ID:", id);
+      console.log("FORM DATA:", formData);
+
       const res = await axios.post(
         `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/${id}/updatePlayer`,
         { formData },
         {
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           withCredentials: true,
         },
       );
 
+      console.log("UPDATE RESPONSE:", res.data);
+
       if (res.data.success) {
         setPlayer(formData);
         handleNext();
+      } else {
+        console.log("UPDATE FAILED:", res.data.message);
+        alert(res.data.message || "Unable to update player details.");
       }
     } catch (error) {
-      console.log(error);
+      console.log("UPDATE ERROR:", error);
+      console.log("ERROR RESPONSE:", error.response?.data);
+      console.log("ERROR STATUS:", error.response?.status);
+
+      alert(
+        error.response?.data?.message ||
+          "Something went wrong while updating player details.",
+      );
     }
   };
-
   return (
     <div className={styles.registerPage1Container}>
       <section className={styles.formSection}>
