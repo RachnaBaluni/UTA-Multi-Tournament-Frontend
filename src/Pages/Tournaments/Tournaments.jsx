@@ -520,7 +520,57 @@ export default function Tournaments() {
                 ================================================== */}
 
                 <div className={styles.modalSection}>
-                  <h3>Tournament Details</h3>
+                  <h3>Tournament Information</h3>
+
+                  <div className={styles.actionButtons}>
+                    <Link
+                      to={`/tournaments/registered-players?tournamentId=${selectedTournament._id}`}
+                      className={styles.actionButton}
+                      onClick={closeDetails}
+                    >
+                      View Registered Players
+                    </Link>
+
+                    <Link
+                      to={`/tournaments/registered-teams?tournamentId=${selectedTournament._id}`}
+                      className={styles.actionButtonGrey}
+                      onClick={closeDetails}
+                    >
+                      View Registered Teams
+                    </Link>
+
+                    <Link
+                      to={`/tournaments/draws?tournamentId=${selectedTournament._id}`}
+                      className={styles.actionButton}
+                      onClick={closeDetails}
+                    >
+                      View Draws
+                    </Link>
+
+                    <Link
+                      to={`/tournaments/results?tournamentId=${selectedTournament._id}`}
+                      className={styles.actionButtonGrey}
+                      onClick={closeDetails}
+                    >
+                      View Results
+                    </Link>
+
+                    <Link
+                      to={`/tournaments/viewresults?tournamentId=${selectedTournament._id}`}
+                      className={styles.actionButton}
+                      onClick={closeDetails}
+                    >
+                      View Results 2
+                    </Link>
+
+                    <Link
+                      to={`/tournaments/view-order-play?tournamentId=${selectedTournament._id}`}
+                      className={styles.actionButtonGrey}
+                      onClick={closeDetails}
+                    >
+                      Order Of Play
+                    </Link>
+                  </div>
 
                   {tournamentDetails.length > 0 ? (
                     tournamentDetails.map((item) => (
