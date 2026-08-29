@@ -4,8 +4,6 @@ import axios from "axios";
 import styles from "./Tournaments.module.css";
 
 const Tournaments = () => {
-  console.log("🔥🔥🔥 NEW TOURNAMENT COMPONENT RUNNING 🔥🔥🔥");
-
   const [tournaments, setTournaments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -14,12 +12,22 @@ const Tournaments = () => {
     const fetchTournaments = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_APP_BACKEND_URL}/api/main-events`,
+          `${import.meta.env.VITE_APP_BACKEND_URL}/api/tournaments/`,
         );
-        console.log("🔥 MAIN EVENTS RESPONSE:", response.data);
-        console.log("🔥🔥 ALL TOURNAMENTS:", response.data.data);
 
-        setTournaments(response.data.data || []);
+        console.log("🔥 ALL TOURNAMENTS RESPONSE:", response.data);
+
+        const allTournaments = response.data.data || [];
+
+        // Sirf NORMAL aur DISPLAY tournaments show karne hain
+        const filteredTournaments = allTournaments.filter(
+          (tournament) =>
+            tournament.type === "normal" || tournament.type === "display",
+        );
+
+        console.log("🔥 NORMAL + DISPLAY TOURNAMENTS:", filteredTournaments);
+
+        setTournaments(filteredTournaments);
       } catch (err) {
         console.error("Error fetching tournaments:", err);
         setError("Unable to load tournaments.");
@@ -49,9 +57,7 @@ const Tournaments = () => {
 
   return (
     <div style={{ padding: "50px" }}>
-      <h1 style={{ color: "red", fontSize: "50px" }}>NEW TOURNAMENT PAGE</h1>
-
-      <h2>Tournaments</h2>
+      <h1>Tournaments</h1>
 
       {tournaments.length === 0 ? (
         <p>No tournaments available.</p>
@@ -72,10 +78,17 @@ const Tournaments = () => {
             >
               <h2>{tournament.name}</h2>
 
-              {tournament.date && (
+              {tournament.startDate && (
                 <p>
-                  <strong>Date:</strong>{" "}
-                  {new Date(tournament.date).toLocaleDateString()}
+                  <strong>Start Date:</strong>{" "}
+                  {new Date(tournament.startDate).toLocaleDateString()}
+                </p>
+              )}
+
+              {tournament.endDate && (
+                <p>
+                  <strong>End Date:</strong>{" "}
+                  {new Date(tournament.endDate).toLocaleDateString()}
                 </p>
               )}
 
@@ -84,6 +97,10 @@ const Tournaments = () => {
                   <strong>Location:</strong> {tournament.location}
                 </p>
               )}
+
+              <p>
+                <strong>Type:</strong> {tournament.type}
+              </p>
 
               <strong>View Details →</strong>
             </Link>
