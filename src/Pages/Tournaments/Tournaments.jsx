@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./Tournaments.module.css";
-import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 
 export default function Tournaments() {
@@ -99,7 +98,7 @@ export default function Tournaments() {
   }, []);
 
   // ============================
-  // MERGE ALL EVENTS
+  // MERGE ALL
   // NORMAL + DISPLAY + MAIN EVENTS
   // ============================
   const allTournaments = [
@@ -134,7 +133,7 @@ export default function Tournaments() {
   };
 
   // ============================
-  // TOURNAMENT ACTION SELECTOR
+  // OPEN ACTION SELECTOR
   // ============================
   const openTournamentSelector = (action) => {
     setSelectedAction(action);
@@ -191,7 +190,7 @@ export default function Tournaments() {
   };
 
   // ============================
-  // GET TOURNAMENT DATE
+  // GET DATE
   // ============================
   const getTournamentDate = (item) => {
     if (item.itemType === "mainEvent") {
@@ -229,7 +228,7 @@ export default function Tournaments() {
 
         {address && <p className={styles.venueAddress}>{address}</p>}
 
-        {/* If old venue API contains mapLink */}
+        {/* OLD VENUE API */}
         {item.mapLink && (
           <div className={styles.mapContainer}>
             <iframe
@@ -246,7 +245,7 @@ export default function Tournaments() {
           </div>
         )}
 
-        {/* New Venue schema uses value */}
+        {/* NEW VENUE SCHEMA */}
         {!item.venue && !item.address && item.value && (
           <div
             className={styles.venueContent}
@@ -261,7 +260,10 @@ export default function Tournaments() {
 
   return (
     <div className={styles.rootContainer}>
-      <Header />
+      {/* =====================================================
+          HEADER REMOVED
+          Header already comes from Layout/main.jsx
+      ====================================================== */}
 
       <main className={styles.mainContentWrapper}>
         <div className={styles.contentContainer}>
@@ -283,8 +285,23 @@ export default function Tournaments() {
                     className={styles.tournamentCard}
                     onClick={() => handleTournamentClick(tournament)}
                   >
-                    <h3 className={styles.tournamentName}>{tournament.name}</h3>
+                    {/* TOURNAMENT NAME */}
+                    <div className={styles.tournamentNameWrapper}>
+                      <h3 className={styles.tournamentName}>
+                        {tournament.name}
+                      </h3>
 
+                      {tournament.itemType === "mainEvent" && (
+                        <span className={styles.eventBadge}>Main Event</span>
+                      )}
+
+                      {tournament.itemType === "tournament" &&
+                        tournament.type === "display" && (
+                          <span className={styles.eventBadge}>Display</span>
+                        )}
+                    </div>
+
+                    {/* DATE + LOCATION */}
                     <div className={styles.tournamentInfo}>
                       <p>
                         <strong>Date:</strong>{" "}
@@ -297,6 +314,7 @@ export default function Tournaments() {
                       </p>
                     </div>
 
+                    {/* VIEW DETAILS */}
                     <button
                       type="button"
                       className={styles.viewDetailsButton}
@@ -318,13 +336,14 @@ export default function Tournaments() {
               OLD FLOW PRESERVED
           ====================================================== */}
           <section className={styles.actionSection}>
-            <h2 className={styles.sectionTitle}>Tournament Information</h2>
+            <h2 className={styles.actionHeading}>Tournament Information</h2>
 
             <p className={styles.actionDescription}>
               Select an option below to view tournament information.
             </p>
 
             <div className={styles.actionButtons}>
+              {/* REGISTERED PLAYERS */}
               <button
                 type="button"
                 className={styles.actionButton}
@@ -333,6 +352,7 @@ export default function Tournaments() {
                 View Registered Players
               </button>
 
+              {/* REGISTERED TEAMS */}
               <button
                 type="button"
                 className={styles.actionButtonGrey}
@@ -341,6 +361,7 @@ export default function Tournaments() {
                 View Registered Teams
               </button>
 
+              {/* DRAWS */}
               <button
                 type="button"
                 className={styles.actionButton}
@@ -349,6 +370,7 @@ export default function Tournaments() {
                 View Draws
               </button>
 
+              {/* RESULTS */}
               <button
                 type="button"
                 className={styles.actionButtonGrey}
@@ -357,6 +379,7 @@ export default function Tournaments() {
                 View Results
               </button>
 
+              {/* RESULTS 2 */}
               <button
                 type="button"
                 className={styles.actionButton}
@@ -365,6 +388,7 @@ export default function Tournaments() {
                 View Results 2
               </button>
 
+              {/* ORDER OF PLAY */}
               <button
                 type="button"
                 className={styles.actionButtonGrey}
@@ -377,16 +401,32 @@ export default function Tournaments() {
 
           {/* =====================================================
               SELECTED TOURNAMENT DETAILS
+              ONLY SHOW AFTER CLICK
           ====================================================== */}
           {selectedTournament && (
             <section className={styles.detailsSection} id="tournamentDetails">
               <h2 className={styles.detailsHeading}>Tournament Details</h2>
 
               <div className={styles.detailsCard}>
-                <h2 className={styles.detailsTitle}>
-                  {selectedTournament.name}
-                </h2>
+                {/* NAME */}
+                <div className={styles.detailsNameBox}>
+                  <h2 className={styles.detailsTitle}>
+                    {selectedTournament.name}
+                  </h2>
 
+                  {selectedTournament.itemType === "mainEvent" && (
+                    <span className={styles.detailsBadge}>Main Event</span>
+                  )}
+
+                  {selectedTournament.itemType === "tournament" &&
+                    selectedTournament.type === "display" && (
+                      <span className={styles.detailsBadge}>
+                        Display Tournament
+                      </span>
+                    )}
+                </div>
+
+                {/* DETAILS GRID */}
                 <div className={styles.detailsGrid}>
                   <div>
                     <strong>Date</strong>
@@ -418,17 +458,6 @@ export default function Tournaments() {
                       <p>{selectedTournament.directorPhone}</p>
                     </div>
                   )}
-
-                  {selectedTournament.type && (
-                    <div>
-                      <strong>Tournament Type</strong>
-                      <p>
-                        {selectedTournament.type === "main"
-                          ? "Main Event"
-                          : selectedTournament.type}
-                      </p>
-                    </div>
-                  )}
                 </div>
 
                 {/* DESCRIPTION */}
@@ -453,7 +482,7 @@ export default function Tournaments() {
                   </div>
                 )}
 
-                {/* REGISTER BUTTON */}
+                {/* REGISTER */}
                 {selectedTournament.itemType === "tournament" && (
                   <div className={styles.registerWrapper}>
                     <Link
@@ -473,9 +502,7 @@ export default function Tournaments() {
               ALWAYS VISIBLE
           ====================================================== */}
           <section className={styles.venueSection}>
-            <h2 className={styles.sectionTitle}>
-              Venue & Important Information
-            </h2>
+            <h2 className={styles.venueSectionTitle}>Venue Information</h2>
 
             {venue.length === 0 ? (
               <div className={styles.noResults}>
@@ -494,6 +521,7 @@ export default function Tournaments() {
 
       {/* =====================================================
           TOURNAMENT SELECT MODAL
+          OLD FLOW PRESERVED
       ====================================================== */}
       {showTournamentModal && (
         <div
@@ -518,6 +546,7 @@ export default function Tournaments() {
                   value={tournament._id}
                 >
                   {tournament.name}
+
                   {tournament.itemType === "mainEvent"
                     ? " (Main Event)"
                     : tournament.type === "display"

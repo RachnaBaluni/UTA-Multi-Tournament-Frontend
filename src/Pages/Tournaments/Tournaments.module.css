@@ -25,7 +25,7 @@
   flex: 1;
   justify-content: center;
   padding-top: 35px;
-  padding-bottom: 40px;
+  padding-bottom: 45px;
 }
 
 .contentContainer {
@@ -46,7 +46,7 @@
   color: #111618;
   line-height: 1.25;
   letter-spacing: -0.025em;
-  margin-bottom: 25px;
+  margin: 0 0 25px;
   text-align: center;
 }
 
@@ -61,6 +61,10 @@
   margin-bottom: 25px;
 }
 
+/* =========================================================
+   TOURNAMENT GRID
+========================================================= */
+
 .tournamentGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -72,61 +76,103 @@
 ========================================================= */
 
 .tournamentCard {
+  position: relative;
   background: #ffffff;
   border: 1px solid #d5dfe2;
-  border-radius: 10px;
-  padding: 22px 20px;
-  min-height: 165px;
+  border-radius: 12px;
+  padding: 24px 22px;
+  min-height: 175px;
   cursor: pointer;
+
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
     border-color 0.2s ease;
+
+  box-sizing: border-box;
 }
 
 .tournamentCard:hover {
   transform: translateY(-3px);
   border-color: #12aede;
-  box-shadow: 0 7px 20px rgba(17, 97, 120, 0.12);
+  box-shadow: 0 8px 22px rgba(17, 97, 120, 0.14);
 }
+
+/* =========================================================
+   TOURNAMENT NAME
+========================================================= */
 
 .tournamentName {
   margin: 0 0 20px;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 700;
+  line-height: 1.3;
   color: #111618;
+
+  transition: color 0.2s ease;
 }
 
+.tournamentCard:hover .tournamentName {
+  color: #079dcc;
+}
+
+/* Small blue line under tournament name */
+.tournamentName::after {
+  content: "";
+  display: block;
+  width: 42px;
+  height: 3px;
+  margin-top: 9px;
+  border-radius: 5px;
+  background-color: #12aede;
+}
+
+/* =========================================================
+   TOURNAMENT INFORMATION
+========================================================= */
+
 .tournamentInfo {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .tournamentInfo p {
-  margin: 7px 0;
+  margin: 8px 0;
   font-size: 14px;
+  line-height: 1.5;
   color: #111618;
 }
 
 .tournamentInfo strong {
   color: #111618;
+  font-weight: 700;
 }
 
 .tournamentInfo span {
   color: #5d7e89;
 }
 
+/* =========================================================
+   VIEW DETAILS
+========================================================= */
+
 .viewDetailsButton {
+  display: inline-flex;
+  align-items: center;
   border: none;
   background: transparent;
   padding: 0;
-  color: #5d7e89;
+  color: #12aede;
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .viewDetailsButton:hover {
-  color: #12aede;
+  color: #079dcc;
+  transform: translateX(3px);
 }
 
 /* =========================================================
@@ -138,12 +184,14 @@
   border-radius: 14px;
   padding: 40px 30px;
   margin: 15px 0 45px;
+
   box-shadow: 0 4px 12px rgba(17, 24, 28, 0.12);
+
   text-align: center;
 }
 
 .actionSection .sectionTitle {
-  margin-bottom: 25px;
+  margin-bottom: 18px;
 }
 
 .actionDescription {
@@ -152,6 +200,10 @@
   color: #111618;
   line-height: 1.6;
 }
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
 
 .actionButtons {
   display: flex;
@@ -163,23 +215,29 @@
 
 /* =========================================================
    BLUE BUTTON
-   SAME STYLE AS YOUR SCREENSHOT
+   Screenshot style
 ========================================================= */
 
 .actionButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   min-height: 56px;
   padding: 0 25px;
+
   border: none;
   border-radius: 30px;
+
   background-color: #12aede;
   color: #ffffff;
+
   font-size: 17px;
   font-weight: 700;
   text-decoration: none;
+
   cursor: pointer;
+
   transition:
     background-color 0.2s ease,
     transform 0.2s ease,
@@ -200,16 +258,22 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   min-height: 56px;
   padding: 0 25px;
+
   border: none;
   border-radius: 30px;
+
   background-color: #e1e1e1;
   color: #111618;
+
   font-size: 17px;
   font-weight: 700;
   text-decoration: none;
+
   cursor: pointer;
+
   transition:
     background-color 0.2s ease,
     transform 0.2s ease;
@@ -221,7 +285,7 @@
 }
 
 /* =========================================================
-   DETAILS SECTION
+   TOURNAMENT DETAILS
 ========================================================= */
 
 .detailsSection {
@@ -233,7 +297,7 @@
   text-align: center;
   font-size: 32px;
   font-weight: 700;
-  margin-bottom: 25px;
+  margin: 0 0 25px;
   color: #111618;
 }
 
@@ -241,21 +305,51 @@
   background: #ffffff;
   border-radius: 14px;
   padding: 35px;
+
   box-shadow: 0 4px 12px rgba(17, 24, 28, 0.1);
+
   border: 1px solid #e1e8ea;
 }
 
+/* =========================================================
+   DETAILS TITLE
+========================================================= */
+
 .detailsTitle {
   font-size: 28px;
+  font-weight: 700;
+  line-height: 1.3;
+
   margin: 0 0 30px;
+
   color: #111618;
 }
+
+.detailsTitle::after {
+  content: "";
+  display: block;
+
+  width: 55px;
+  height: 4px;
+
+  margin-top: 10px;
+
+  border-radius: 5px;
+
+  background-color: #12aede;
+}
+
+/* =========================================================
+   DETAILS GRID
+========================================================= */
 
 .detailsGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 25px;
+
   border-bottom: 1px solid #d5dfe2;
+
   padding-bottom: 25px;
 }
 
@@ -270,13 +364,17 @@
   font-size: 16px;
 }
 
+/* =========================================================
+   DESCRIPTION / RULES
+========================================================= */
+
 .descriptionBlock {
   margin-top: 28px;
 }
 
 .descriptionBlock h3 {
   font-size: 20px;
-  margin-bottom: 10px;
+  margin: 0 0 10px;
   color: #111618;
 }
 
@@ -287,6 +385,10 @@
   color: #36464c;
 }
 
+/* =========================================================
+   REGISTER BUTTON
+========================================================= */
+
 .registerWrapper {
   margin-top: 30px;
 }
@@ -295,23 +397,33 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   background-color: #12aede;
   color: #ffffff;
+
   text-decoration: none;
+
   border-radius: 30px;
+
   padding: 14px 28px;
+
   font-size: 17px;
   font-weight: 700;
-  transition: 0.2s ease;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .registerButton:hover {
   background-color: #079dcc;
   transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(18, 174, 222, 0.25);
 }
 
 /* =========================================================
-   VENUE
+   VENUE SECTION
 ========================================================= */
 
 .venueSection {
@@ -325,11 +437,18 @@
   gap: 25px;
 }
 
+/* =========================================================
+   VENUE CARD
+========================================================= */
+
 .venueCard {
   background: #ffffff;
   border-radius: 14px;
+
   padding: 28px;
+
   box-shadow: 0 4px 12px rgba(17, 24, 28, 0.1);
+
   border: 1px solid #e1e8ea;
 }
 
@@ -337,6 +456,21 @@
   font-size: 22px;
   margin: 0 0 12px;
   color: #111618;
+  font-weight: 700;
+}
+
+.venueTitle::after {
+  content: "";
+  display: block;
+
+  width: 42px;
+  height: 3px;
+
+  margin-top: 8px;
+
+  border-radius: 5px;
+
+  background-color: #12aede;
 }
 
 .venueAddress {
@@ -351,6 +485,10 @@
   font-size: 16px;
   line-height: 1.7;
 }
+
+/* =========================================================
+   MAP
+========================================================= */
 
 .mapContainer {
   width: 100%;
@@ -377,71 +515,117 @@
 }
 
 /* =========================================================
-   MODAL
+   MODAL OVERLAY
 ========================================================= */
 
 .modalOverlay {
   position: fixed;
   inset: 0;
+
   z-index: 9999;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   padding: 20px;
+
   background: rgba(17, 24, 28, 0.55);
 }
+
+/* =========================================================
+   MODAL BOX
+========================================================= */
 
 .modalBox {
   width: 100%;
   max-width: 500px;
+
   background: #ffffff;
+
   border-radius: 16px;
+
   padding: 30px;
+
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+
+  box-sizing: border-box;
 }
 
 .modalBox h2 {
   margin: 0 0 10px;
+
   font-size: 26px;
+  font-weight: 700;
+
   color: #111618;
 }
 
 .modalBox p {
   color: #5d7e89;
-  margin-bottom: 20px;
+  margin: 0 0 20px;
+  line-height: 1.5;
 }
+
+/* =========================================================
+   TOURNAMENT SELECT
+========================================================= */
 
 .tournamentSelect {
   width: 100%;
   height: 50px;
+
   border: 1px solid #d5dfe2;
+
   border-radius: 8px;
+
   padding: 0 14px;
+
   background: #f8fbfc;
+
   color: #111618;
+
   font-size: 16px;
+
   outline: none;
+
+  cursor: pointer;
 }
 
 .tournamentSelect:focus {
   border-color: #12aede;
+  box-shadow: 0 0 0 2px rgba(18, 174, 222, 0.12);
 }
+
+/* =========================================================
+   MODAL BUTTONS
+========================================================= */
 
 .modalButtons {
   display: flex;
   justify-content: flex-end;
+
   gap: 12px;
+
   margin-top: 25px;
 }
 
 .cancelButton,
 .continueButton {
   border: none;
+
   border-radius: 25px;
+
   padding: 12px 24px;
+
   font-size: 15px;
   font-weight: 700;
+
   cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .cancelButton {
@@ -451,6 +635,7 @@
 
 .cancelButton:hover {
   background: #d4d4d4;
+  transform: translateY(-1px);
 }
 
 .continueButton {
@@ -460,10 +645,11 @@
 
 .continueButton:hover {
   background: #079dcc;
+  transform: translateY(-1px);
 }
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE - TABLET
 ========================================================= */
 
 @media (max-width: 1024px) {
@@ -472,16 +658,25 @@
     padding-right: 30px;
   }
 
+  .contentContainer {
+    max-width: 100%;
+  }
+
   .tournamentGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
 
 @media (max-width: 767px) {
   .mainContentWrapper {
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 20px;
+    padding-bottom: 30px;
   }
 
   .upcomingTournaments {
@@ -498,10 +693,22 @@
 
   .tournamentCard {
     padding: 20px;
+    min-height: auto;
   }
+
+  .tournamentName {
+    font-size: 20px;
+  }
+
+  /* ACTION SECTION */
 
   .actionSection {
     padding: 30px 18px;
+    margin-bottom: 35px;
+  }
+
+  .actionDescription {
+    font-size: 15px;
   }
 
   .actionButtons {
@@ -514,6 +721,12 @@
     width: 100%;
     min-height: 52px;
     font-size: 15px;
+  }
+
+  /* DETAILS */
+
+  .detailsSection {
+    margin-bottom: 35px;
   }
 
   .detailsHeading {
@@ -533,6 +746,8 @@
     gap: 18px;
   }
 
+  /* VENUE */
+
   .venueGrid {
     grid-template-columns: 1fr;
   }
@@ -541,10 +756,16 @@
     padding: 22px;
   }
 
+  /* MODAL */
+
   .modalBox {
     padding: 22px;
   }
 }
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
 
 @media (max-width: 480px) {
   .mainContentWrapper {
@@ -560,6 +781,10 @@
     font-size: 18px;
   }
 
+  .tournamentInfo p {
+    font-size: 13px;
+  }
+
   .actionSection {
     border-radius: 10px;
     padding: 25px 15px;
@@ -567,6 +792,10 @@
 
   .detailsCard {
     padding: 18px;
+  }
+
+  .detailsTitle {
+    font-size: 22px;
   }
 
   .modalButtons {
