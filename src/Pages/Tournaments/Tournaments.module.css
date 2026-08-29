@@ -761,6 +761,19 @@
   .modalBox {
     padding: 22px;
   }
+  .inlineInfoGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .tournamentCardTop {
+    align-items: flex-start;
+  }
+
+  .tournamentBadge {
+    font-size: 11px;
+    padding: 5px 9px;
+  }
 }
 
 /* =========================================================
