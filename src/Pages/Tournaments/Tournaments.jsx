@@ -92,6 +92,8 @@ export default function Tournaments() {
 
       if (res.data.success) {
         setTournamentDetails(res.data.data || []);
+      } else {
+        setTournamentDetails([]);
       }
     } catch (error) {
       console.error("Error fetching tournament details:", error);
@@ -130,6 +132,7 @@ export default function Tournaments() {
         getTournaments(),
         getMainEvents(),
         getVenue(),
+        getTournamentDetails(),
         getPricesBenefits(),
       ]);
 
@@ -195,43 +198,46 @@ export default function Tournaments() {
   };
 
   // =========================================================
-  // FIND EXTRA DETAILS FOR SELECTED TOURNAMENT
+  // GET DETAILS FOR SELECTED TOURNAMENT
   // =========================================================
 
   const getExtraDetails = (tournament) => {
-    if (!tournament) return null;
+    if (!tournament) return [];
 
-    const tournamentId =
-      tournament._id?.toString() || tournament.id?.toString();
+    const tournamentId = tournament._id?.toString();
 
-    const found = tournamentDetails.find((detail) => {
+    if (!tournamentId) {
+      console.log("No tournament ID found:", tournament);
+      return [];
+    }
+
+    const foundDetails = tournamentDetails.filter((detail) => {
       const detailTournamentId =
-        detail.tournamentId?._id?.toString() ||
-        detail.tournamentId?.toString() ||
-        detail.tournament?._id?.toString() ||
-        detail.tournament?.toString();
+        detail.tournamentId?._id?.toString() || detail.tournamentId?.toString();
 
       return (
         detailTournamentId &&
-        tournamentId &&
-        detailTournamentId === tournamentId
+        detailTournamentId === tournamentId &&
+        detail.showing !== false
       );
     });
 
     console.log("SELECTED TOURNAMENT:", tournament);
-    console.log("MATCHED EXTRA DETAILS:", found);
+    console.log("SELECTED TOURNAMENT ID:", tournamentId);
+    console.log("ALL TOURNAMENT DETAILS:", tournamentDetails);
+    console.log("MATCHED EXTRA DETAILS:", foundDetails);
 
-    return found || null;
+    return foundDetails;
   };
+
   // =========================================================
-  // FIND EXTRA PRIZE/BENEFIT DETAILS
+  // GET PRIZE / BENEFIT DETAILS
   // =========================================================
 
   const getPrizeDetails = (tournament) => {
     if (!tournament) return null;
 
-    const tournamentId =
-      tournament._id?.toString() || tournament.id?.toString();
+    const tournamentId = tournament._id?.toString();
 
     const found = pricesBenefits.find((item) => {
       const itemTournamentId =
@@ -245,7 +251,6 @@ export default function Tournaments() {
       );
     });
 
-    // If API has common information, use it too
     if (found) return found;
 
     if (pricesBenefits.length === 1) {
@@ -265,20 +270,42 @@ export default function Tournaments() {
 
       const tournamentId = tournament._id;
 
+      console.log("CLICKED TOURNAMENT:", tournament);
+      console.log("CLICKED TOURNAMENT ID:", tournamentId);
+
+      // If details are already loaded, use them.
+      const alreadyLoadedDetails = tournamentDetails.filter((detail) => {
+        const detailTournamentId =
+          detail.tournamentId?._id?.toString() ||
+          detail.tournamentId?.toString();
+
+        return (
+          detailTournamentId && detailTournamentId === tournamentId?.toString()
+        );
+      });
+
+      console.log(
+        "ALREADY LOADED DETAILS FOR TOURNAMENT:",
+        alreadyLoadedDetails,
+      );
+
+      // If already available, no need to call API again.
+      if (alreadyLoadedDetails.length > 0) {
+        return;
+      }
+
+      // Otherwise fetch selected tournament details.
       const res = await axios.get(
         `${BACKEND_URL}/api/tournament-details?tournamentId=${tournamentId}`,
       );
 
-      console.log("SELECTED TOURNAMENT DETAILS:", res.data);
+      console.log("SELECTED TOURNAMENT DETAILS API:", res.data);
 
       if (res.data.success) {
         setTournamentDetails(res.data.data || []);
-      } else {
-        setTournamentDetails([]);
       }
     } catch (error) {
       console.error("Error fetching selected tournament details:", error);
-      setTournamentDetails([]);
     }
   };
 
@@ -371,7 +398,7 @@ export default function Tournaments() {
   };
 
   // =========================================================
-  // HELPER TO RENDER HTML CONTENT
+  // HELPER TO RENDER HTML
   // =========================================================
 
   const renderHTML = (value) => {
@@ -392,52 +419,20 @@ export default function Tournaments() {
   };
 
   // =========================================================
-  // RENDER CATEGORIES
-  // =========================================================
-
-  const renderCategories = (detail) => {
-    if (!detail) return null;
-
-    const categories =
-      detail.categories ||
-      detail.category ||
-      detail.tournamentCategories ||
-      detail.events ||
-      detail.eventCategories;
-
-    if (!categories) return null;
-
-    if (Array.isArray(categories)) {
-      return (
-        <ul className={styles.detailList}>
-          {categories.map((item, index) => (
-            <li key={index}>
-              {typeof item === "string"
-                ? item
-                : item.name ||
-                  item.title ||
-                  item.category ||
-                  JSON.stringify(item)}
-            </li>
-          ))}
-        </ul>
-      );
-    }
-
-    return renderHTML(categories);
-  };
-
-  // =========================================================
-  // RENDER EXTRA DETAILS
+  // SELECTED TOURNAMENT DETAILS
   // =========================================================
 
   const extraDetails = selectedTournament
     ? getExtraDetails(selectedTournament)
-    : null;
+    : [];
 
   const prizeDetails = selectedTournament
     ? getPrizeDetails(selectedTournament)
     : null;
+
+  // =========================================================
+  // RENDER
+  // =========================================================
 
   return (
     <div className={styles.rootContainer}>
@@ -624,6 +619,7 @@ export default function Tournaments() {
             <div className={styles.modalBasicGrid}>
               <div className={styles.modalInfoBox}>
                 <span>DATE</span>
+
                 <strong>
                   {formatDate(getTournamentDate(selectedTournament))}
                 </strong>
@@ -631,12 +627,14 @@ export default function Tournaments() {
 
               <div className={styles.modalInfoBox}>
                 <span>LOCATION</span>
+
                 <strong>{getLocation(selectedTournament)}</strong>
               </div>
 
               {selectedTournament.organizer && (
                 <div className={styles.modalInfoBox}>
                   <span>ORGANIZER</span>
+
                   <strong>{selectedTournament.organizer}</strong>
                 </div>
               )}
@@ -644,67 +642,70 @@ export default function Tournaments() {
               {selectedTournament.director && (
                 <div className={styles.modalInfoBox}>
                   <span>TOURNAMENT DIRECTOR</span>
+
                   <strong>{selectedTournament.director}</strong>
+                </div>
+              )}
+
+              {selectedTournament.directorPhone && (
+                <div className={styles.modalInfoBox}>
+                  <span>DIRECTOR PHONE</span>
+
+                  <strong>{selectedTournament.directorPhone}</strong>
                 </div>
               )}
             </div>
 
             {/* =====================================================
-                CATEGORIES & EVENTS
+                TOURNAMENT DETAILS FROM TournamentDetail MODEL
             ====================================================== */}
 
-            {extraDetails && extraDetails.length > 0 && (
+            {extraDetails.length > 0 && (
               <div className={styles.modalSection}>
                 <h3>Tournament Details</h3>
 
-                {extraDetails
-                  .filter((item) => item.showing !== false)
-                  .map((item) => (
-                    <div key={item._id} className={styles.detailBlock}>
-                      {item.title && <h4>{item.title}</h4>}
+                {extraDetails.map((item) => (
+                  <div key={item._id} className={styles.detailBlock}>
+                    {/* KEY */}
 
-                      {item.value && (
-                        <div
-                          className={styles.modalRichText}
-                          dangerouslySetInnerHTML={{
-                            __html: item.value,
-                          }}
-                        />
-                      )}
+                    {item.key && <h4>{item.key}</h4>}
 
-                      {item.rules && item.rules.length > 0 && (
-                        <ul className={styles.detailList}>
-                          {item.rules.map((rule, index) => (
-                            <li key={index}>{rule}</li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  ))}
+                    {/* VALUE */}
+
+                    {item.value && (
+                      <div
+                        className={styles.modalRichText}
+                        dangerouslySetInnerHTML={{
+                          __html: item.value,
+                        }}
+                      />
+                    )}
+
+                    {/* RULES */}
+
+                    {Array.isArray(item.rules) && item.rules.length > 0 && (
+                      <ul className={styles.detailList}>
+                        {item.rules.map((rule, index) => (
+                          <li key={index}>{rule}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ))}
               </div>
             )}
 
             {/* =====================================================
-                ENTRY & PARTICIPATION
+                NO EXTRA DETAILS
             ====================================================== */}
 
-            {(extraDetails?.entryRules ||
-              extraDetails?.entry ||
-              extraDetails?.participation ||
-              extraDetails?.rules ||
-              selectedTournament.entryRules ||
-              selectedTournament.participation) && (
+            {extraDetails.length === 0 && (
               <div className={styles.modalSection}>
-                <h3>Entry & Participation</h3>
+                <h3>Tournament Details</h3>
 
-                {renderHTML(
-                  extraDetails?.entryRules ||
-                    extraDetails?.entry ||
-                    extraDetails?.participation ||
-                    extraDetails?.rules ||
-                    selectedTournament.entryRules ||
-                    selectedTournament.participation,
-                )}
+                <p className={styles.modalParagraph}>
+                  No additional tournament details available.
+                </p>
               </div>
             )}
 
@@ -723,14 +724,22 @@ export default function Tournaments() {
             )}
 
             {/* =====================================================
-                RULES
+                RULES FROM TOURNAMENT
             ====================================================== */}
 
             {selectedTournament.rules && (
               <div className={styles.modalSection}>
                 <h3>Rules</h3>
 
-                {renderHTML(selectedTournament.rules)}
+                {Array.isArray(selectedTournament.rules) ? (
+                  <ul className={styles.detailList}>
+                    {selectedTournament.rules.map((rule, index) => (
+                      <li key={index}>{rule}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  renderHTML(selectedTournament.rules)
+                )}
               </div>
             )}
 
@@ -771,6 +780,7 @@ export default function Tournaments() {
             {selectedTournament.status && (
               <div className={styles.modalStatus}>
                 <span>Status</span>
+
                 <strong>{selectedTournament.status}</strong>
               </div>
             )}
