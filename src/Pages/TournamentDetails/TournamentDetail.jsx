@@ -91,7 +91,6 @@ const TournamentDetail = () => {
           }
         } catch (detailsError) {
           console.error("Error fetching tournament details:", detailsError);
-
           setTournamentDetails([]);
         }
 
@@ -111,7 +110,6 @@ const TournamentDetail = () => {
           }
         } catch (prizeError) {
           console.error("Error fetching prizes & benefits:", prizeError);
-
           setPrizesBenefits([]);
         }
 
@@ -132,7 +130,6 @@ const TournamentDetail = () => {
           }
         } catch (venueError) {
           console.error("Error fetching venue:", venueError);
-
           setVenue([]);
         }
 
@@ -186,20 +183,6 @@ const TournamentDetail = () => {
     }
 
     return "Tournament";
-  };
-
-  // =========================================================
-  // TOURNAMENT DATE
-  // =========================================================
-
-  const getTournamentDate = () => {
-    if (!tournament) return null;
-
-    if (tournament.type === "display") {
-      return tournament.date;
-    }
-
-    return tournament.startDate || tournament.date;
   };
 
   // =========================================================
@@ -389,17 +372,17 @@ const TournamentDetail = () => {
                 </div>
               )}
 
-              {/* DATE */}
+              {/* DISPLAY TOURNAMENT DATE */}
 
-              {getTournamentDate() && (
+              {tournament.type === "display" && tournament.date && (
                 <div className={styles.detailItem}>
                   <span className={styles.detailLabel}>DATE</span>
 
-                  <strong>{formatDate(getTournamentDate())}</strong>
+                  <strong>{formatDate(tournament.date)}</strong>
                 </div>
               )}
 
-              {/* START DATE */}
+              {/* NORMAL TOURNAMENT START DATE */}
 
               {tournament.startDate && (
                 <div className={styles.detailItem}>
@@ -409,7 +392,7 @@ const TournamentDetail = () => {
                 </div>
               )}
 
-              {/* END DATE */}
+              {/* NORMAL TOURNAMENT END DATE */}
 
               {tournament.endDate && (
                 <div className={styles.detailItem}>
@@ -489,58 +472,61 @@ const TournamentDetail = () => {
               REGISTRATION + ENTRY & PARTICIPATION
           ====================================================== */}
 
-          {(tournament.registrationStartDate ||
-            tournament.registrationEndDate ||
-            (Array.isArray(tournament.entryParticipationRules) &&
-              tournament.entryParticipationRules.length > 0)) && (
-            <section className={styles.contentSection}>
-              <h2>Entry & Participation</h2>
+          {tournament.type === "normal" &&
+            (tournament.registrationStartDate ||
+              tournament.registrationEndDate ||
+              (Array.isArray(tournament.entryParticipationRules) &&
+                tournament.entryParticipationRules.length > 0)) && (
+              <section className={styles.contentSection}>
+                <h2>Entry & Participation</h2>
 
-              {/* REGISTRATION PERIOD */}
+                {/* REGISTRATION PERIOD */}
 
-              {(tournament.registrationStartDate ||
-                tournament.registrationEndDate) && (
-                <div className={styles.detailBlock}>
-                  <h3>Registration Period</h3>
-
-                  {tournament.registrationStartDate && (
-                    <p className={styles.paragraph}>
-                      <strong>Registration Starts:</strong>{" "}
-                      {formatDate(tournament.registrationStartDate)}
-                    </p>
-                  )}
-
-                  {tournament.registrationEndDate && (
-                    <p className={styles.paragraph}>
-                      <strong>Registration Ends:</strong>{" "}
-                      {formatDate(tournament.registrationEndDate)}
-                    </p>
-                  )}
-                </div>
-              )}
-
-              {/* ENTRY & PARTICIPATION RULES */}
-
-              {Array.isArray(tournament.entryParticipationRules) &&
-                tournament.entryParticipationRules.length > 0 && (
+                {(tournament.registrationStartDate ||
+                  tournament.registrationEndDate) && (
                   <div className={styles.detailBlock}>
-                    <h3>Entry & Participation Rules</h3>
+                    <h3>Registration Period</h3>
 
-                    <ul className={styles.detailList}>
-                      {tournament.entryParticipationRules.map((rule, index) => (
-                        <li key={index}>{rule}</li>
-                      ))}
-                    </ul>
+                    {tournament.registrationStartDate && (
+                      <p className={styles.paragraph}>
+                        <strong>Registration Starts:</strong>{" "}
+                        {formatDate(tournament.registrationStartDate)}
+                      </p>
+                    )}
+
+                    {tournament.registrationEndDate && (
+                      <p className={styles.paragraph}>
+                        <strong>Registration Ends:</strong>{" "}
+                        {formatDate(tournament.registrationEndDate)}
+                      </p>
+                    )}
                   </div>
                 )}
-            </section>
-          )}
+
+                {/* ENTRY & PARTICIPATION RULES */}
+
+                {Array.isArray(tournament.entryParticipationRules) &&
+                  tournament.entryParticipationRules.length > 0 && (
+                    <div className={styles.detailBlock}>
+                      <h3>Entry & Participation Rules</h3>
+
+                      <ul className={styles.detailList}>
+                        {tournament.entryParticipationRules.map(
+                          (rule, index) => (
+                            <li key={index}>{rule}</li>
+                          ),
+                        )}
+                      </ul>
+                    </div>
+                  )}
+              </section>
+            )}
 
           {/* =====================================================
               EXTRA TOURNAMENT DETAILS
           ====================================================== */}
 
-          {tournamentDetails.length > 0 ? (
+          {tournamentDetails.length > 0 && (
             <section className={styles.contentSection}>
               <h2>Tournament Details</h2>
 
@@ -567,35 +553,29 @@ const TournamentDetail = () => {
                 </div>
               ))}
             </section>
-          ) : (
-            <section className={styles.contentSection}>
-              <h2>Tournament Details</h2>
-
-              <p className={styles.paragraph}>
-                No additional tournament details available.
-              </p>
-            </section>
           )}
 
           {/* =====================================================
               OLD RULES
           ====================================================== */}
 
-          {tournament.rules && (
-            <section className={styles.contentSection}>
-              <h2>Rules</h2>
+          {tournament.rules &&
+            (!Array.isArray(tournament.entryParticipationRules) ||
+              tournament.entryParticipationRules.length === 0) && (
+              <section className={styles.contentSection}>
+                <h2>Rules</h2>
 
-              {Array.isArray(tournament.rules) ? (
-                <ul className={styles.detailList}>
-                  {tournament.rules.map((rule, index) => (
-                    <li key={index}>{rule}</li>
-                  ))}
-                </ul>
-              ) : (
-                renderHTML(tournament.rules)
-              )}
-            </section>
-          )}
+                {Array.isArray(tournament.rules) ? (
+                  <ul className={styles.detailList}>
+                    {tournament.rules.map((rule, index) => (
+                      <li key={index}>{rule}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  renderHTML(tournament.rules)
+                )}
+              </section>
+            )}
 
           {/* =====================================================
               PRIZES & BENEFITS
