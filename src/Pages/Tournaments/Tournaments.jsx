@@ -205,14 +205,12 @@ export default function Tournaments() {
     const tournamentId =
       tournament._id?.toString() || tournament.id?.toString();
 
-    // Try to find tournament-specific details
     const found = tournamentDetails.find((detail) => {
       const detailTournamentId =
         detail.tournamentId?._id?.toString() ||
         detail.tournamentId?.toString() ||
         detail.tournament?._id?.toString() ||
-        detail.tournament?.toString() ||
-        detail._id?.toString();
+        detail.tournament?.toString();
 
       return (
         detailTournamentId &&
@@ -220,6 +218,9 @@ export default function Tournaments() {
         detailTournamentId === tournamentId
       );
     });
+
+    console.log("SELECTED TOURNAMENT:", tournament);
+    console.log("MATCHED EXTRA DETAILS:", found);
 
     return found || null;
   };
