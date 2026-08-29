@@ -11,23 +11,33 @@ const Tournaments = () => {
   useEffect(() => {
     const fetchTournaments = async () => {
       try {
-        const response = await axios.get(
+        // Normal + Display tournaments
+        const tournamentsResponse = await axios.get(
           `${import.meta.env.VITE_APP_BACKEND_URL}/api/tournaments/`,
         );
 
-        console.log("🔥 ALL TOURNAMENTS RESPONSE:", response.data);
+        // Main Events
+        const mainEventsResponse = await axios.get(
+          `${import.meta.env.VITE_APP_BACKEND_URL}/api/main-events`,
+        );
 
-        const allTournaments = response.data.data || [];
+        const allTournaments = tournamentsResponse.data.data || [];
+        const mainEvents = mainEventsResponse.data.data || [];
 
-        // Sirf NORMAL aur DISPLAY tournaments show karne hain
-        const filteredTournaments = allTournaments.filter(
+        // Normal + Display
+        const normalAndDisplay = allTournaments.filter(
           (tournament) =>
             tournament.type === "normal" || tournament.type === "display",
         );
 
-        console.log("🔥 NORMAL + DISPLAY TOURNAMENTS:", filteredTournaments);
+        // Dono ko combine kar diya
+        const combinedTournaments = [...normalAndDisplay, ...mainEvents];
 
-        setTournaments(filteredTournaments);
+        console.log("🔥 NORMAL + DISPLAY:", normalAndDisplay);
+        console.log("🔥 MAIN EVENTS:", mainEvents);
+        console.log("🔥🔥 FINAL TOURNAMENT LIST:", combinedTournaments);
+
+        setTournaments(combinedTournaments);
       } catch (err) {
         console.error("Error fetching tournaments:", err);
         setError("Unable to load tournaments.");
