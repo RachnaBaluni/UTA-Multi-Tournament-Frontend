@@ -1,185 +1,580 @@
 /* =========================================================
-   TOURNAMENT DETAIL PAGE
+   ROOT
 ========================================================= */
 
-.container {
+.rootContainer {
+  position: relative;
+  display: flex;
+  width: 100%;
   min-height: 100vh;
-  background: #f5f9ff;
-  color: #1f2937;
-  padding-bottom: 60px;
+  flex-direction: column;
+  background-color: #f8fbfc;
+  overflow-x: hidden;
+  font-family: "Public Sans", "Noto Sans", sans-serif;
+  color: #111618;
 }
 
 /* =========================================================
-   BLUE BANNER
+   MAIN
 ========================================================= */
 
-.banner {
+.mainContentWrapper {
+  padding-left: 160px;
+  padding-right: 160px;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  padding-top: 35px;
+  padding-bottom: 40px;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   width: 100%;
-  min-height: 250px;
+  max-width: 1280px;
+}
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
+
+.sectionTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111618;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* =========================================================
+   TOURNAMENT LIST
+========================================================= */
+
+.upcomingTournaments {
+  padding: 30px 16px;
+  margin-bottom: 25px;
+}
+
+.tournamentGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+/* =========================================================
+   TOURNAMENT CARD
+========================================================= */
+
+.tournamentCard {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #d5dfe2;
+  border-radius: 10px;
+  padding: 22px 20px;
+  min-height: 165px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.tournamentCard:hover {
+  transform: translateY(-3px);
+  border-color: #12aede;
+  box-shadow: 0 7px 20px rgba(17, 97, 120, 0.12);
+}
+
+.selectedCard {
+  border-color: #12aede;
+}
+
+/* =========================================================
+   TOURNAMENT NAME
+========================================================= */
+
+.cardTitleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.tournamentName {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111618;
+}
+
+.titleUnderline {
+  width: 36px;
+  height: 3px;
+  margin-top: 10px;
+  margin-bottom: 18px;
+  border-radius: 5px;
+  background-color: #12aede;
+}
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.tournamentInfo {
+  margin-bottom: 20px;
+}
+
+.tournamentInfo p {
+  margin: 7px 0;
+  font-size: 14px;
+  color: #111618;
+}
+
+.tournamentInfo strong {
+  color: #111618;
+}
+
+.tournamentInfo span {
+  color: #5d7e89;
+}
+
+/* =========================================================
+   VIEW DETAILS
+========================================================= */
+
+.viewDetailsButton {
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: #12aede;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.viewDetailsButton:hover {
+  color: #079dcc;
+}
+
+/* =========================================================
+   ACTION SECTION
+========================================================= */
+
+.actionSection {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 40px 30px;
+  margin: 15px 0 45px;
+  box-shadow: 0 4px 12px rgba(17, 24, 28, 0.12);
+  text-align: center;
+}
+
+.actionSection .sectionTitle {
+  margin-bottom: 25px;
+}
+
+.actionDescription {
+  margin: 0 auto 30px;
+  font-size: 17px;
+  color: #111618;
+  line-height: 1.6;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+/* =========================================================
+   BLUE BUTTON
+========================================================= */
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 25px;
+  border: none;
+  border-radius: 30px;
+  background-color: #12aede;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: #079dcc;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(18, 174, 222, 0.25);
+}
+
+/* =========================================================
+   GREY BUTTON
+========================================================= */
+
+.actionButtonGrey {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 25px;
+  border: none;
+  border-radius: 30px;
+  background-color: #e1e1e1;
+  color: #111618;
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.actionButtonGrey:hover {
+  background-color: #d4d4d4;
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   VENUE
+========================================================= */
+
+.venueSection {
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+
+.venueGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 25px;
+}
+
+.venueCard {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 4px 12px rgba(17, 24, 28, 0.1);
+  border: 1px solid #e1e8ea;
+}
+
+.venueTitle {
+  font-size: 22px;
+  margin: 0 0 12px;
+}
+
+.venueAddress {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #5d7e89;
+}
+
+.venueContent {
+  color: #36464c;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.mapContainer {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.mapFrame {
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* =========================================================
+   DETAILS MODAL
+========================================================= */
+
+.detailsOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  padding: 40px 20px;
+  padding: 30px;
 
-  background: linear-gradient(135deg, #0b3d91 0%, #1565c0 50%, #1976d2 100%);
+  background: rgba(17, 24, 28, 0.62);
 
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  animation: fadeIn 0.2s ease;
+}
+
+.detailsModal {
   position: relative;
-  overflow: hidden;
-}
 
-.banner::before {
-  content: "";
-  position: absolute;
+  width: 100%;
+  max-width: 900px;
+  max-height: 88vh;
 
-  width: 400px;
-  height: 400px;
-
-  border-radius: 50%;
-
-  background: rgba(255, 255, 255, 0.06);
-
-  top: -220px;
-  left: -120px;
-}
-
-.banner::after {
-  content: "";
-  position: absolute;
-
-  width: 350px;
-  height: 350px;
-
-  border-radius: 50%;
-
-  background: rgba(255, 255, 255, 0.05);
-
-  bottom: -220px;
-  right: -100px;
-}
-
-.banner h1 {
-  position: relative;
-  z-index: 2;
-
-  margin: 0;
-
-  max-width: 1000px;
-
-  color: #ffffff;
-
-  font-size: 40px;
-  font-weight: 800;
-
-  text-align: center;
-  text-transform: uppercase;
-
-  letter-spacing: 0.5px;
-  line-height: 1.25;
-}
-
-/* =========================================================
-   CONTENT CARD
-========================================================= */
-
-.content {
-  width: min(1100px, calc(100% - 40px));
-
-  margin: -40px auto 0;
-
-  position: relative;
-  z-index: 5;
+  overflow-y: auto;
 
   background: #ffffff;
+  border-radius: 18px;
 
-  border-radius: 14px;
+  padding: 40px;
 
-  padding: 38px 42px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.28);
 
-  border: 1px solid #e3edf9;
-
-  box-shadow:
-    0 10px 30px rgba(13, 71, 161, 0.12),
-    0 2px 8px rgba(13, 71, 161, 0.06);
+  animation: modalOpen 0.25s ease;
 }
 
 /* =========================================================
-   DETAIL ITEMS
+   CLOSE
 ========================================================= */
 
-.detailItem {
-  position: relative;
+.closeDetailsButton {
+  position: absolute;
+  top: 18px;
+  right: 18px;
 
-  padding: 22px 0;
+  width: 42px;
+  height: 42px;
 
-  border-bottom: 1px solid #e5edf7;
+  border: none;
+  border-radius: 50%;
+
+  background: #eef1f2;
+  color: #111618;
+
+  font-size: 28px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
-.detailItem:first-child {
-  padding-top: 0;
+.closeDetailsButton:hover {
+  background: #12aede;
+  color: #ffffff;
+  transform: rotate(90deg);
 }
 
-.detailItem:last-of-type {
-  border-bottom: none;
+/* =========================================================
+   MODAL HEADER
+========================================================= */
+
+.modalHeader {
+  padding-right: 50px;
+  margin-bottom: 28px;
 }
 
-.detailItem strong {
+.modalEyebrow {
   display: block;
 
+  color: #12aede;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+
   margin-bottom: 8px;
-
-  color: #0b4ea2;
-
-  font-size: 15px;
-  font-weight: 700;
-
-  text-transform: uppercase;
-
-  letter-spacing: 0.5px;
 }
 
-.detailItem p {
+.modalTitle {
   margin: 0;
 
-  color: #4b5563;
+  font-size: 32px;
+  font-weight: 800;
+
+  color: #111618;
+
+  line-height: 1.2;
+}
+
+.modalTitleLine {
+  width: 52px;
+  height: 4px;
+
+  background: #12aede;
+
+  border-radius: 10px;
+
+  margin-top: 14px;
+}
+
+/* =========================================================
+   BASIC INFO
+========================================================= */
+
+.modalBasicGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+
+  margin-bottom: 28px;
+}
+
+.modalInfoBox {
+  background: #f7fafb;
+
+  border: 1px solid #e1e8ea;
+
+  border-radius: 10px;
+
+  padding: 17px 18px;
+}
+
+.modalInfoBox span {
+  display: block;
+
+  color: #5d7e89;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+  margin-bottom: 6px;
+}
+
+.modalInfoBox strong {
+  color: #111618;
 
   font-size: 16px;
+}
+
+/* =========================================================
+   MODAL CONTENT SECTIONS
+========================================================= */
+
+.modalSection {
+  padding: 24px 0;
+
+  border-top: 1px solid #e1e8ea;
+}
+
+.modalSection h3 {
+  margin: 0 0 15px;
+
+  font-size: 21px;
+  font-weight: 750;
+
+  color: #111618;
+}
+
+.modalSection h3::after {
+  content: "";
+
+  display: block;
+
+  width: 35px;
+  height: 3px;
+
+  margin-top: 8px;
+
+  border-radius: 5px;
+
+  background: #12aede;
+}
+
+.modalParagraph {
+  margin: 0;
+
+  color: #36464c;
+
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.modalRichText {
+  color: #36464c;
+
+  font-size: 15px;
 
   line-height: 1.7;
 }
 
-/* =========================================================
-   DESCRIPTION
-========================================================= */
+.modalRichText p {
+  margin: 7px 0;
+}
 
-.detailItem:first-child p {
-  color: #374151;
+.modalRichText ul {
+  margin: 10px 0;
+  padding-left: 22px;
+}
 
-  font-size: 16px;
+.modalRichText li {
+  margin-bottom: 6px;
+}
 
-  line-height: 1.8;
+.detailList {
+  margin: 0;
+  padding-left: 22px;
+
+  color: #36464c;
+
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.detailList li {
+  margin-bottom: 6px;
 }
 
 /* =========================================================
-   REGISTER BUTTON CONTAINER
+   STATUS
 ========================================================= */
 
-.registerButtonContainer {
+.modalStatus {
   display: flex;
-
-  justify-content: center;
   align-items: center;
+  justify-content: space-between;
 
-  gap: 15px;
+  padding: 18px 0;
 
-  margin-top: 32px;
-  padding-top: 5px;
+  border-top: 1px solid #e1e8ea;
+}
+
+.modalStatus span {
+  font-weight: 700;
+  color: #111618;
+}
+
+.modalStatus strong {
+  color: #12aede;
 }
 
 /* =========================================================
-   REGISTER BUTTON
+   REGISTER
 ========================================================= */
+
+.modalRegister {
+  display: flex;
+  justify-content: center;
+
+  padding-top: 25px;
+
+  border-top: 1px solid #e1e8ea;
+}
 
 .registerButton {
   display: inline-flex;
@@ -187,193 +582,714 @@
   align-items: center;
   justify-content: center;
 
-  min-width: 180px;
-
-  padding: 13px 28px;
-
-  border-radius: 6px;
-
-  background: linear-gradient(135deg, #0b4ea2, #1565c0);
-
+  background-color: #12aede;
   color: #ffffff;
 
-  border: none;
+  text-decoration: none;
+
+  border-radius: 30px;
+
+  padding: 14px 32px;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  transition: 0.2s ease;
+
+  box-shadow: 0 5px 14px rgba(18, 174, 222, 0.22);
+}
+
+.registerButton:hover {
+  background-color: #079dcc;
+  transform: translateY(-2px);
+}
+/*=========================================================
+   REGISTER
+==========================================================*/
+.modalRegister {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.registerButton,
+.loginButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 150px;
+  height: 46px;
+
+  padding: 0 25px;
+
+  border-radius: 25px;
+
+  text-decoration: none;
 
   font-size: 15px;
   font-weight: 700;
 
-  text-decoration: none;
-
   cursor: pointer;
 
-  box-shadow: 0 5px 14px rgba(21, 101, 192, 0.25);
+  transition: all 0.3s ease;
+}
 
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
+.registerButton {
+  background: #12a9d8;
+  color: white;
+  box-shadow: 0 6px 15px rgba(18, 169, 216, 0.25);
 }
 
 .registerButton:hover {
-  background: linear-gradient(135deg, #083b7a, #0d5bb5);
-
+  background: #0d91ba;
   transform: translateY(-2px);
-
-  box-shadow: 0 8px 20px rgba(21, 101, 192, 0.3);
 }
 
-.registerButton:active {
-  transform: translateY(0);
+.loginButton {
+  background: #12a9d8;
+  color: white;
+  box-shadow: 0 6px 15px rgba(18, 169, 216, 0.25);
+} /* =========================================================
+   ROOT
+========================================================= */
+
+.rootContainer {
+  min-height: 100vh;
+  background: #ffffff;
+  color: #222222;
 }
 
 /* =========================================================
-   LOADING
+   MAIN CONTENT
 ========================================================= */
 
-.loading {
-  min-height: 70vh;
+.mainContentWrapper {
+  width: 100%;
+  padding: 50px 20px 70px;
+}
 
-  display: flex;
+.contentContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-  align-items: center;
-  justify-content: center;
+/* =========================================================
+   SECTION TITLE
+========================================================= */
 
-  background: #f5f9ff;
-
-  color: #0b4ea2;
-
-  font-size: 20px;
+.sectionTitle {
+  margin: 0 0 35px;
+  font-size: 32px;
   font-weight: 700;
-}
-
-/* =========================================================
-   ERROR
-========================================================= */
-
-.error {
-  min-height: 70vh;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  padding: 30px;
-
-  background: #f5f9ff;
-
-  color: #d32f2f;
-
-  font-size: 17px;
-  font-weight: 600;
-
+  line-height: 1.2;
+  color: #111111;
   text-align: center;
 }
 
 /* =========================================================
-   TABLET
+   TOURNAMENT SECTION
 ========================================================= */
 
-@media (max-width: 900px) {
-  .banner {
-    min-height: 220px;
+.upcomingTournaments {
+  width: 100%;
+  margin-bottom: 70px;
+}
+
+/* =========================================================
+   TOURNAMENT GRID
+========================================================= */
+
+.tournamentGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+/* =========================================================
+   TOURNAMENT CARD
+========================================================= */
+
+.tournamentCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 250px;
+  padding: 28px 26px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.tournamentCard:hover {
+  transform: translateY(-5px);
+  border-color: #cccccc;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
+
+.cardTitleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.tournamentName {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #111111;
+}
+
+.titleUnderline {
+  width: 45px;
+  height: 3px;
+  margin-top: 10px;
+  background: #111111;
+  border-radius: 3px;
+}
+
+/* =========================================================
+   TOURNAMENT INFORMATION
+========================================================= */
+
+.tournamentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin-bottom: 25px;
+}
+
+.tournamentInfo p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #555555;
+}
+
+.tournamentInfo strong {
+  font-weight: 600;
+  color: #222222;
+}
+
+.tournamentInfo span {
+  color: #555555;
+}
+
+/* =========================================================
+   VIEW DETAILS BUTTON
+========================================================= */
+
+.viewDetailsButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-width: 145px;
+  margin-top: auto;
+  padding: 11px 20px;
+  border: 1px solid #111111;
+  border-radius: 6px;
+  background: #111111;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.viewDetailsButton:hover {
+  background: #ffffff;
+  color: #111111;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   NO RESULTS / LOADING
+========================================================= */
+
+.noResults {
+  width: 100%;
+  padding: 40px 20px;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  background: #fafafa;
+  color: #666666;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* =========================================================
+   VENUE SECTION
+========================================================= */
+
+.venueSection {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.venueGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.venueCard {
+  width: 100%;
+  padding: 25px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.venueTitle {
+  margin: 0 0 10px;
+  font-size: 21px;
+  font-weight: 700;
+  color: #111111;
+}
+
+.venueAddress {
+  margin: 0 0 18px;
+  color: #666666;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.venueContent {
+  color: #444444;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.venueContent p {
+  margin: 0 0 10px;
+}
+
+.venueContent ul,
+.venueContent ol {
+  padding-left: 22px;
+}
+
+/* =========================================================
+   MAP
+========================================================= */
+
+.mapContainer {
+  width: 100%;
+  margin-top: 18px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.mapFrame {
+  display: block;
+  width: 100%;
+  min-height: 350px;
+  border: 0;
+}
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 992px) {
+  .mainContentWrapper {
+    padding: 45px 18px 60px;
   }
 
-  .banner h1 {
-    font-size: 34px;
+  .tournamentGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
   }
 
-  .content {
-    width: calc(100% - 30px);
+  .venueGrid {
+    grid-template-columns: 1fr;
+  }
 
-    padding: 32px;
+  .sectionTitle {
+    font-size: 29px;
   }
 }
 
 /* =========================================================
-   MOBILE
+   RESPONSIVE - MOBILE
 ========================================================= */
 
 @media (max-width: 600px) {
-  .container {
-    padding-bottom: 40px;
+  .mainContentWrapper {
+    padding: 35px 15px 50px;
   }
 
-  .banner {
-    min-height: 190px;
-
-    padding: 30px 18px;
-  }
-
-  .banner h1 {
-    font-size: 26px;
-
-    line-height: 1.3;
-  }
-
-  .content {
-    width: calc(100% - 20px);
-
-    margin-top: -25px;
-
-    padding: 25px 20px;
-
-    border-radius: 12px;
-  }
-
-  .detailItem {
-    padding: 18px 0;
-  }
-
-  .detailItem strong {
-    font-size: 13px;
-  }
-
-  .detailItem p {
-    font-size: 15px;
-
-    line-height: 1.65;
-  }
-
-  .detailItem:first-child p {
-    font-size: 15px;
-  }
-
-  .registerButtonContainer {
-    margin-top: 25px;
-  }
-
-  .registerButton {
+  .contentContainer {
     width: 100%;
+  }
 
-    min-width: unset;
+  .sectionTitle {
+    margin-bottom: 25px;
+    font-size: 25px;
+  }
 
-    padding: 13px 20px;
+  .upcomingTournaments {
+    margin-bottom: 50px;
+  }
 
-    font-size: 15px;
+  .tournamentGrid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .tournamentCard {
+    min-height: 230px;
+    padding: 23px 20px;
+  }
+
+  .tournamentName {
+    font-size: 19px;
+  }
+
+  .tournamentInfo p {
+    font-size: 14px;
+  }
+
+  .viewDetailsButton {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .venueGrid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .venueCard {
+    padding: 20px;
+  }
+
+  .venueTitle {
+    font-size: 19px;
+  }
+
+  .mapFrame {
+    min-height: 280px;
   }
 }
 
 /* =========================================================
-   SMALL MOBILE
+   VERY SMALL MOBILE
 ========================================================= */
 
 @media (max-width: 400px) {
-  .banner {
-    min-height: 175px;
+  .mainContentWrapper {
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
-  .banner h1 {
+  .sectionTitle {
     font-size: 23px;
   }
 
-  .content {
-    width: calc(100% - 14px);
+  .tournamentCard {
+    padding: 20px 17px;
+  }
 
+  .tournamentName {
+    font-size: 18px;
+  }
+
+  .viewDetailsButton {
+    padding: 10px 16px;
+  }
+}
+
+.loginButton:hover {
+  background: #0d91ba;
+  transform: translateY(-2px);
+}
+/* =========================================================
+   ACTION SELECT MODAL
+========================================================= */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(17, 24, 28, 0.55);
+}
+
+.modalBox {
+  width: 100%;
+  max-width: 500px;
+
+  background: #ffffff;
+
+  border-radius: 16px;
+
+  padding: 30px;
+
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+}
+
+.modalBox h2 {
+  margin: 0 0 10px;
+
+  font-size: 26px;
+}
+
+.modalBox p {
+  color: #5d7e89;
+
+  margin-bottom: 20px;
+}
+
+.tournamentSelect {
+  width: 100%;
+
+  height: 50px;
+
+  border: 1px solid #d5dfe2;
+
+  border-radius: 8px;
+
+  padding: 0 14px;
+
+  background: #f8fbfc;
+
+  color: #111618;
+
+  font-size: 16px;
+
+  outline: none;
+}
+
+.tournamentSelect:focus {
+  border-color: #12aede;
+}
+
+.modalButtons {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  margin-top: 25px;
+}
+
+.cancelButton,
+.continueButton {
+  border: none;
+
+  border-radius: 25px;
+
+  padding: 12px 24px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.cancelButton {
+  background: #e1e1e1;
+  color: #111618;
+}
+
+.continueButton {
+  background: #12aede;
+  color: #ffffff;
+}
+
+/* =========================================================
+   NO RESULTS
+========================================================= */
+
+.noResults {
+  text-align: center;
+
+  color: #6c757d;
+
+  font-size: 1.1em;
+
+  padding: 30px;
+}
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalOpen {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1024px) {
+  .mainContentWrapper {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .mainContentWrapper {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 20px;
+  }
+
+  .upcomingTournaments {
+    padding: 20px 10px;
+  }
+
+  .sectionTitle {
+    font-size: 28px;
+  }
+
+  .tournamentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actionSection {
+    padding: 30px 18px;
+  }
+
+  .actionButtons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .actionButton,
+  .actionButtonGrey {
+    width: 100%;
+    min-height: 52px;
+    font-size: 15px;
+  }
+
+  .venueGrid {
+    grid-template-columns: 1fr;
+  }
+
+  /* MODAL */
+
+  .detailsOverlay {
+    padding: 15px;
+  }
+
+  .detailsModal {
+    max-height: 92vh;
+    padding: 25px 20px;
+    border-radius: 15px;
+  }
+
+  .modalTitle {
+    font-size: 25px;
+  }
+
+  .modalBasicGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .modalInfoBox {
+    padding: 15px;
+  }
+
+  .closeDetailsButton {
+    width: 38px;
+    height: 38px;
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainContentWrapper {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .sectionTitle {
+    font-size: 25px;
+  }
+
+  .tournamentName {
+    font-size: 18px;
+  }
+
+  .detailsModal {
     padding: 22px 16px;
   }
 
-  .detailItem p {
+  .modalTitle {
+    font-size: 22px;
+  }
+
+  .modalSection h3 {
+    font-size: 19px;
+  }
+
+  .modalRichText,
+  .modalParagraph,
+  .detailList {
     font-size: 14px;
+  }
+
+  .modalRegister .registerButton,
+  .modalRegister .loginButton {
+    width: 100%;
+  }
+
+  .modalButtons {
+    flex-direction: column;
+  }
+
+  .cancelButton,
+  .continueButton {
+    width: 100%;
   }
 }
