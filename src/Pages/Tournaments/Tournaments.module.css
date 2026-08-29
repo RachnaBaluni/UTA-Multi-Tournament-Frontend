@@ -90,3 +90,20 @@
 .tournamentCard:hover .viewDetails {
   color: #111618;
 }
+@media (max-width: 767px) {
+  .actionSection {
+    padding: 20px 0;
+    margin: 16px;
+  }
+
+  .actionButtons {
+    padding: 0;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .actionButton {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
