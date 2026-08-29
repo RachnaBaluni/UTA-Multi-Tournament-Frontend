@@ -531,13 +531,24 @@ const TournamentDetail = () => {
               THESE BELONG TO THIS TOURNAMENT ONLY
           ====================================================== */}
 
-          <section className={styles.actionSection}>
-            <h2>Tournament Information</h2>
-
+          <section
+            className={styles.actionSection}
+            style={{
+              display: "block",
+              visibility: "visible",
+              opacity: 1,
+              background: "yellow",
+              padding: "30px",
+              marginTop: "30px",
+            }}
+          >
+            {" "}
+            <h2 style={{ color: "red", fontSize: "30px" }}>
+              Tournament Information
+            </h2>{" "}
             <p className={styles.actionDescription}>
               Select an option below to view tournament information.
             </p>
-
             <div className={styles.actionButtons}>
               <Link
                 to={`/tournaments/registered-players?tournamentId=${tournament._id}`}
