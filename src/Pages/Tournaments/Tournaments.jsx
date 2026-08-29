@@ -426,23 +426,23 @@ export default function Tournaments() {
 
                     {/* VIEW DETAILS */}
 
-                    <button
-                      type="button"
-                      className={styles.viewDetailsButton}
-                      onClick={() => handleTournamentClick(tournament)}
-                    >
-                      View Details →
-                    </button>
+                    <div className={styles.cardActions}>
+                      <button
+                        type="button"
+                        className={styles.viewDetailsButton}
+                        onClick={() => handleTournamentClick(tournament)}
+                      >
+                        View Details →
+                      </button>
 
-                    {/* VIEW INFORMATION */}
-
-                    <button
-                      type="button"
-                      className={styles.viewDetailsButton}
-                      onClick={() => handleInformationClick(tournament)}
-                    >
-                      View Information →
-                    </button>
+                      <button
+                        type="button"
+                        className={styles.viewInformationButton}
+                        onClick={() => handleTournamentClick(tournament)}
+                      >
+                        View Information →
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>

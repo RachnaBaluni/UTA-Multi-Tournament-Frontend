@@ -235,16 +235,22 @@
 }
 
 .actionButtons {
-  display: flex;
+  display: grid;
 
-  align-items: center;
-  justify-content: center;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 
-  flex-wrap: wrap;
+  gap: 15px;
 
-  gap: 18px;
+  width: 100%;
+  max-width: 620px;
+
+  margin: 0 auto;
 }
 
+.actionButton,
+.actionButtonGrey {
+  width: 100%;
+}
 /* =========================================================
    BLUE ACTION BUTTON
 ========================================================= */
@@ -1140,7 +1146,7 @@
   }
 
   .actionButtons {
-    flex-direction: column;
+    grid-template-columns: 1fr;
 
     width: 100%;
 
@@ -1334,4 +1340,35 @@
 
     font-size: 14px;
   }
+}
+.cardActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.viewInformationButton {
+  padding: 0;
+
+  background: transparent;
+
+  border: none;
+
+  color: #12aede;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.viewInformationButton:hover {
+  color: #079dcc;
+
+  transform: translateX(2px);
 }
