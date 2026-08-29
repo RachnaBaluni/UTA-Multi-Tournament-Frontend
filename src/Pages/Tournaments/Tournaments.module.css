@@ -25,7 +25,7 @@
   flex: 1;
   justify-content: center;
   padding-top: 35px;
-  padding-bottom: 45px;
+  padding-bottom: 40px;
 }
 
 .contentContainer {
@@ -46,7 +46,7 @@
   color: #111618;
   line-height: 1.25;
   letter-spacing: -0.025em;
-  margin: 0 0 25px;
+  margin-bottom: 25px;
   text-align: center;
 }
 
@@ -61,10 +61,6 @@
   margin-bottom: 25px;
 }
 
-/* =========================================================
-   TOURNAMENT GRID
-========================================================= */
-
 .tournamentGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -76,26 +72,21 @@
 ========================================================= */
 
 .tournamentCard {
-  position: relative;
   background: #ffffff;
   border: 1px solid #d5dfe2;
-  border-radius: 12px;
-  padding: 24px 22px;
-  min-height: 175px;
-  cursor: pointer;
-
+  border-radius: 10px;
+  padding: 22px 20px;
+  min-height: 165px;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
     border-color 0.2s ease;
-
-  box-sizing: border-box;
 }
 
 .tournamentCard:hover {
   transform: translateY(-3px);
   border-color: #12aede;
-  box-shadow: 0 8px 22px rgba(17, 97, 120, 0.14);
+  box-shadow: 0 7px 20px rgba(17, 97, 120, 0.12);
 }
 
 /* =========================================================
@@ -103,32 +94,24 @@
 ========================================================= */
 
 .tournamentName {
-  margin: 0 0 20px;
+  margin: 0;
   font-size: 21px;
   font-weight: 700;
-  line-height: 1.3;
   color: #111618;
-
-  transition: color 0.2s ease;
+  line-height: 1.35;
 }
 
-.tournamentCard:hover .tournamentName {
-  color: #079dcc;
-}
-
-/* Small blue line under tournament name */
-.tournamentName::after {
-  content: "";
-  display: block;
-  width: 42px;
+.tournamentUnderline {
+  width: 36px;
   height: 3px;
-  margin-top: 9px;
-  border-radius: 5px;
-  background-color: #12aede;
+  background: #12aede;
+  border-radius: 3px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 /* =========================================================
-   TOURNAMENT INFORMATION
+   TOURNAMENT INFO
 ========================================================= */
 
 .tournamentInfo {
@@ -138,13 +121,11 @@
 .tournamentInfo p {
   margin: 8px 0;
   font-size: 14px;
-  line-height: 1.5;
   color: #111618;
 }
 
 .tournamentInfo strong {
   color: #111618;
-  font-weight: 700;
 }
 
 .tournamentInfo span {
@@ -156,8 +137,6 @@
 ========================================================= */
 
 .viewDetailsButton {
-  display: inline-flex;
-  align-items: center;
   border: none;
   background: transparent;
   padding: 0;
@@ -165,14 +144,11 @@
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition:
-    color 0.2s ease,
-    transform 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .viewDetailsButton:hover {
   color: #079dcc;
-  transform: translateX(3px);
 }
 
 /* =========================================================
@@ -184,14 +160,12 @@
   border-radius: 14px;
   padding: 40px 30px;
   margin: 15px 0 45px;
-
   box-shadow: 0 4px 12px rgba(17, 24, 28, 0.12);
-
   text-align: center;
 }
 
 .actionSection .sectionTitle {
-  margin-bottom: 18px;
+  margin-bottom: 25px;
 }
 
 .actionDescription {
@@ -200,10 +174,6 @@
   color: #111618;
   line-height: 1.6;
 }
-
-/* =========================================================
-   ACTION BUTTONS
-========================================================= */
 
 .actionButtons {
   display: flex;
@@ -215,29 +185,22 @@
 
 /* =========================================================
    BLUE BUTTON
-   Screenshot style
 ========================================================= */
 
 .actionButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   min-height: 56px;
   padding: 0 25px;
-
   border: none;
   border-radius: 30px;
-
   background-color: #12aede;
   color: #ffffff;
-
   font-size: 17px;
   font-weight: 700;
   text-decoration: none;
-
   cursor: pointer;
-
   transition:
     background-color 0.2s ease,
     transform 0.2s ease,
@@ -258,22 +221,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   min-height: 56px;
   padding: 0 25px;
-
   border: none;
   border-radius: 30px;
-
   background-color: #e1e1e1;
   color: #111618;
-
   font-size: 17px;
   font-weight: 700;
   text-decoration: none;
-
   cursor: pointer;
-
   transition:
     background-color 0.2s ease,
     transform 0.2s ease;
@@ -285,112 +242,283 @@
 }
 
 /* =========================================================
-   TOURNAMENT DETAILS
+   DETAIL MODAL OVERLAY
 ========================================================= */
 
-.detailsSection {
-  margin: 20px 0 45px;
-  scroll-margin-top: 100px;
-}
+.detailModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
 
-.detailsHeading {
-  text-align: center;
-  font-size: 32px;
-  font-weight: 700;
-  margin: 0 0 25px;
-  color: #111618;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-.detailsCard {
-  background: #ffffff;
-  border-radius: 14px;
   padding: 35px;
 
-  box-shadow: 0 4px 12px rgba(17, 24, 28, 0.1);
+  background: rgba(8, 22, 28, 0.55);
 
-  border: 1px solid #e1e8ea;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+
+  animation: modalOverlayIn 0.2s ease;
+}
+
+@keyframes modalOverlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* =========================================================
-   DETAILS TITLE
+   DETAIL MODAL
 ========================================================= */
 
-.detailsTitle {
+.detailModal {
+  width: min(100%, 1050px);
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  background: #ffffff;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.25),
+    0 5px 20px rgba(18, 174, 222, 0.08);
+
+  border: 1px solid #e0e9ec;
+
+  padding: 35px;
+
+  animation: modalIn 0.25s ease;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================================================
+   MODAL HEADER
+========================================================= */
+
+.detailModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+
+  padding-bottom: 25px;
+
+  border-bottom: 1px solid #e4ecee;
+}
+
+.detailModalLabel {
+  color: #12aede;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+}
+
+.detailModalTitle {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 750;
+  color: #111618;
+  line-height: 1.25;
+}
+
+.modalBlueLine {
+  width: 45px;
+  height: 4px;
+  margin-top: 12px;
+  border-radius: 5px;
+  background: #12aede;
+}
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.closeButton {
+  flex-shrink: 0;
+
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #eeeeee;
+
+  color: #111618;
+
   font-size: 28px;
-  font-weight: 700;
-  line-height: 1.3;
+  font-weight: 400;
 
-  margin: 0 0 30px;
+  line-height: 1;
 
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.closeButton:hover {
+  background: #12aede;
+  color: #ffffff;
+  transform: rotate(90deg);
+}
+
+/* =========================================================
+   MODAL MAIN INFO
+========================================================= */
+
+.modalMainInfo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+
+  margin-top: 25px;
+}
+
+.modalInfoBox {
+  background: #f7fbfc;
+  border: 1px solid #e0eaed;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.modalInfoBox span {
+  display: block;
+  margin-bottom: 7px;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+
+  color: #6b858e;
+}
+
+.modalInfoBox strong {
+  font-size: 16px;
   color: #111618;
 }
 
-.detailsTitle::after {
-  content: "";
-  display: block;
+/* =========================================================
+   BLUE TEXT
+========================================================= */
 
-  width: 55px;
-  height: 4px;
-
-  margin-top: 10px;
-
-  border-radius: 5px;
-
-  background-color: #12aede;
+.blueText {
+  color: #12aede !important;
 }
 
 /* =========================================================
    DETAILS GRID
 ========================================================= */
 
-.detailsGrid {
+.modalDetailsGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 25px;
 
-  border-bottom: 1px solid #d5dfe2;
+  gap: 0 25px;
 
-  padding-bottom: 25px;
+  margin-top: 25px;
+
+  border-top: 1px solid #e5edef;
 }
 
-.detailsGrid strong {
-  font-size: 15px;
-  color: #111618;
+.modalDetailItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  padding: 17px 0;
+
+  border-bottom: 1px solid #e5edef;
 }
 
-.detailsGrid p {
-  margin: 7px 0 0;
+.modalDetailItem span {
   color: #5d7e89;
-  font-size: 16px;
+  font-size: 14px;
 }
 
-/* =========================================================
-   DESCRIPTION / RULES
-========================================================= */
-
-.descriptionBlock {
-  margin-top: 28px;
-}
-
-.descriptionBlock h3 {
-  font-size: 20px;
-  margin: 0 0 10px;
+.modalDetailItem strong {
   color: #111618;
-}
-
-.descriptionBlock p,
-.descriptionBlock div {
-  font-size: 16px;
-  line-height: 1.7;
-  color: #36464c;
+  font-size: 14px;
+  text-align: right;
+  max-width: 60%;
 }
 
 /* =========================================================
-   REGISTER BUTTON
+   DESCRIPTION
 ========================================================= */
 
-.registerWrapper {
+.modalDescription {
+  margin-top: 28px;
+
+  padding: 22px;
+
+  background: #f8fbfc;
+
+  border-left: 4px solid #12aede;
+
+  border-radius: 10px;
+}
+
+.modalDescription h3 {
+  margin: 0 0 10px;
+
+  color: #111618;
+
+  font-size: 19px;
+}
+
+.modalDescription p,
+.modalDescription div {
+  margin: 0;
+
+  color: #36464c;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+}
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+.modalRegisterArea {
+  display: flex;
+  justify-content: center;
+
   margin-top: 30px;
+  padding-top: 25px;
+
+  border-top: 1px solid #e4ecee;
 }
 
 .registerButton {
@@ -398,7 +526,9 @@
   align-items: center;
   justify-content: center;
 
-  background-color: #12aede;
+  min-width: 180px;
+
+  background: #12aede;
   color: #ffffff;
 
   text-decoration: none;
@@ -417,13 +547,15 @@
 }
 
 .registerButton:hover {
-  background-color: #079dcc;
+  background: #079dcc;
+
   transform: translateY(-2px);
-  box-shadow: 0 5px 12px rgba(18, 174, 222, 0.25);
+
+  box-shadow: 0 7px 16px rgba(18, 174, 222, 0.25);
 }
 
 /* =========================================================
-   VENUE SECTION
+   VENUE
 ========================================================= */
 
 .venueSection {
@@ -437,18 +569,11 @@
   gap: 25px;
 }
 
-/* =========================================================
-   VENUE CARD
-========================================================= */
-
 .venueCard {
   background: #ffffff;
   border-radius: 14px;
-
   padding: 28px;
-
   box-shadow: 0 4px 12px rgba(17, 24, 28, 0.1);
-
   border: 1px solid #e1e8ea;
 }
 
@@ -456,21 +581,6 @@
   font-size: 22px;
   margin: 0 0 12px;
   color: #111618;
-  font-weight: 700;
-}
-
-.venueTitle::after {
-  content: "";
-  display: block;
-
-  width: 42px;
-  height: 3px;
-
-  margin-top: 8px;
-
-  border-radius: 5px;
-
-  background-color: #12aede;
 }
 
 .venueAddress {
@@ -485,10 +595,6 @@
   font-size: 16px;
   line-height: 1.7;
 }
-
-/* =========================================================
-   MAP
-========================================================= */
 
 .mapContainer {
   width: 100%;
@@ -515,13 +621,12 @@
 }
 
 /* =========================================================
-   MODAL OVERLAY
+   OLD ACTION MODAL
 ========================================================= */
 
 .modalOverlay {
   position: fixed;
   inset: 0;
-
   z-index: 9999;
 
   display: flex;
@@ -532,10 +637,6 @@
 
   background: rgba(17, 24, 28, 0.55);
 }
-
-/* =========================================================
-   MODAL BOX
-========================================================= */
 
 .modalBox {
   width: 100%;
@@ -548,28 +649,21 @@
   padding: 30px;
 
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
-
-  box-sizing: border-box;
 }
 
 .modalBox h2 {
   margin: 0 0 10px;
 
   font-size: 26px;
-  font-weight: 700;
 
   color: #111618;
 }
 
 .modalBox p {
   color: #5d7e89;
-  margin: 0 0 20px;
-  line-height: 1.5;
-}
 
-/* =========================================================
-   TOURNAMENT SELECT
-========================================================= */
+  margin-bottom: 20px;
+}
 
 .tournamentSelect {
   width: 100%;
@@ -588,18 +682,11 @@
   font-size: 16px;
 
   outline: none;
-
-  cursor: pointer;
 }
 
 .tournamentSelect:focus {
   border-color: #12aede;
-  box-shadow: 0 0 0 2px rgba(18, 174, 222, 0.12);
 }
-
-/* =========================================================
-   MODAL BUTTONS
-========================================================= */
 
 .modalButtons {
   display: flex;
@@ -622,10 +709,6 @@
   font-weight: 700;
 
   cursor: pointer;
-
-  transition:
-    background-color 0.2s ease,
-    transform 0.2s ease;
 }
 
 .cancelButton {
@@ -635,7 +718,6 @@
 
 .cancelButton:hover {
   background: #d4d4d4;
-  transform: translateY(-1px);
 }
 
 .continueButton {
@@ -645,11 +727,10 @@
 
 .continueButton:hover {
   background: #079dcc;
-  transform: translateY(-1px);
 }
 
 /* =========================================================
-   RESPONSIVE - TABLET
+   RESPONSIVE
 ========================================================= */
 
 @media (max-width: 1024px) {
@@ -658,25 +739,20 @@
     padding-right: 30px;
   }
 
-  .contentContainer {
-    max-width: 100%;
-  }
-
   .tournamentGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
 
-/* =========================================================
-   RESPONSIVE - MOBILE
-========================================================= */
+  .detailModal {
+    max-width: 900px;
+  }
+}
 
 @media (max-width: 767px) {
   .mainContentWrapper {
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 20px;
-    padding-bottom: 30px;
   }
 
   .upcomingTournaments {
@@ -693,22 +769,10 @@
 
   .tournamentCard {
     padding: 20px;
-    min-height: auto;
   }
-
-  .tournamentName {
-    font-size: 20px;
-  }
-
-  /* ACTION SECTION */
 
   .actionSection {
     padding: 30px 18px;
-    margin-bottom: 35px;
-  }
-
-  .actionDescription {
-    font-size: 15px;
   }
 
   .actionButtons {
@@ -723,30 +787,45 @@
     font-size: 15px;
   }
 
-  /* DETAILS */
+  /* DETAIL MODAL */
 
-  .detailsSection {
-    margin-bottom: 35px;
+  .detailModalOverlay {
+    padding: 15px;
   }
 
-  .detailsHeading {
-    font-size: 28px;
-  }
-
-  .detailsCard {
+  .detailModal {
+    max-height: 92vh;
     padding: 22px;
+    border-radius: 15px;
   }
 
-  .detailsTitle {
+  .detailModalTitle {
     font-size: 24px;
   }
 
-  .detailsGrid {
-    grid-template-columns: 1fr;
-    gap: 18px;
+  .detailModalLabel {
+    font-size: 10px;
   }
 
-  /* VENUE */
+  .modalMainInfo {
+    grid-template-columns: 1fr;
+  }
+
+  .modalDetailsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .modalDetailItem {
+    gap: 10px;
+  }
+
+  .modalDetailItem strong {
+    max-width: 55%;
+  }
+
+  .modalDescription {
+    padding: 18px;
+  }
 
   .venueGrid {
     grid-template-columns: 1fr;
@@ -756,29 +835,10 @@
     padding: 22px;
   }
 
-  /* MODAL */
-
   .modalBox {
     padding: 22px;
   }
-  .inlineInfoGrid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .tournamentCardTop {
-    align-items: flex-start;
-  }
-
-  .tournamentBadge {
-    font-size: 11px;
-    padding: 5px 9px;
-  }
 }
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
 
 @media (max-width: 480px) {
   .mainContentWrapper {
@@ -794,21 +854,46 @@
     font-size: 18px;
   }
 
-  .tournamentInfo p {
-    font-size: 13px;
-  }
-
   .actionSection {
     border-radius: 10px;
     padding: 25px 15px;
   }
 
-  .detailsCard {
-    padding: 18px;
+  .detailModalOverlay {
+    padding: 8px;
   }
 
-  .detailsTitle {
-    font-size: 22px;
+  .detailModal {
+    padding: 18px;
+    border-radius: 13px;
+  }
+
+  .detailModalHeader {
+    gap: 10px;
+  }
+
+  .detailModalTitle {
+    font-size: 21px;
+  }
+
+  .closeButton {
+    width: 36px;
+    height: 36px;
+    font-size: 24px;
+  }
+
+  .modalDetailItem {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .modalDetailItem strong {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .modalDescription {
+    padding: 15px;
   }
 
   .modalButtons {
@@ -819,184 +904,4 @@
   .continueButton {
     width: 100%;
   }
-}
-/* =========================================================
-   TOURNAMENT CARD SELECTED
-========================================================= */
-
-.tournamentCardSelected {
-  border-color: #12aede;
-  box-shadow: 0 8px 25px rgba(18, 174, 222, 0.16);
-}
-
-.tournamentCardMain {
-  cursor: pointer;
-}
-
-.tournamentCardTop {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-}
-
-.tournamentBadge {
-  background: #12aede;
-  color: #ffffff;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-/* =========================================================
-   INLINE DETAILS
-========================================================= */
-
-.inlineDetails {
-  margin-top: 5px;
-  animation: openDetails 0.25s ease;
-}
-
-@keyframes openDetails {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.inlineDetailsDivider {
-  height: 1px;
-  background: #d5dfe2;
-  margin: 20px 0;
-}
-
-.inlineDetailsHeading {
-  font-size: 21px;
-  color: #111618;
-  margin: 0 0 20px;
-}
-
-.inlineInfoGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin-bottom: 22px;
-}
-
-.inlineInfoItem {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.inlineInfoItem strong {
-  font-size: 13px;
-  color: #111618;
-}
-
-.inlineInfoItem span {
-  font-size: 14px;
-  color: #5d7e89;
-}
-
-/* =========================================================
-   DETAIL BLOCKS
-========================================================= */
-
-.inlineDetailBlock {
-  border-top: 1px solid #e1e8ea;
-  padding-top: 18px;
-  margin-top: 18px;
-}
-
-.inlineDetailBlock h5 {
-  margin: 0 0 9px;
-  font-size: 17px;
-  color: #111618;
-}
-
-.inlineDetailBlock p {
-  margin: 0;
-  color: #36464c;
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.detailValue {
-  margin: 0;
-}
-
-.detailList {
-  margin: 0;
-  padding-left: 20px;
-  color: #5d7e89;
-}
-
-.detailList li {
-  margin-bottom: 6px;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.detailList strong {
-  color: #111618;
-}
-
-.rulesContent {
-  color: #36464c;
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-/* =========================================================
-   INLINE REGISTER
-========================================================= */
-
-.inlineRegisterWrapper {
-  margin-top: 25px;
-}
-
-.registerButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #12aede;
-  color: #ffffff;
-  text-decoration: none;
-  border-radius: 30px;
-  padding: 13px 25px;
-  font-size: 15px;
-  font-weight: 700;
-  transition: 0.2s ease;
-}
-
-.registerButton:hover {
-  background-color: #079dcc;
-  transform: translateY(-2px);
-}
-
-/* =========================================================
-   CLOSE DETAILS
-========================================================= */
-
-.closeDetailsButton {
-  display: block;
-  margin: 20px auto 0;
-  border: none;
-  background: transparent;
-  color: #5d7e89;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.closeDetailsButton:hover {
-  color: #12aede;
 }
