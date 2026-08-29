@@ -8,10 +8,6 @@ import Footer from "../../Components/Footer/Footer";
 export default function Tournaments() {
   const navigate = useNavigate();
 
-  // =========================================================
-  // STATES
-  // =========================================================
-
   const [tournaments, setTournaments] = useState([]);
   const [mainEvents, setMainEvents] = useState([]);
   const [venue, setVenue] = useState([]);
@@ -26,9 +22,9 @@ export default function Tournaments() {
 
   const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
-  // =========================================================
-  // FETCH TOURNAMENTS
-  // =========================================================
+  /* =========================================================
+     FETCH TOURNAMENTS
+  ========================================================= */
 
   const getTournaments = async () => {
     try {
@@ -44,9 +40,9 @@ export default function Tournaments() {
     }
   };
 
-  // =========================================================
-  // FETCH MAIN EVENTS
-  // =========================================================
+  /* =========================================================
+     FETCH MAIN EVENTS
+  ========================================================= */
 
   const getMainEvents = async () => {
     try {
@@ -63,9 +59,9 @@ export default function Tournaments() {
     }
   };
 
-  // =========================================================
-  // FETCH VENUE
-  // =========================================================
+  /* =========================================================
+     FETCH VENUE
+  ========================================================= */
 
   const getVenue = async () => {
     try {
@@ -85,9 +81,9 @@ export default function Tournaments() {
     }
   };
 
-  // =========================================================
-  // INITIAL FETCH
-  // =========================================================
+  /* =========================================================
+     INITIAL LOAD
+  ========================================================= */
 
   useEffect(() => {
     const loadData = async () => {
@@ -103,10 +99,9 @@ export default function Tournaments() {
     window.scrollTo(0, 0);
   }, []);
 
-  // =========================================================
-  // MERGE TOURNAMENTS + MAIN EVENTS
-  // USER KO SAB EK HI TOURNAMENT LIST ME DIKHENGE
-  // =========================================================
+  /* =========================================================
+     MERGE TOURNAMENTS + MAIN EVENTS
+  ========================================================= */
 
   const allTournaments = [
     ...tournaments.map((item) => ({
@@ -117,12 +112,13 @@ export default function Tournaments() {
     ...mainEvents.map((item) => ({
       ...item,
       itemType: "mainEvent",
+      type: "main",
     })),
   ];
 
-  // =========================================================
-  // FORMAT DATE
-  // =========================================================
+  /* =========================================================
+     FORMAT DATE
+  ========================================================= */
 
   const formatDate = (date) => {
     if (!date) return "Date not available";
@@ -140,75 +136,47 @@ export default function Tournaments() {
     });
   };
 
-  // =========================================================
-  // GET TOURNAMENT DATE
-  // =========================================================
+  /* =========================================================
+     GET DATE
+  ========================================================= */
 
   const getTournamentDate = (item) => {
-    if (item.startDate) {
-      return item.startDate;
-    }
-
-    if (item.date) {
+    if (item.itemType === "mainEvent") {
       return item.date;
     }
 
-    return null;
+    return item.startDate || item.date || null;
   };
 
-  // =========================================================
-  // GET LOCATION
-  // =========================================================
+  /* =========================================================
+     GET LOCATION
+  ========================================================= */
 
   const getLocation = (item) => {
-    return item.location || item.venue || item.city || "Dehradun";
+    return item.location || item.venue || "Dehradun";
   };
 
-  // =========================================================
-  // OPEN DETAILS MODAL
-  // =========================================================
+  /* =========================================================
+     OPEN DETAILS MODAL
+  ========================================================= */
 
   const handleTournamentClick = (tournament) => {
-    setSelectedTournament(tournament);
+    console.log("SELECTED TOURNAMENT:", tournament);
 
-    // prevent background scrolling
-    document.body.style.overflow = "hidden";
+    setSelectedTournament(tournament);
   };
 
-  // =========================================================
-  // CLOSE DETAILS MODAL
-  // =========================================================
+  /* =========================================================
+     CLOSE DETAILS MODAL
+  ========================================================= */
 
   const closeDetailsModal = () => {
     setSelectedTournament(null);
-
-    document.body.style.overflow = "auto";
   };
 
-  // =========================================================
-  // ESC KEY FOR DETAILS MODAL
-  // =========================================================
-
-  useEffect(() => {
-    const handleEscape = (event) => {
-      if (event.key === "Escape") {
-        closeDetailsModal();
-      }
-    };
-
-    if (selectedTournament) {
-      window.addEventListener("keydown", handleEscape);
-    }
-
-    return () => {
-      window.removeEventListener("keydown", handleEscape);
-    };
-  }, [selectedTournament]);
-
-  // =========================================================
-  // TOURNAMENT ACTION SELECTOR
-  // OLD FLOW PRESERVED
-  // =========================================================
+  /* =========================================================
+     ACTION SELECTOR
+  ========================================================= */
 
   const openTournamentSelector = (action) => {
     setSelectedAction(action);
@@ -216,9 +184,9 @@ export default function Tournaments() {
     setShowTournamentModal(true);
   };
 
-  // =========================================================
-  // CONTINUE ACTION
-  // =========================================================
+  /* =========================================================
+     CONTINUE ACTION
+  ========================================================= */
 
   const continueToTournament = () => {
     if (!selectedTournamentId) {
@@ -237,18 +205,16 @@ export default function Tournaments() {
 
     const route = routes[selectedAction];
 
-    if (!route) {
-      return;
-    }
+    if (!route) return;
 
     setShowTournamentModal(false);
 
     navigate(`${route}?tournamentId=${selectedTournamentId}`);
   };
 
-  // =========================================================
-  // VENUE
-  // =========================================================
+  /* =========================================================
+     VENUE
+  ========================================================= */
 
   const renderVenue = (item) => {
     const venueName = item.venue || item.name;
@@ -267,7 +233,7 @@ export default function Tournaments() {
               width="100%"
               height="350"
               style={{ border: 0 }}
-              allowFullScreen=""
+              allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className={styles.mapFrame}
@@ -288,25 +254,24 @@ export default function Tournaments() {
     );
   };
 
-  // =========================================================
-  // SHOW VALUE
-  // Handles strings / arrays / objects
-  // =========================================================
+  /* =========================================================
+     DISPLAY ARRAY / OBJECT VALUES
+  ========================================================= */
 
   const renderValue = (value) => {
-    if (value === null || value === undefined || value === "") {
+    if (value === null || value === undefined) {
       return null;
     }
 
     if (Array.isArray(value)) {
-      if (value.length === 0) return null;
-
       return (
-        <div className={styles.arrayValue}>
+        <div className={styles.detailList}>
           {value.map((item, index) => (
-            <span key={index} className={styles.infoTag}>
-              {typeof item === "object" ? JSON.stringify(item) : String(item)}
-            </span>
+            <div key={index} className={styles.detailListItem}>
+              {typeof item === "object"
+                ? Object.values(item).join(" - ")
+                : item}
+            </div>
           ))}
         </div>
       );
@@ -315,21 +280,15 @@ export default function Tournaments() {
     if (typeof value === "object") {
       return (
         <div className={styles.objectValue}>
-          {Object.entries(value).map(([key, val]) => {
-            if (val === null || val === undefined || val === "") {
-              return null;
-            }
+          {Object.entries(value).map(([key, val]) => (
+            <div key={key} className={styles.objectRow}>
+              <span>{formatLabel(key)}</span>
 
-            return (
-              <div key={key} className={styles.objectRow}>
-                <strong>{formatLabel(key)}</strong>
-
-                <span>
-                  {typeof val === "object" ? JSON.stringify(val) : String(val)}
-                </span>
-              </div>
-            );
-          })}
+              <strong>
+                {typeof val === "object" ? JSON.stringify(val) : String(val)}
+              </strong>
+            </div>
+          ))}
         </div>
       );
     }
@@ -337,345 +296,29 @@ export default function Tournaments() {
     return String(value);
   };
 
-  // =========================================================
-  // FORMAT FIELD LABEL
-  // =========================================================
+  /* =========================================================
+     LABEL FORMATTER
+  ========================================================= */
 
   const formatLabel = (key) => {
-    if (!key) return "";
-
     return key
       .replace(/([A-Z])/g, " $1")
-      .replace(/[_-]/g, " ")
-      .replace(/\b\w/g, (letter) => letter.toUpperCase());
+      .replace(/_/g, " ")
+      .replace(/^./, (str) => str.toUpperCase());
   };
 
-  // =========================================================
-  // GET FIELD FROM POSSIBLE NAMES
-  // =========================================================
+  /* =========================================================
+     DETAILS FIELD HELPER
+  ========================================================= */
 
   const getFirstValue = (item, keys) => {
     for (const key of keys) {
-      if (
-        item?.[key] !== undefined &&
-        item?.[key] !== null &&
-        item?.[key] !== ""
-      ) {
+      if (item[key] !== undefined && item[key] !== null && item[key] !== "") {
         return item[key];
       }
     }
 
     return null;
-  };
-
-  // =========================================================
-  // DETAILS MODAL
-  // =========================================================
-
-  const renderDetailsModal = () => {
-    if (!selectedTournament) {
-      return null;
-    }
-
-    const item = selectedTournament;
-
-    const category = getFirstValue(item, [
-      "category",
-      "categories",
-      "ageCategory",
-      "ageGroup",
-      "eventCategory",
-    ]);
-
-    const events = getFirstValue(item, [
-      "events",
-      "event",
-      "eventName",
-      "eventNames",
-      "tournamentEvents",
-    ]);
-
-    const prize = getFirstValue(item, [
-      "prize",
-      "prizeMoney",
-      "prizes",
-      "prizePool",
-      "reward",
-      "rewards",
-    ]);
-
-    const description = getFirstValue(item, [
-      "description",
-      "details",
-      "about",
-    ]);
-
-    const rules = getFirstValue(item, ["rules", "rule", "regulations"]);
-
-    const organizer = getFirstValue(item, [
-      "organizer",
-      "organisedBy",
-      "organizedBy",
-    ]);
-
-    const director = getFirstValue(item, ["director", "tournamentDirector"]);
-
-    const directorPhone = getFirstValue(item, [
-      "directorPhone",
-      "contactNumber",
-      "phone",
-      "mobile",
-    ]);
-
-    const registrationFee = getFirstValue(item, [
-      "registrationFee",
-      "entryFee",
-      "fee",
-    ]);
-
-    return (
-      <div className={styles.detailsModalOverlay} onClick={closeDetailsModal}>
-        <div
-          className={styles.detailsModal}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* =================================================
-              CLOSE
-          ================================================== */}
-
-          <button
-            type="button"
-            className={styles.closeDetailsButton}
-            onClick={closeDetailsModal}
-            aria-label="Close"
-          >
-            ×
-          </button>
-
-          {/* =================================================
-              HEADER
-          ================================================== */}
-
-          <div className={styles.detailsModalHeader}>
-            <span className={styles.detailsSmallLabel}>TOURNAMENT DETAILS</span>
-
-            <h2 className={styles.modalTournamentName}>{item.name}</h2>
-
-            <div className={styles.titleLine}></div>
-          </div>
-
-          {/* =================================================
-              BASIC INFORMATION
-          ================================================== */}
-
-          <div className={styles.modalInfoGrid}>
-            <div className={styles.modalInfoBox}>
-              <span className={styles.infoLabel}>DATE</span>
-
-              <strong>{formatDate(getTournamentDate(item))}</strong>
-            </div>
-
-            <div className={styles.modalInfoBox}>
-              <span className={styles.infoLabel}>LOCATION</span>
-
-              <strong>{getLocation(item)}</strong>
-            </div>
-
-            {category && (
-              <div className={styles.modalInfoBox}>
-                <span className={styles.infoLabel}>CATEGORY</span>
-
-                <div className={styles.infoValue}>{renderValue(category)}</div>
-              </div>
-            )}
-
-            {events && (
-              <div className={styles.modalInfoBox}>
-                <span className={styles.infoLabel}>EVENTS</span>
-
-                <div className={styles.infoValue}>{renderValue(events)}</div>
-              </div>
-            )}
-
-            {prize && (
-              <div className={styles.modalInfoBox}>
-                <span className={styles.infoLabel}>PRIZE</span>
-
-                <div className={styles.infoValue}>{renderValue(prize)}</div>
-              </div>
-            )}
-
-            {registrationFee && (
-              <div className={styles.modalInfoBox}>
-                <span className={styles.infoLabel}>REGISTRATION FEE</span>
-
-                <strong>{renderValue(registrationFee)}</strong>
-              </div>
-            )}
-
-            {organizer && (
-              <div className={styles.modalInfoBox}>
-                <span className={styles.infoLabel}>ORGANIZER</span>
-
-                <strong>{renderValue(organizer)}</strong>
-              </div>
-            )}
-
-            {director && (
-              <div className={styles.modalInfoBox}>
-                <span className={styles.infoLabel}>TOURNAMENT DIRECTOR</span>
-
-                <strong>{renderValue(director)}</strong>
-              </div>
-            )}
-
-            {directorPhone && (
-              <div className={styles.modalInfoBox}>
-                <span className={styles.infoLabel}>CONTACT</span>
-
-                <strong>{renderValue(directorPhone)}</strong>
-              </div>
-            )}
-          </div>
-
-          {/* =================================================
-              DESCRIPTION
-          ================================================== */}
-
-          {description && (
-            <div className={styles.modalContentBlock}>
-              <h3>Description</h3>
-
-              <div className={styles.modalContentText}>
-                {typeof description === "string" &&
-                description.includes("<") ? (
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: description,
-                    }}
-                  />
-                ) : (
-                  renderValue(description)
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* =================================================
-              RULES
-          ================================================== */}
-
-          {rules && (
-            <div className={styles.modalContentBlock}>
-              <h3>Rules & Regulations</h3>
-
-              <div className={styles.modalContentText}>
-                {typeof rules === "string" && rules.includes("<") ? (
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: rules,
-                    }}
-                  />
-                ) : (
-                  renderValue(rules)
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* =================================================
-              OTHER DETAILS
-              Automatically show useful extra fields
-          ================================================== */}
-
-          <div className={styles.extraDetails}>
-            {Object.entries(item).map(([key, value]) => {
-              const hiddenFields = [
-                "_id",
-                "__v",
-                "name",
-                "date",
-                "startDate",
-                "endDate",
-                "location",
-                "venue",
-                "description",
-                "details",
-                "about",
-                "category",
-                "categories",
-                "ageCategory",
-                "ageGroup",
-                "eventCategory",
-                "events",
-                "event",
-                "eventName",
-                "eventNames",
-                "tournamentEvents",
-                "prize",
-                "prizeMoney",
-                "prizes",
-                "prizePool",
-                "reward",
-                "rewards",
-                "rules",
-                "rule",
-                "regulations",
-                "organizer",
-                "organisedBy",
-                "organizedBy",
-                "director",
-                "tournamentDirector",
-                "directorPhone",
-                "contactNumber",
-                "phone",
-                "mobile",
-                "registrationFee",
-                "entryFee",
-                "fee",
-                "itemType",
-                "type",
-                "createdAt",
-                "updatedAt",
-              ];
-
-              if (
-                hiddenFields.includes(key) ||
-                value === null ||
-                value === undefined ||
-                value === ""
-              ) {
-                return null;
-              }
-
-              return (
-                <div key={key} className={styles.extraDetailRow}>
-                  <span>{formatLabel(key)}</span>
-
-                  <div>{renderValue(value)}</div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* =================================================
-              REGISTER
-          ================================================== */}
-
-          {item.itemType === "tournament" && (
-            <div className={styles.modalRegisterArea}>
-              <Link
-                to={`/tournaments/register?tournamentId=${item._id}`}
-                className={styles.modalRegisterButton}
-                onClick={closeDetailsModal}
-              >
-                Register Now
-              </Link>
-            </div>
-          )}
-        </div>
-      </div>
-    );
   };
 
   return (
@@ -702,15 +345,15 @@ export default function Tournaments() {
                     key={`${tournament.itemType}-${tournament._id}`}
                     className={styles.tournamentCard}
                   >
-                    {/* Tournament name */}
+                    <div className={styles.cardTop}>
+                      <div>
+                        <h3 className={styles.tournamentName}>
+                          {tournament.name}
+                        </h3>
 
-                    <h3 className={styles.tournamentName}>{tournament.name}</h3>
-
-                    {/* Small blue underline */}
-
-                    <div className={styles.cardTitleLine}></div>
-
-                    {/* Date + Location */}
+                        <div className={styles.titleUnderline} />
+                      </div>
+                    </div>
 
                     <div className={styles.tournamentInfo}>
                       <p>
@@ -723,8 +366,6 @@ export default function Tournaments() {
                         <span>{getLocation(tournament)}</span>
                       </p>
                     </div>
-
-                    {/* View details */}
 
                     <button
                       type="button"
@@ -825,10 +466,227 @@ export default function Tournaments() {
         </div>
       </main>
 
-      {/* =====================================================
-          TOURNAMENT SELECT MODAL
-          PLAYERS / TEAMS / DRAWS / RESULTS
-      ====================================================== */}
+      {/* =========================================================
+          TOURNAMENT DETAILS MODAL
+      ========================================================= */}
+
+      {selectedTournament && (
+        <div className={styles.detailsModalOverlay} onClick={closeDetailsModal}>
+          <div
+            className={styles.detailsModal}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* CLOSE */}
+
+            <button
+              type="button"
+              className={styles.closeDetailsButton}
+              onClick={closeDetailsModal}
+            >
+              ×
+            </button>
+
+            {/* HEADER */}
+
+            <div className={styles.modalHeader}>
+              <div className={styles.modalSmallTitle}>TOURNAMENT DETAILS</div>
+
+              <h2 className={styles.modalTournamentName}>
+                {selectedTournament.name}
+              </h2>
+
+              <div className={styles.modalTitleUnderline} />
+            </div>
+
+            {/* BASIC INFORMATION */}
+
+            <div className={styles.basicInfoGrid}>
+              <div className={styles.infoBox}>
+                <span>DATE</span>
+                <strong>
+                  {formatDate(getTournamentDate(selectedTournament))}
+                </strong>
+              </div>
+
+              <div className={styles.infoBox}>
+                <span>LOCATION</span>
+                <strong>{getLocation(selectedTournament)}</strong>
+              </div>
+            </div>
+
+            {/* =================================================
+                CATEGORY
+            ================================================= */}
+
+            {getFirstValue(selectedTournament, [
+              "category",
+              "categories",
+              "ageCategory",
+              "eventCategory",
+            ]) && (
+              <div className={styles.modalDetailSection}>
+                <div className={styles.modalDetailLabel}>Category</div>
+
+                <div className={styles.modalDetailValue}>
+                  {renderValue(
+                    getFirstValue(selectedTournament, [
+                      "category",
+                      "categories",
+                      "ageCategory",
+                      "eventCategory",
+                    ]),
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* =================================================
+                EVENTS
+            ================================================= */}
+
+            {getFirstValue(selectedTournament, [
+              "events",
+              "event",
+              "eventName",
+              "eventCategories",
+            ]) && (
+              <div className={styles.modalDetailSection}>
+                <div className={styles.modalDetailLabel}>Events</div>
+
+                <div className={styles.modalDetailValue}>
+                  {renderValue(
+                    getFirstValue(selectedTournament, [
+                      "events",
+                      "event",
+                      "eventName",
+                      "eventCategories",
+                    ]),
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* =================================================
+                PRIZE
+            ================================================= */}
+
+            {getFirstValue(selectedTournament, [
+              "prize",
+              "prizes",
+              "prizeMoney",
+              "prizeAmount",
+              "winningPrize",
+            ]) && (
+              <div className={styles.modalDetailSection}>
+                <div className={styles.modalDetailLabel}>Prize</div>
+
+                <div className={styles.prizeValue}>
+                  {renderValue(
+                    getFirstValue(selectedTournament, [
+                      "prize",
+                      "prizes",
+                      "prizeMoney",
+                      "prizeAmount",
+                      "winningPrize",
+                    ]),
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* =================================================
+                DESCRIPTION
+            ================================================= */}
+
+            {selectedTournament.description && (
+              <div className={styles.modalDetailSection}>
+                <div className={styles.modalDetailLabel}>Description</div>
+
+                <div className={styles.descriptionText}>
+                  {selectedTournament.description}
+                </div>
+              </div>
+            )}
+
+            {/* =================================================
+                ORGANIZER
+            ================================================= */}
+
+            {selectedTournament.organizer && (
+              <div className={styles.modalDetailSection}>
+                <div className={styles.modalDetailLabel}>Organizer</div>
+
+                <div className={styles.modalDetailValue}>
+                  {selectedTournament.organizer}
+                </div>
+              </div>
+            )}
+
+            {/* =================================================
+                DIRECTOR
+            ================================================= */}
+
+            {selectedTournament.director && (
+              <div className={styles.modalDetailSection}>
+                <div className={styles.modalDetailLabel}>
+                  Tournament Director
+                </div>
+
+                <div className={styles.modalDetailValue}>
+                  {selectedTournament.director}
+                </div>
+              </div>
+            )}
+
+            {/* =================================================
+                CONTACT
+            ================================================= */}
+
+            {selectedTournament.directorPhone && (
+              <div className={styles.modalDetailSection}>
+                <div className={styles.modalDetailLabel}>Contact</div>
+
+                <div className={styles.modalDetailValue}>
+                  {selectedTournament.directorPhone}
+                </div>
+              </div>
+            )}
+
+            {/* =================================================
+                STATUS
+            ================================================= */}
+
+            {selectedTournament.status && (
+              <div className={styles.modalDetailSection}>
+                <div className={styles.modalDetailLabel}>Status</div>
+
+                <div className={styles.statusBadge}>
+                  {selectedTournament.status}
+                </div>
+              </div>
+            )}
+
+            {/* =================================================
+                REGISTER
+            ================================================= */}
+
+            {selectedTournament.itemType === "tournament" && (
+              <div className={styles.modalRegisterWrapper}>
+                <Link
+                  to={`/tournaments/register?tournamentId=${selectedTournament._id}`}
+                  className={styles.registerButton}
+                >
+                  Register Now
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================
+          SELECT TOURNAMENT MODAL
+      ========================================================= */}
 
       {showTournamentModal && (
         <div
@@ -877,12 +735,6 @@ export default function Tournaments() {
           </div>
         </div>
       )}
-
-      {/* =====================================================
-          DETAILS MODAL
-      ====================================================== */}
-
-      {renderDetailsModal()}
 
       <Footer />
     </div>
