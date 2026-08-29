@@ -130,7 +130,6 @@ export default function Tournaments() {
         getTournaments(),
         getMainEvents(),
         getVenue(),
-        getTournamentDetails(),
         getPricesBenefits(),
       ]);
 
@@ -224,7 +223,6 @@ export default function Tournaments() {
 
     return found || null;
   };
-
   // =========================================================
   // FIND EXTRA PRIZE/BENEFIT DETAILS
   // =========================================================
@@ -261,8 +259,27 @@ export default function Tournaments() {
   // OPEN DETAILS MODAL
   // =========================================================
 
-  const handleTournamentClick = (tournament) => {
-    setSelectedTournament(tournament);
+  const handleTournamentClick = async (tournament) => {
+    try {
+      setSelectedTournament(tournament);
+
+      const tournamentId = tournament._id;
+
+      const res = await axios.get(
+        `${BACKEND_URL}/api/tournament-details?tournamentId=${tournamentId}`,
+      );
+
+      console.log("SELECTED TOURNAMENT DETAILS:", res.data);
+
+      if (res.data.success) {
+        setTournamentDetails(res.data.data || []);
+      } else {
+        setTournamentDetails([]);
+      }
+    } catch (error) {
+      console.error("Error fetching selected tournament details:", error);
+      setTournamentDetails([]);
+    }
   };
 
   // =========================================================
@@ -636,19 +653,34 @@ export default function Tournaments() {
                 CATEGORIES & EVENTS
             ====================================================== */}
 
-            {(extraDetails ||
-              selectedTournament.categories ||
-              selectedTournament.category ||
-              selectedTournament.events) && (
+            {extraDetails && extraDetails.length > 0 && (
               <div className={styles.modalSection}>
-                <h3>Categories & Events</h3>
+                <h3>Tournament Details</h3>
 
-                {renderCategories(extraDetails || selectedTournament)}
+                {extraDetails
+                  .filter((item) => item.showing !== false)
+                  .map((item) => (
+                    <div key={item._id} className={styles.detailBlock}>
+                      {item.title && <h4>{item.title}</h4>}
 
-                {selectedTournament.events &&
-                  !selectedTournament.categories &&
-                  !selectedTournament.category &&
-                  renderHTML(selectedTournament.events)}
+                      {item.value && (
+                        <div
+                          className={styles.modalRichText}
+                          dangerouslySetInnerHTML={{
+                            __html: item.value,
+                          }}
+                        />
+                      )}
+
+                      {item.rules && item.rules.length > 0 && (
+                        <ul className={styles.detailList}>
+                          {item.rules.map((rule, index) => (
+                            <li key={index}>{rule}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
               </div>
             )}
 
