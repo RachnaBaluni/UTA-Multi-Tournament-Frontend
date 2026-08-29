@@ -14,8 +14,11 @@ export default function Tournaments() {
   const [tournamentDetails, setTournamentDetails] = useState([]);
   const [pricesBenefits, setPricesBenefits] = useState([]);
 
-  // Selected tournament for modal
+  // Selected tournament for DETAILS modal
   const [selectedTournament, setSelectedTournament] = useState(null);
+
+  // Selected tournament for INFORMATION modal
+  const [informationTournament, setInformationTournament] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [detailsLoading, setDetailsLoading] = useState(false);
@@ -243,17 +246,20 @@ export default function Tournaments() {
   };
 
   // =========================================================
-  // OPEN TOURNAMENT DETAILS MODAL
+  // OPEN TOURNAMENT DETAILS
   // =========================================================
 
   const handleTournamentClick = async (tournament) => {
-    console.log("CLICKED TOURNAMENT:", tournament);
+    console.log("CLICKED TOURNAMENT DETAILS:", tournament);
     console.log("TOURNAMENT ID:", tournament._id);
 
-    // Modal open
+    // Close information modal if open
+    setInformationTournament(null);
+
+    // Open details modal
     setSelectedTournament(tournament);
 
-    // Fetch details for ONLY selected tournament
+    // Fetch details only for selected tournament
     if (tournament._id) {
       await Promise.all([
         getTournamentDetails(tournament._id),
@@ -263,13 +269,36 @@ export default function Tournaments() {
   };
 
   // =========================================================
-  // CLOSE MODAL
+  // OPEN TOURNAMENT INFORMATION
+  // =========================================================
+
+  const handleInformationClick = (tournament) => {
+    console.log("CLICKED TOURNAMENT INFORMATION:", tournament);
+    console.log("TOURNAMENT ID:", tournament._id);
+
+    // Close details modal if open
+    setSelectedTournament(null);
+
+    // Open information modal
+    setInformationTournament(tournament);
+  };
+
+  // =========================================================
+  // CLOSE DETAILS MODAL
   // =========================================================
 
   const closeDetails = () => {
     setSelectedTournament(null);
     setTournamentDetails([]);
     setPricesBenefits([]);
+  };
+
+  // =========================================================
+  // CLOSE INFORMATION MODAL
+  // =========================================================
+
+  const closeInformation = () => {
+    setInformationTournament(null);
   };
 
   // =========================================================
@@ -404,6 +433,16 @@ export default function Tournaments() {
                     >
                       View Details →
                     </button>
+
+                    {/* VIEW INFORMATION */}
+
+                    <button
+                      type="button"
+                      className={styles.viewDetailsButton}
+                      onClick={() => handleInformationClick(tournament)}
+                    >
+                      View Information →
+                    </button>
                   </div>
                 ))}
               </div>
@@ -442,7 +481,7 @@ export default function Tournaments() {
             className={styles.detailsModal}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* CLOSE BUTTON */}
+            {/* CLOSE */}
 
             <button
               type="button"
@@ -505,9 +544,7 @@ export default function Tournaments() {
               )}
             </div>
 
-            {/* =====================================================
-                LOADING
-            ====================================================== */}
+            {/* LOADING */}
 
             {detailsLoading ? (
               <div className={styles.modalLoading}>
@@ -519,61 +556,11 @@ export default function Tournaments() {
                     TOURNAMENT DETAILS
                 ================================================== */}
 
-                <div className={styles.modalSection}>
-                  <h3>Tournament Information</h3>
+                {tournamentDetails.length > 0 ? (
+                  <div className={styles.modalSection}>
+                    <h3>Tournament Details</h3>
 
-                  <div className={styles.actionButtons}>
-                    <Link
-                      to={`/tournaments/registered-players?tournamentId=${selectedTournament._id}`}
-                      className={styles.actionButton}
-                      onClick={closeDetails}
-                    >
-                      View Registered Players
-                    </Link>
-
-                    <Link
-                      to={`/tournaments/registered-teams?tournamentId=${selectedTournament._id}`}
-                      className={styles.actionButtonGrey}
-                      onClick={closeDetails}
-                    >
-                      View Registered Teams
-                    </Link>
-
-                    <Link
-                      to={`/tournaments/draws?tournamentId=${selectedTournament._id}`}
-                      className={styles.actionButton}
-                      onClick={closeDetails}
-                    >
-                      View Draws
-                    </Link>
-
-                    <Link
-                      to={`/tournaments/results?tournamentId=${selectedTournament._id}`}
-                      className={styles.actionButtonGrey}
-                      onClick={closeDetails}
-                    >
-                      View Results
-                    </Link>
-
-                    <Link
-                      to={`/tournaments/viewresults?tournamentId=${selectedTournament._id}`}
-                      className={styles.actionButton}
-                      onClick={closeDetails}
-                    >
-                      View Results 2
-                    </Link>
-
-                    <Link
-                      to={`/tournaments/view-order-play?tournamentId=${selectedTournament._id}`}
-                      className={styles.actionButtonGrey}
-                      onClick={closeDetails}
-                    >
-                      Order Of Play
-                    </Link>
-                  </div>
-
-                  {tournamentDetails.length > 0 ? (
-                    tournamentDetails.map((item) => (
+                    {tournamentDetails.map((item) => (
                       <div key={item._id} className={styles.detailBlock}>
                         {item.title && <h4>{item.title}</h4>}
 
@@ -594,13 +581,17 @@ export default function Tournaments() {
                           </ul>
                         )}
                       </div>
-                    ))
-                  ) : (
+                    ))}
+                  </div>
+                ) : (
+                  <div className={styles.modalSection}>
+                    <h3>Tournament Details</h3>
+
                     <p className={styles.modalParagraph}>
                       No additional tournament details available.
                     </p>
-                  )}
-                </div>
+                  </div>
+                )}
 
                 {/* =================================================
                     DESCRIPTION
@@ -710,6 +701,97 @@ export default function Tournaments() {
                 )}
               </>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================
+          TOURNAMENT INFORMATION MODAL
+      ========================================================= */}
+
+      {informationTournament && (
+        <div className={styles.modalOverlay} onClick={closeInformation}>
+          <div className={styles.modalBox} onClick={(e) => e.stopPropagation()}>
+            {/* CLOSE */}
+
+            <button
+              type="button"
+              className={styles.closeDetailsButton}
+              onClick={closeInformation}
+              aria-label="Close"
+            >
+              ×
+            </button>
+
+            {/* HEADER */}
+
+            <div className={styles.modalHeader}>
+              <span className={styles.modalEyebrow}>
+                TOURNAMENT INFORMATION
+              </span>
+
+              <h2 className={styles.modalTitle}>
+                {informationTournament.name}
+              </h2>
+
+              <div className={styles.modalTitleLine}></div>
+            </div>
+
+            <p className={styles.actionDescription}>
+              Select an option below to view tournament information.
+            </p>
+
+            {/* ACTION BUTTONS */}
+
+            <div className={styles.actionButtons}>
+              <Link
+                to={`/tournaments/registered-players?tournamentId=${informationTournament._id}`}
+                className={styles.actionButton}
+                onClick={closeInformation}
+              >
+                View Registered Players
+              </Link>
+
+              <Link
+                to={`/tournaments/registered-teams?tournamentId=${informationTournament._id}`}
+                className={styles.actionButtonGrey}
+                onClick={closeInformation}
+              >
+                View Registered Teams
+              </Link>
+
+              <Link
+                to={`/tournaments/draws?tournamentId=${informationTournament._id}`}
+                className={styles.actionButton}
+                onClick={closeInformation}
+              >
+                View Draws
+              </Link>
+
+              <Link
+                to={`/tournaments/results?tournamentId=${informationTournament._id}`}
+                className={styles.actionButtonGrey}
+                onClick={closeInformation}
+              >
+                View Results
+              </Link>
+
+              <Link
+                to={`/tournaments/viewresults?tournamentId=${informationTournament._id}`}
+                className={styles.actionButton}
+                onClick={closeInformation}
+              >
+                View Results 2
+              </Link>
+
+              <Link
+                to={`/tournaments/view-order-play?tournamentId=${informationTournament._id}`}
+                className={styles.actionButtonGrey}
+                onClick={closeInformation}
+              >
+                Order Of Play
+              </Link>
+            </div>
           </div>
         </div>
       )}
