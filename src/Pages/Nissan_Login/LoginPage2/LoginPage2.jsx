@@ -171,9 +171,9 @@ const LoginPage2 = ({
       // Find the current partner for this event in playerTeam (if editing existing team)
       const currentTeamForEvent1 = playerTeam.find(
         (team) =>
-          team.eventId._id === event1Id &&
-          (team.partner1?._id === player._id ||
-            team.partner2?._id === player._id),
+          team.eventId?._id?.toString() === event1Id?.toString() &&
+          (team.partner1?._id?.toString() === player._id?.toString() ||
+            team.partner2?._id?.toString() === player._id?.toString()),
       );
       let existingPartner = null;
       if (currentTeamForEvent1) {
@@ -184,7 +184,11 @@ const LoginPage2 = ({
       }
 
       let availablePartners = players
-        .filter((team) => team.eventId._id === event1Id && !team.partner2)
+        .filter(
+          (team) =>
+            team.eventId?._id?.toString() === eventId?.toString() &&
+            !team.partner2,
+        )
         .map((team) => team.partner1)
         .filter((p) => p && p._id !== player._id); // Exclude the current player
 
@@ -220,9 +224,9 @@ const LoginPage2 = ({
       // Find the current partner for this event in playerTeam (if editing existing team)
       const currentTeamForEvent2 = playerTeam.find(
         (team) =>
-          team.eventId._id === event2Id &&
-          (team.partner1?._id === player._id ||
-            team.partner2?._id === player._id),
+          team.eventId?._id?.toString() === event2Id?.toString() &&
+          (team.partner1?._id?.toString() === player._id?.toString() ||
+            team.partner2?._id?.toString() === player._id?.toString()),
       );
       let existingPartner = null;
       if (currentTeamForEvent2) {
