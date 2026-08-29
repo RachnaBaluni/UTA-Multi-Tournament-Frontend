@@ -39,7 +39,6 @@ const LoginPage2 = ({
     // If player._id isn't guaranteed to be available from props, this line ensures it.
     // However, avoid direct prop mutation if 'player' itself is meant to be immutable.
     // For now, keeping it as per your original code.
-    player._id = params.id;
 
     // Only proceed if essential data is available
     if (
@@ -105,9 +104,15 @@ const LoginPage2 = ({
         currentPartner,
       ) => {
         let availablePartners = players
-          .filter((team) => team.eventId._id === eventId && !team.partner2)
+          .filter(
+            (team) =>
+              team.eventId?._id?.toString() === eventId?.toString() &&
+              !team.partner2,
+          )
           .map((team) => team.partner1)
-          .filter((p) => p && p._id !== currentPlayerId); // Exclude the current player
+          .filter(
+            (p) => p && p._id?.toString() !== currentPlayerId?.toString(),
+          ); // Exclude the current player
 
         // Add the current partner if they exist and are not already in the list
         if (
@@ -186,7 +191,7 @@ const LoginPage2 = ({
       let availablePartners = players
         .filter(
           (team) =>
-            team.eventId?._id?.toString() === eventId?.toString() &&
+            team.eventId?._id?.toString() === event1Id?.toString() &&
             !team.partner2,
         )
         .map((team) => team.partner1)
