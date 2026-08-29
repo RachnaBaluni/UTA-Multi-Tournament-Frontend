@@ -24,7 +24,7 @@ const LoginPage1 = ({ player, handleNext, setPlayer, id }) => {
     if (player) {
       setFormData({
         name: player.name || "",
-        email: player.email || emailAddress || "",
+        email: player.email || player.emailAddress || "",
         whatsappNumber: player.whatsappNumber || "",
         dob: player.dob ? new Date(player.dob).toISOString().split("T")[0] : "",
         city: player.city || "",
@@ -46,7 +46,7 @@ const LoginPage1 = ({ player, handleNext, setPlayer, id }) => {
 
       const res = await axios.post(
         `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/${id}/updatePlayer`,
-        { formData },
+        formData,
         {
           headers: {
             "Content-Type": "application/json",
