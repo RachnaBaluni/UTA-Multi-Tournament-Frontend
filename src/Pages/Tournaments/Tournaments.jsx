@@ -200,34 +200,14 @@ export default function Tournaments() {
   // =========================================================
   // GET DETAILS FOR SELECTED TOURNAMENT
   // =========================================================
-
   const getExtraDetails = (tournament) => {
     if (!tournament) return [];
 
-    const tournamentId = tournament._id?.toString();
-
-    if (!tournamentId) {
-      console.log("No tournament ID found:", tournament);
-      return [];
-    }
-
-    const foundDetails = tournamentDetails.filter((detail) => {
-      const detailTournamentId =
-        detail.tournamentId?._id?.toString() || detail.tournamentId?.toString();
-
-      return (
-        detailTournamentId &&
-        detailTournamentId === tournamentId &&
-        detail.showing !== false
-      );
-    });
-
     console.log("SELECTED TOURNAMENT:", tournament);
-    console.log("SELECTED TOURNAMENT ID:", tournamentId);
+    console.log("SELECTED TOURNAMENT ID:", tournament._id);
     console.log("ALL TOURNAMENT DETAILS:", tournamentDetails);
-    console.log("MATCHED EXTRA DETAILS:", foundDetails);
 
-    return foundDetails;
+    return tournamentDetails || [];
   };
 
   // =========================================================
