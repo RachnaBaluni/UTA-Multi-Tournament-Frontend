@@ -307,12 +307,12 @@
 
   padding: 0 25px;
 
-  background-color: #e1e1e1;
+  background-color: #12aede;
 
   border: none;
   border-radius: 30px;
 
-  color: #111618;
+  color: #ffffff;
 
   font-size: 17px;
   font-weight: 700;
@@ -325,6 +325,16 @@
     background-color 0.2s ease,
     transform 0.2s ease,
     box-shadow 0.2s ease;
+}
+
+.actionButtonGrey:hover {
+  background-color: #079dcc;
+
+  color: #ffffff;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 12px rgba(18, 174, 222, 0.25);
 }
 
 .actionButtonGrey:hover {
