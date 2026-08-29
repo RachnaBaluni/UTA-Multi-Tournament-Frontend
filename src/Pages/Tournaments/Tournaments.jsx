@@ -434,14 +434,15 @@ export default function Tournaments() {
                       >
                         View Details →
                       </button>
-
-                      <button
-                        type="button"
-                        className={styles.viewInformationButton}
-                        onClick={() => handleInformationClick(tournament)}
-                      >
-                        View Information →
-                      </button>
+                      {tournament.itemType === "tournament" && (
+                        <button
+                          type="button"
+                          className={styles.viewInformationButton}
+                          onClick={() => handleInformationClick(tournament)}
+                        >
+                          View Information →
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))}
