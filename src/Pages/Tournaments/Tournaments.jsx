@@ -5,191 +5,214 @@ import styles from "./Tournaments.module.css";
 
 const Tournaments = () => {
   const [tournaments, setTournaments] = useState([]);
-  const [mainEvents, setMainEvents] = useState([]);
   const [venue, setVenue] = useState([]);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAllData = async () => {
       try {
-        const backend = import.meta.env.VITE_APP_BACKEND_URL;
+        setLoading(true);
+        setError("");
 
-        const [tournamentsResponse, mainEventsResponse, venueResponse] =
-          await Promise.all([
-            axios.get(`${backend}/api/tournaments/`),
-            axios.get(`${backend}/api/main-events`),
-            axios.get(`${backend}/api/venue/`),
-          ]);
+        const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
 
-        console.log("🔥 TOURNAMENTS:", tournamentsResponse.data);
-        console.log("🔥 MAIN EVENTS:", mainEventsResponse.data);
-        console.log("🔥 VENUE:", venueResponse.data);
+        // -----------------------------------------
+        // 1. NORMAL + DISPLAY TOURNAMENTS
+        // -----------------------------------------
+        const tournamentsResponse = await axios.get(
+          `${backendUrl}/api/tournaments/`,
+        );
 
-        setTournaments(tournamentsResponse.data.data || []);
-        setMainEvents(mainEventsResponse.data.data || []);
-        setVenue(venueResponse.data.data || []);
+        // -----------------------------------------
+        // 2. MAIN EVENTS
+        // -----------------------------------------
+        const mainEventsResponse = await axios.get(
+          `${backendUrl}/api/main-events`,
+        );
+
+        // -----------------------------------------
+        // 3. VENUE
+        // -----------------------------------------
+        const venueResponse = await axios.get(`${backendUrl}/api/venue/`);
+
+        console.log("ALL TOURNAMENTS:", tournamentsResponse.data);
+
+        console.log("MAIN EVENTS:", mainEventsResponse.data);
+
+        console.log("VENUE:", venueResponse.data);
+
+        const normalAndDisplay = tournamentsResponse.data?.data || [];
+
+        const mainEvents = mainEventsResponse.data?.data || [];
+
+        const venueData = venueResponse.data?.data || [];
+
+        // -----------------------------------------
+        // NORMAL + DISPLAY TOURNAMENTS
+        // -----------------------------------------
+        const formattedTournaments = normalAndDisplay.map((tournament) => ({
+          ...tournament,
+          source: "tournament",
+        }));
+
+        // -----------------------------------------
+        // MAIN EVENTS
+        // -----------------------------------------
+        const formattedMainEvents = mainEvents.map((event) => ({
+          ...event,
+
+          // Main event ko internally identify karenge
+          source: "mainEvent",
+
+          // Detail page ke liye same id
+          _id: event._id,
+
+          // MainEvent ka date/location already same fields me hain
+          name: event.name,
+          date: event.date,
+          location: event.location,
+        }));
+
+        // -----------------------------------------
+        // SABKO EK HI ARRAY ME MERGE KARO
+        // -----------------------------------------
+        const allTournaments = [
+          ...formattedTournaments,
+          ...formattedMainEvents,
+        ];
+
+        // Latest date first
+        allTournaments.sort((a, b) => {
+          const dateA = new Date(a.date || a.startDate || 0).getTime();
+
+          const dateB = new Date(b.date || b.startDate || 0).getTime();
+
+          return dateB - dateA;
+        });
+
+        setTournaments(allTournaments);
+        setVenue(venueData);
       } catch (err) {
-        console.error("Error fetching tournaments:", err);
+        console.error("Error fetching tournament data:", err);
+
         setError("Unable to load tournaments.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
+    fetchAllData();
   }, []);
 
-  // ============================
+  // -----------------------------------------
   // LOADING
-  // ============================
-
+  // -----------------------------------------
   if (loading) {
     return (
-      <div style={{ padding: "50px" }}>
-        <h1>Loading tournaments...</h1>
+      <div className={styles.rootContainer}>
+        <div className={styles.mainContentWrapper}>
+          <div className={styles.contentContainer}>
+            <div className={styles.upcomingTournaments}>
+              <h2 className={styles.sectionTitle}>Loading tournaments...</h2>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
-  // ============================
+  // -----------------------------------------
   // ERROR
-  // ============================
-
+  // -----------------------------------------
   if (error) {
     return (
-      <div style={{ padding: "50px" }}>
-        <h1>{error}</h1>
+      <div className={styles.rootContainer}>
+        <div className={styles.mainContentWrapper}>
+          <div className={styles.contentContainer}>
+            <div className={styles.upcomingTournaments}>
+              <h2 className={styles.sectionTitle}>{error}</h2>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
-
-  // =====================================================
-  // COMBINE NORMAL + DISPLAY TOURNAMENTS + MAIN EVENTS
-  // =====================================================
-
-  const allTournaments = [
-    ...tournaments.map((tournament) => ({
-      ...tournament,
-      sourceType: "tournament",
-    })),
-
-    ...mainEvents.map((event) => ({
-      ...event,
-      sourceType: "mainEvent",
-    })),
-  ];
 
   return (
     <div className={styles.rootContainer}>
       <div className={styles.mainContentWrapper}>
         <div className={styles.contentContainer}>
-          {/* ========================================= */}
-          {/* TOURNAMENTS */}
-          {/* ========================================= */}
+          {/* -------------------------------- */}
+          {/* HERO */}
+          {/* -------------------------------- */}
 
-          <section className={styles.upcomingTournaments}>
-            <h1 className={styles.sectionTitle}>Tournaments</h1>
+          <section className={styles.tournamentsHeroSection}>
+            <h1 className={styles.tournamentsHeroHeading}>Tournaments</h1>
 
-            {allTournaments.length === 0 ? (
+            <p className={styles.tournamentsHeroParagraph}>
+              Explore all upcoming and ongoing tennis tournaments and events.
+            </p>
+
+            <a href="#tournamentList" className={styles.exploreButton}>
+              Explore Tournaments
+            </a>
+          </section>
+
+          {/* -------------------------------- */}
+          {/* TOURNAMENT LIST */}
+          {/* -------------------------------- */}
+
+          <section className={styles.upcomingTournaments} id="tournamentList">
+            <h2 className={styles.sectionTitle}>All Tournaments</h2>
+
+            {tournaments.length === 0 ? (
               <p className={styles.noResults}>No tournaments available.</p>
             ) : (
-              <div>
-                {allTournaments.map((item) => {
-                  // -----------------------------------
-                  // NORMAL / DISPLAY TOURNAMENT
-                  // -----------------------------------
-
-                  if (item.sourceType === "tournament") {
-                    return (
-                      <Link
-                        key={`tournament-${item._id}`}
-                        to={`/tournaments/${item._id}`}
-                        style={{
-                          display: "block",
-                          padding: "20px",
-                          marginBottom: "15px",
-                          border: "1px solid #ccc",
-                          borderRadius: "12px",
-                          textDecoration: "none",
-                          color: "black",
-                          backgroundColor: "#ffffff",
-                        }}
-                      >
-                        <h2>{item.name}</h2>
-
-                        {/* Date */}
-
-                        {item.date && (
-                          <p>
-                            <strong>Date:</strong>{" "}
-                            {new Date(item.date).toLocaleDateString()}
-                          </p>
-                        )}
-
-                        {item.startDate && (
-                          <p>
-                            <strong>Start Date:</strong>{" "}
-                            {new Date(item.startDate).toLocaleDateString()}
-                          </p>
-                        )}
-
-                        {item.endDate && (
-                          <p>
-                            <strong>End Date:</strong>{" "}
-                            {new Date(item.endDate).toLocaleDateString()}
-                          </p>
-                        )}
-
-                        {/* Location */}
-
-                        {item.location && (
-                          <p>
-                            <strong>Location:</strong> {item.location}
-                          </p>
-                        )}
-
-                        <strong>View Details →</strong>
-                      </Link>
-                    );
-                  }
-
-                  // -----------------------------------
-                  // MAIN EVENT
-                  // -----------------------------------
+              <div className={styles.tournamentGrid}>
+                {tournaments.map((tournament) => {
+                  const tournamentDate =
+                    tournament.date || tournament.startDate;
 
                   return (
                     <Link
-                      key={`main-event-${item._id}`}
-                      to={`/tournaments/main-event/${item._id}`}
-                      style={{
-                        display: "block",
-                        padding: "20px",
-                        marginBottom: "15px",
-                        border: "1px solid #ccc",
-                        borderRadius: "12px",
-                        textDecoration: "none",
-                        color: "black",
-                        backgroundColor: "#ffffff",
+                      key={`${tournament.source}-${tournament._id}`}
+                      to={`/tournaments/${tournament._id}`}
+                      state={{
+                        tournament,
+                        source: tournament.source,
                       }}
+                      className={styles.tournamentCard}
                     >
-                      <h2>{item.name}</h2>
+                      <div className={styles.tournamentCardContent}>
+                        <h3 className={styles.tournamentName}>
+                          {tournament.name}
+                        </h3>
 
-                      {item.date && (
-                        <p>
-                          <strong>Date:</strong>{" "}
-                          {new Date(item.date).toLocaleDateString()}
-                        </p>
-                      )}
+                        {tournamentDate && (
+                          <p className={styles.tournamentInfo}>
+                            <strong>Date:</strong>{" "}
+                            {new Date(tournamentDate).toLocaleDateString(
+                              "en-IN",
+                              {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                              },
+                            )}
+                          </p>
+                        )}
 
-                      {item.location && (
-                        <p>
-                          <strong>Location:</strong> {item.location}
-                        </p>
-                      )}
+                        {tournament.location && (
+                          <p className={styles.tournamentInfo}>
+                            <strong>Location:</strong> {tournament.location}
+                          </p>
+                        )}
 
-                      <strong>View Details →</strong>
+                        <span className={styles.viewDetails}>
+                          View Details →
+                        </span>
+                      </div>
                     </Link>
                   );
                 })}
@@ -197,44 +220,35 @@ const Tournaments = () => {
             )}
           </section>
 
-          {/* ========================================= */}
+          {/* -------------------------------- */}
           {/* VENUE ONLY */}
-          {/* ========================================= */}
+          {/* -------------------------------- */}
 
-          <section className={styles.section} id="venue">
-            <h2 className={styles.sectionTitle}>Venue</h2>
+          <section className={styles.venueSection}>
+            <h2 className={styles.sectionTitle}>Venue Information</h2>
 
-            <div className={styles.gridContainerMaps}>
+            <div className={styles.venueGrid}>
               {venue.length === 0 ? (
                 <p className={styles.noResults}>
-                  No venue information available.
+                  Venue information not available.
                 </p>
               ) : (
-                venue
-                  .filter((item) => item.showing)
-                  .map((item) => (
-                    <div className={styles.tile} key={item._id}>
-                      {item.title && (
-                        <h3 className={styles.tileTitle}>{item.title}</h3>
-                      )}
+                venue.map((item) => {
+                  if (!item.showing) return null;
 
-                      {item.venue && <h2>{item.venue}</h2>}
+                  return (
+                    <div key={item._id} className={styles.venueCard}>
+                      <h3 className={styles.venueTitle}>
+                        {item.title || "Tournament Venue"}
+                      </h3>
+
+                      {item.venue && (
+                        <h4 className={styles.venueName}>{item.venue}</h4>
+                      )}
 
                       {item.address && (
-                        <p className={styles.tileParagraph}>{item.address}</p>
+                        <p className={styles.venueAddress}>{item.address}</p>
                       )}
-
-                      {/* In case venue data is stored in value */}
-
-                      {item.value && !item.venue && (
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: item.value,
-                          }}
-                        />
-                      )}
-
-                      {/* Google Map */}
 
                       {item.mapLink && (
                         <div className={styles.mapContainer}>
@@ -242,19 +256,18 @@ const Tournaments = () => {
                             src={item.mapLink}
                             width="600"
                             height="450"
-                            style={{
-                              border: 0,
-                            }}
+                            style={{ border: 0 }}
                             allowFullScreen=""
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"
                             className={styles.mapFrame}
-                            title={item.title || "Tournament Venue"}
+                            title={item.title || "Tournament Venue Map"}
                           />
                         </div>
                       )}
                     </div>
-                  ))
+                  );
+                })
               )}
             </div>
           </section>
