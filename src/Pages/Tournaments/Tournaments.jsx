@@ -438,7 +438,7 @@ export default function Tournaments() {
                       <button
                         type="button"
                         className={styles.viewInformationButton}
-                        onClick={() => handleTournamentClick(tournament)}
+                        onClick={() => handleInformationClick(tournament)}
                       >
                         View Information →
                       </button>
