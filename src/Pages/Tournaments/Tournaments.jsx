@@ -10,7 +10,15 @@ export default function Tournaments() {
   const [mainEvents, setMainEvents] = useState([]);
   const [venue, setVenue] = useState([]);
 
+  // Tournament extra details
+  const [tournamentDetails, setTournamentDetails] = useState([]);
+  const [pricesBenefits, setPricesBenefits] = useState([]);
+
+  // Selected tournament for modal
+  const [selectedTournament, setSelectedTournament] = useState(null);
+
   const [loading, setLoading] = useState(true);
+  const [detailsLoading, setDetailsLoading] = useState(false);
 
   const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
@@ -79,6 +87,73 @@ export default function Tournaments() {
     } catch (error) {
       console.error("Error fetching venue:", error);
       setVenue([]);
+    }
+  };
+
+  // =========================================================
+  // FETCH TOURNAMENT DETAILS
+  // =========================================================
+
+  const getTournamentDetails = async (tournamentId) => {
+    try {
+      setDetailsLoading(true);
+      setTournamentDetails([]);
+
+      const res = await axios.get(
+        `${BACKEND_URL}/api/tournament-details?tournamentId=${tournamentId}`,
+      );
+
+      console.log("TOURNAMENT DETAILS:", res.data);
+
+      if (res.data.success) {
+        setTournamentDetails(res.data.data || []);
+      } else {
+        setTournamentDetails([]);
+      }
+    } catch (error) {
+      console.error("Error fetching tournament details:", error);
+      setTournamentDetails([]);
+    } finally {
+      setDetailsLoading(false);
+    }
+  };
+
+  // =========================================================
+  // FETCH PRIZES & BENEFITS
+  // =========================================================
+
+  const getPricesBenefits = async (tournamentId) => {
+    try {
+      setPricesBenefits([]);
+
+      const res = await axios.get(`${BACKEND_URL}/api/prices-benifit/`);
+
+      console.log("PRIZES & BENEFITS:", res.data);
+
+      if (res.data.success) {
+        const data = res.data.data || [];
+
+        const filtered = data.filter((item) => {
+          const itemTournamentId =
+            item.tournamentId?._id?.toString() ||
+            item.tournamentId?.toString() ||
+            item.tournament?._id?.toString() ||
+            item.tournament?.toString();
+
+          return (
+            itemTournamentId &&
+            tournamentId &&
+            itemTournamentId === tournamentId.toString()
+          );
+        });
+
+        setPricesBenefits(filtered);
+      } else {
+        setPricesBenefits([]);
+      }
+    } catch (error) {
+      console.error("Error fetching prizes & benefits:", error);
+      setPricesBenefits([]);
     }
   };
 
@@ -168,7 +243,37 @@ export default function Tournaments() {
   };
 
   // =========================================================
-  // VENUE
+  // OPEN TOURNAMENT DETAILS MODAL
+  // =========================================================
+
+  const handleTournamentClick = async (tournament) => {
+    console.log("CLICKED TOURNAMENT:", tournament);
+    console.log("TOURNAMENT ID:", tournament._id);
+
+    // Modal open
+    setSelectedTournament(tournament);
+
+    // Fetch details for ONLY selected tournament
+    if (tournament._id) {
+      await Promise.all([
+        getTournamentDetails(tournament._id),
+        getPricesBenefits(tournament._id),
+      ]);
+    }
+  };
+
+  // =========================================================
+  // CLOSE MODAL
+  // =========================================================
+
+  const closeDetails = () => {
+    setSelectedTournament(null);
+    setTournamentDetails([]);
+    setPricesBenefits([]);
+  };
+
+  // =========================================================
+  // RENDER VENUE
   // =========================================================
 
   const renderVenue = (item) => {
@@ -211,6 +316,29 @@ export default function Tournaments() {
         )}
       </div>
     );
+  };
+
+  // =========================================================
+  // RENDER HTML
+  // =========================================================
+
+  const renderHTML = (value) => {
+    if (!value) {
+      return null;
+    }
+
+    if (typeof value === "string") {
+      return (
+        <div
+          className={styles.modalRichText}
+          dangerouslySetInnerHTML={{
+            __html: value,
+          }}
+        />
+      );
+    }
+
+    return null;
   };
 
   // =========================================================
@@ -269,12 +397,13 @@ export default function Tournaments() {
 
                     {/* VIEW DETAILS */}
 
-                    <Link
-                      to={`/tournaments/${tournament._id}`}
+                    <button
+                      type="button"
                       className={styles.viewDetailsButton}
+                      onClick={() => handleTournamentClick(tournament)}
                     >
                       View Details →
-                    </Link>
+                    </button>
                   </div>
                 ))}
               </div>
@@ -302,6 +431,238 @@ export default function Tournaments() {
           </section>
         </div>
       </main>
+
+      {/* =========================================================
+          TOURNAMENT DETAILS MODAL
+      ========================================================= */}
+
+      {selectedTournament && (
+        <div className={styles.detailsOverlay} onClick={closeDetails}>
+          <div
+            className={styles.detailsModal}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* CLOSE BUTTON */}
+
+            <button
+              type="button"
+              className={styles.closeDetailsButton}
+              onClick={closeDetails}
+              aria-label="Close"
+            >
+              ×
+            </button>
+
+            {/* HEADER */}
+
+            <div className={styles.modalHeader}>
+              <span className={styles.modalEyebrow}>TOURNAMENT DETAILS</span>
+
+              <h2 className={styles.modalTitle}>{selectedTournament.name}</h2>
+
+              <div className={styles.modalTitleLine}></div>
+            </div>
+
+            {/* BASIC INFORMATION */}
+
+            <div className={styles.modalBasicGrid}>
+              <div className={styles.modalInfoBox}>
+                <span>DATE</span>
+
+                <strong>
+                  {formatDate(getTournamentDate(selectedTournament))}
+                </strong>
+              </div>
+
+              <div className={styles.modalInfoBox}>
+                <span>LOCATION</span>
+
+                <strong>{getLocation(selectedTournament)}</strong>
+              </div>
+
+              {selectedTournament.organizer && (
+                <div className={styles.modalInfoBox}>
+                  <span>ORGANIZER</span>
+
+                  <strong>{selectedTournament.organizer}</strong>
+                </div>
+              )}
+
+              {selectedTournament.director && (
+                <div className={styles.modalInfoBox}>
+                  <span>TOURNAMENT DIRECTOR</span>
+
+                  <strong>{selectedTournament.director}</strong>
+                </div>
+              )}
+
+              {selectedTournament.directorPhone && (
+                <div className={styles.modalInfoBox}>
+                  <span>DIRECTOR PHONE</span>
+
+                  <strong>{selectedTournament.directorPhone}</strong>
+                </div>
+              )}
+            </div>
+
+            {/* =====================================================
+                LOADING
+            ====================================================== */}
+
+            {detailsLoading ? (
+              <div className={styles.modalLoading}>
+                Loading tournament details...
+              </div>
+            ) : (
+              <>
+                {/* =================================================
+                    TOURNAMENT DETAILS
+                ================================================== */}
+
+                <div className={styles.modalSection}>
+                  <h3>Tournament Details</h3>
+
+                  {tournamentDetails.length > 0 ? (
+                    tournamentDetails.map((item) => (
+                      <div key={item._id} className={styles.detailBlock}>
+                        {item.title && <h4>{item.title}</h4>}
+
+                        {item.value && (
+                          <div
+                            className={styles.modalRichText}
+                            dangerouslySetInnerHTML={{
+                              __html: item.value,
+                            }}
+                          />
+                        )}
+
+                        {Array.isArray(item.rules) && item.rules.length > 0 && (
+                          <ul className={styles.detailList}>
+                            {item.rules.map((rule, index) => (
+                              <li key={index}>{rule}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <p className={styles.modalParagraph}>
+                      No additional tournament details available.
+                    </p>
+                  )}
+                </div>
+
+                {/* =================================================
+                    DESCRIPTION
+                ================================================== */}
+
+                {selectedTournament.description && (
+                  <div className={styles.modalSection}>
+                    <h3>Description</h3>
+
+                    <p className={styles.modalParagraph}>
+                      {selectedTournament.description}
+                    </p>
+                  </div>
+                )}
+
+                {/* =================================================
+                    RULES
+                ================================================== */}
+
+                {selectedTournament.rules && (
+                  <div className={styles.modalSection}>
+                    <h3>Rules</h3>
+
+                    {Array.isArray(selectedTournament.rules) ? (
+                      <ul className={styles.detailList}>
+                        {selectedTournament.rules.map((rule, index) => (
+                          <li key={index}>{rule}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      renderHTML(selectedTournament.rules)
+                    )}
+                  </div>
+                )}
+
+                {/* =================================================
+                    PRIZES & BENEFITS
+                ================================================== */}
+
+                {(pricesBenefits.length > 0 ||
+                  selectedTournament.prize ||
+                  selectedTournament.prizes ||
+                  selectedTournament.benefits ||
+                  selectedTournament.prizeMoney) && (
+                  <div className={styles.modalSection}>
+                    <h3>Prizes & Benefits</h3>
+
+                    {pricesBenefits.map((item) => (
+                      <div key={item._id} className={styles.detailBlock}>
+                        {item.title && <h4>{item.title}</h4>}
+
+                        {item.prizeMoney && renderHTML(item.prizeMoney)}
+
+                        {item.prizes && renderHTML(item.prizes)}
+
+                        {item.benefits && renderHTML(item.benefits)}
+
+                        {item.value && renderHTML(item.value)}
+                      </div>
+                    ))}
+
+                    {selectedTournament.prizeMoney &&
+                      renderHTML(selectedTournament.prizeMoney)}
+
+                    {selectedTournament.prizes &&
+                      renderHTML(selectedTournament.prizes)}
+
+                    {selectedTournament.benefits &&
+                      renderHTML(selectedTournament.benefits)}
+                  </div>
+                )}
+
+                {/* =================================================
+                    STATUS
+                ================================================== */}
+
+                {selectedTournament.status && (
+                  <div className={styles.modalStatus}>
+                    <span>Status</span>
+
+                    <strong>{selectedTournament.status}</strong>
+                  </div>
+                )}
+
+                {/* =================================================
+                    REGISTER + LOGIN
+                ================================================== */}
+
+                {selectedTournament.itemType === "tournament" && (
+                  <div className={styles.modalRegister}>
+                    <Link
+                      to={`/tournaments/register?tournamentId=${selectedTournament._id}`}
+                      className={styles.registerButton}
+                      onClick={closeDetails}
+                    >
+                      Register Now
+                    </Link>
+
+                    <Link
+                      to={`/tournaments/login/${selectedTournament._id}`}
+                      className={styles.loginButton}
+                      onClick={closeDetails}
+                    >
+                      Login
+                    </Link>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
