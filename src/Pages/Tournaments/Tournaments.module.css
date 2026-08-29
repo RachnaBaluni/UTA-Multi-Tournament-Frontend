@@ -1,109 +1,870 @@
+/* =========================================================
+   ROOT / PAGE
+========================================================= */
+
+.rootContainer {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #f8fbfc;
+  overflow-x: hidden;
+  font-family: "Public Sans", "Noto Sans", sans-serif;
+  color: #111618;
+}
+
+.mainContentWrapper {
+  padding-left: 160px;
+  padding-right: 160px;
+  padding-top: 30px;
+  padding-bottom: 50px;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  max-width: 1400px;
+}
+
+/* =========================================================
+   HERO / TOP SECTION
+========================================================= */
+
+.tournamentsHeroSection {
+  background: linear-gradient(135deg, #dff3f8 0%, #c5e2eb 50%, #eaf6f9 100%);
+
+  color: #111618;
+  padding: 50px 30px;
+  min-height: 250px;
+  border-radius: 16px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  margin-bottom: 35px;
+
+  border: 1px solid #c5e2eb;
+  box-sizing: border-box;
+}
+
+.tournamentsHeroHeading {
+  font-size: 42px;
+  margin: 0 0 15px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #111618;
+}
+
+.tournamentsHeroParagraph {
+  font-size: 18px;
+  margin: 0 0 28px;
+  max-width: 700px;
+  line-height: 1.6;
+  color: #38545e;
+}
+
+.exploreButton {
+  display: inline-block;
+  background-color: #5d7e89;
+  color: #ffffff;
+  padding: 12px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.exploreButton:hover {
+  background-color: #456773;
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
+
 .sectionTitle {
   font-size: 32px;
   font-weight: 700;
   color: #111618;
   line-height: 1.25;
   letter-spacing: -0.025em;
-  margin-bottom: 25px;
+  margin: 0 0 25px;
   text-align: left;
-  padding: 0 16px;
 }
 
+/* =========================================================
+   TOURNAMENT LIST
+========================================================= */
+
+.upcomingTournaments {
+  padding: 20px 0 35px;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.tournamentList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+/* =========================================================
+   TOURNAMENT CARD
+========================================================= */
+
 .tournamentCard {
-  display: block;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-height: 190px;
+
+  padding: 24px;
+
   background-color: #ffffff;
 
-  /* blue theme */
-  border: 1px solid #c5e2eb;
+  border: 1px solid #d5dfe2;
+  border-left: 5px solid #c5e2eb;
+
   border-radius: 12px;
 
   text-decoration: none;
   color: #111618;
 
-  overflow: hidden;
+  box-sizing: border-box;
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .tournamentCard:hover {
   transform: translateY(-4px);
 
-  border-color: #5d7e89;
+  border-left-color: #5d7e89;
 
-  box-shadow: 0 8px 25px rgba(93, 126, 137, 0.18);
-}
-
-.tournamentCardContent {
-  padding: 24px;
-
-  display: flex;
-  flex-direction: column;
-
-  min-height: 180px;
-}
-
-.tournamentName {
-  font-size: 22px;
-  font-weight: 700;
-
-  /* BLUE THEME */
-  color: #2f7f9f;
-
-  margin: 0 0 18px 0;
-
-  line-height: 1.3;
+  box-shadow: 0 8px 24px rgba(45, 77, 87, 0.12);
 }
 
 .tournamentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.tournamentInfo h2 {
+  margin: 0 0 12px;
+
+  font-size: 22px;
+  font-weight: 700;
+
+  color: #111618;
+  line-height: 1.35;
+}
+
+.tournamentInfo p {
+  margin: 0;
+
+  font-size: 15px;
+  line-height: 1.5;
+
+  color: #5d7e89;
+}
+
+.tournamentInfo strong {
+  color: #38545e;
+}
+
+.viewDetails {
+  align-self: flex-start;
+
+  margin-top: 20px;
+
+  color: #5d7e89;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  transition: color 0.2s ease;
+}
+
+.tournamentCard:hover .viewDetails {
+  color: #111618;
+}
+
+/* =========================================================
+   NO RESULTS
+========================================================= */
+
+.noResults {
+  text-align: center;
+
+  color: #6c757d;
+
+  font-size: 1.1em;
+
+  padding: 30px;
+
+  background: #ffffff;
+
+  border: 1px solid #d5dfe2;
+  border-radius: 12px;
+
+  margin: 0;
+}
+
+/* =========================================================
+   TOURNAMENT ACTIONS
+========================================================= */
+
+.actionSection {
+  margin-top: 15px;
+  margin-bottom: 40px;
+
+  padding: 30px 0;
+
+  border-top: 1px solid #d5dfe2;
+}
+
+.actionButtons {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 15px;
+
+  width: 100%;
+}
+
+.actionButton {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 52px;
+
+  padding: 12px 18px;
+
+  background-color: #5d7e89;
+
+  color: #ffffff;
+
+  border: 1px solid #5d7e89;
+
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  text-align: center;
+
+  box-sizing: border-box;
+
+  transition:
+    background-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.actionButton:hover {
+  background-color: #456773;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 15px rgba(45, 77, 87, 0.15);
+}
+
+/* =========================================================
+   VENUE SECTION
+========================================================= */
+
+.venueSection {
+  margin-top: 10px;
+
+  padding-top: 10px;
+}
+
+.venueGrid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 24px;
+
+  width: 100%;
+}
+
+.venueCard {
+  background-color: #ffffff;
+
+  border: 1px solid #d5dfe2;
+
+  border-radius: 12px;
+
+  padding: 25px;
+
+  box-sizing: border-box;
+
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.venueCard:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 7px 20px rgba(45, 77, 87, 0.1);
+}
+
+.venueCard h3 {
+  margin: 0 0 12px;
+
+  color: #5d7e89;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.venueCard h2 {
+  margin: 0 0 10px;
+
+  color: #111618;
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.venueCard p {
+  margin: 0 0 18px;
+
   color: #5d7e89;
 
   font-size: 15px;
 
   line-height: 1.6;
-
-  margin: 5px 0;
 }
 
-.tournamentInfo strong {
+/* =========================================================
+   GOOGLE MAP
+========================================================= */
+
+.mapContainer {
+  width: 100%;
+
+  overflow: hidden;
+
+  border-radius: 10px;
+
+  margin-top: 18px;
+
+  border: 1px solid #d5dfe2;
+}
+
+.mapFrame {
+  display: block;
+
+  width: 100%;
+
+  height: 320px;
+
+  border: 0;
+}
+
+/* =========================================================
+   MONTHLY HEADER
+   (kept from old design in case used elsewhere)
+========================================================= */
+
+.monthlyHeader {
+  font-size: 18px;
+
+  font-weight: 700;
+
+  color: #111618;
+
+  line-height: 1.25;
+
+  letter-spacing: -0.015em;
+
+  padding-left: 16px;
+  padding-right: 16px;
+
+  padding-bottom: 8px;
+  padding-top: 16px;
+
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* =========================================================
+   SEARCH / FILTER
+   Kept for compatibility with old tournament UI
+========================================================= */
+
+.searchLabel {
+  display: flex;
+
+  flex-direction: column;
+
+  min-width: 160px;
+
+  height: 48px;
+
+  width: 100%;
+
+  padding: 0 16px;
+
+  margin-bottom: 25px;
+
+  box-sizing: border-box;
+}
+
+.searchInnerWrapper {
+  display: flex;
+
+  width: 100%;
+
+  flex: 1;
+
+  align-items: stretch;
+
+  border-radius: 12px;
+
+  height: 100%;
+
+  background-color: #eaeff1;
+
+  overflow: hidden;
+}
+
+.searchIconWrapper {
+  color: #5d7e89;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding-left: 16px;
+
+  background-color: transparent;
+}
+
+.searchIcon {
+  width: 24px;
+
+  height: 24px;
+
+  fill: currentColor;
+}
+
+.searchInput {
+  flex: 1;
+
+  width: 100%;
+
+  min-width: 0;
+
+  resize: none;
+
+  overflow: hidden;
+
+  border-radius: 12px;
+
+  color: #111618;
+
+  outline: none;
+
+  box-shadow: none;
+
+  border: none;
+
+  background-color: #eaeff1;
+
+  height: 100%;
+
+  padding-left: 8px;
+
+  padding-right: 16px;
+
+  font-size: 16px;
+
+  font-weight: 400;
+
+  line-height: normal;
+
+  border-top-left-radius: 0;
+
+  border-bottom-left-radius: 0;
+
+  border-left: none;
+
+  box-sizing: border-box;
+}
+
+.searchInput::placeholder {
+  color: #5d7e89;
+}
+
+/* =========================================================
+   FILTER BUTTONS
+========================================================= */
+
+.filterButtons {
+  display: flex;
+
+  justify-content: flex-start;
+
+  border-bottom: 1px solid #d5dfe2;
+
+  padding-left: 16px;
+  padding-right: 16px;
+
+  gap: 32px;
+
+  margin-bottom: 30px;
+
+  flex-wrap: wrap;
+}
+
+.filterButton {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-bottom: 3px solid transparent;
+
+  color: #5d7e89;
+
+  padding-bottom: 13px;
+  padding-top: 16px;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.filterButton.active {
+  border-bottom-color: #c5e2eb;
+
   color: #111618;
 }
 
-.viewDetails {
-  margin-top: auto;
+.filterButton:hover {
+  color: #111618;
+}
 
-  padding-top: 18px;
-
-  /* BLUE */
-  color: #2f7f9f;
+.filterButtonText {
+  color: inherit;
 
   font-size: 14px;
 
   font-weight: 700;
 
+  line-height: normal;
+
   letter-spacing: 0.015em;
+
+  margin: 0;
 }
 
-.tournamentCard:hover .tournamentName,
-.tournamentCard:hover .viewDetails {
-  color: #111618;
-}
-@media (max-width: 767px) {
-  .actionSection {
-    padding: 20px 0;
-    margin: 16px;
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1200px) {
+  .mainContentWrapper {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+
+  .tournamentList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .actionButtons {
-    padding: 0;
-    flex-direction: column;
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   TABLET / SMALL LAPTOP
+========================================================= */
+
+@media (max-width: 1024px) {
+  .mainContentWrapper {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .tournamentsHeroSection {
+    min-height: 230px;
+
+    margin-top: 10px;
+  }
+
+  .tournamentList {
+    grid-template-columns: 1fr;
+  }
+
+  .venueGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+  .mainContentWrapper {
+    padding-left: 16px;
+    padding-right: 16px;
+
+    padding-top: 16px;
+    padding-bottom: 30px;
+  }
+
+  .tournamentsHeroSection {
+    min-height: 220px;
+
+    margin: 0 0 25px;
+
+    padding: 35px 20px;
+
+    border-radius: 12px;
+  }
+
+  .tournamentsHeroHeading {
+    font-size: 30px;
+  }
+
+  .tournamentsHeroParagraph {
+    font-size: 15px;
+
+    line-height: 1.5;
+
+    margin-bottom: 22px;
+  }
+
+  .exploreButton {
+    padding: 10px 20px;
+
+    font-size: 14px;
+  }
+
+  .sectionTitle {
+    font-size: 28px;
+
+    margin-bottom: 20px;
+
+    text-align: center;
+  }
+
+  .upcomingTournaments {
+    padding: 10px 0 25px;
+  }
+
+  .tournamentList {
+    grid-template-columns: 1fr;
+
+    gap: 15px;
+  }
+
+  .tournamentCard {
+    min-height: 175px;
+
+    padding: 20px;
+  }
+
+  .tournamentInfo h2 {
+    font-size: 19px;
+  }
+
+  .tournamentInfo p {
+    font-size: 14px;
+  }
+
+  .viewDetails {
+    font-size: 13px;
+
+    margin-top: 15px;
+  }
+
+  /* Actions */
+
+  .actionSection {
+    margin-top: 5px;
+
+    margin-bottom: 30px;
+
+    padding: 25px 0;
+  }
+
+  .actionButtons {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
   }
 
   .actionButton {
-    width: 100%;
-    box-sizing: border-box;
+    min-height: 48px;
+
+    font-size: 14px;
+  }
+
+  /* Venue */
+
+  .venueSection {
+    padding-top: 5px;
+  }
+
+  .venueGrid {
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+  .venueCard {
+    padding: 20px;
+  }
+
+  .venueCard h2 {
+    font-size: 20px;
+  }
+
+  .venueCard h3 {
+    font-size: 17px;
+  }
+
+  .venueCard p {
+    font-size: 14px;
+  }
+
+  .mapFrame {
+    height: 260px;
+  }
+
+  /* Old search/filter compatibility */
+
+  .searchLabel {
+    padding: 0;
+
+    margin-bottom: 15px;
+  }
+
+  .filterButtons {
+    padding: 0;
+
+    gap: 15px;
+
+    justify-content: center;
+
+    margin-bottom: 20px;
+  }
+
+  .filterButton {
+    padding-top: 10px;
+
+    padding-bottom: 10px;
+  }
+
+  .filterButtonText {
+    font-size: 13px;
+  }
+
+  .monthlyHeader {
+    font-size: 16px;
+
+    padding-left: 0;
+
+    padding-right: 0;
+  }
+}
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .mainContentWrapper {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .tournamentsHeroSection {
+    padding: 30px 15px;
+
+    min-height: 200px;
+  }
+
+  .tournamentsHeroHeading {
+    font-size: 26px;
+  }
+
+  .tournamentsHeroParagraph {
+    font-size: 14px;
+  }
+
+  .sectionTitle {
+    font-size: 24px;
+  }
+
+  .tournamentCard {
+    padding: 17px;
+  }
+
+  .tournamentInfo h2 {
+    font-size: 18px;
+  }
+
+  .actionButton {
+    min-height: 46px;
+
+    padding: 10px 12px;
+
+    font-size: 13px;
+  }
+
+  .venueCard {
+    padding: 17px;
+  }
+
+  .mapFrame {
+    height: 230px;
+  }
+
+  .filterButtons {
+    flex-wrap: wrap;
+
+    justify-content: space-around;
+
+    gap: 5px;
   }
 }
