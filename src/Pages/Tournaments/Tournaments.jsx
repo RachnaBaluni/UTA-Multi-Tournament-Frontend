@@ -434,15 +434,16 @@ export default function Tournaments() {
                       >
                         View Details →
                       </button>
-                      {tournament.itemType === "tournament" && (
-                        <button
-                          type="button"
-                          className={styles.viewInformationButton}
-                          onClick={() => handleInformationClick(tournament)}
-                        >
-                          View Information →
-                        </button>
-                      )}
+                      {tournament.itemType === "tournament" &&
+                        tournament.type !== "display" && (
+                          <button
+                            type="button"
+                            className={styles.viewInformationButton}
+                            onClick={() => handleInformationClick(tournament)}
+                          >
+                            View Information →
+                          </button>
+                        )}
                     </div>
                   </div>
                 ))}
@@ -681,25 +682,26 @@ export default function Tournaments() {
                     REGISTER + LOGIN
                 ================================================== */}
 
-                {selectedTournament.itemType === "tournament" && (
-                  <div className={styles.modalRegister}>
-                    <Link
-                      to={`/tournaments/register?tournamentId=${selectedTournament._id}`}
-                      className={styles.registerButton}
-                      onClick={closeDetails}
-                    >
-                      Register Now
-                    </Link>
+                {selectedTournament.itemType === "tournament" &&
+                  selectedTournament.type !== "display" && (
+                    <div className={styles.modalRegister}>
+                      <Link
+                        to={`/tournaments/register?tournamentId=${selectedTournament._id}`}
+                        className={styles.registerButton}
+                        onClick={closeDetails}
+                      >
+                        Register Now
+                      </Link>
 
-                    <Link
-                      to={`/tournaments/login/${selectedTournament._id}`}
-                      className={styles.loginButton}
-                      onClick={closeDetails}
-                    >
-                      Login
-                    </Link>
-                  </div>
-                )}
+                      <Link
+                        to={`/tournaments/login/${selectedTournament._id}`}
+                        className={styles.loginButton}
+                        onClick={closeDetails}
+                      >
+                        Login
+                      </Link>
+                    </div>
+                  )}
               </>
             )}
           </div>
