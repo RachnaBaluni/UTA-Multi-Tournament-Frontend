@@ -376,8 +376,6 @@ export default function Tournaments() {
 
   return (
     <div className={styles.rootContainer}>
-      <Header />
-
       <main className={styles.mainContentWrapper}>
         <div className={styles.contentContainer}>
           {/* =====================================================
@@ -798,8 +796,6 @@ export default function Tournaments() {
           </div>
         </div>
       )}
-
-      <Footer />
     </div>
   );
 }
