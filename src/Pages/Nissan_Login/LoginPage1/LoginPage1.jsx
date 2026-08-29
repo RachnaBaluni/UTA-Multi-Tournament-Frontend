@@ -5,6 +5,7 @@ import axios from "axios";
 const LoginPage1 = ({ player, handleNext, setPlayer, id }) => {
   const [formData, setFormData] = useState({
     name: "",
+    email: "",
     whatsappNumber: "",
     dob: "",
     city: "",
@@ -23,6 +24,7 @@ const LoginPage1 = ({ player, handleNext, setPlayer, id }) => {
     if (player) {
       setFormData({
         name: player.name || "",
+        email: player.email || emailAddress || "",
         whatsappNumber: player.whatsappNumber || "",
         dob: player.dob ? new Date(player.dob).toISOString().split("T")[0] : "",
         city: player.city || "",
