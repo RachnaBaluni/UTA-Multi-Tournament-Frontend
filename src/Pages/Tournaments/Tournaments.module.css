@@ -72,11 +72,14 @@
 ========================================================= */
 
 .tournamentCard {
+  position: relative;
   background: #ffffff;
   border: 1px solid #d5dfe2;
   border-radius: 10px;
   padding: 22px 20px;
   min-height: 165px;
+  cursor: default;
+
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
@@ -86,7 +89,7 @@
 .tournamentCard:hover {
   transform: translateY(-3px);
   border-color: #12aede;
-  box-shadow: 0 7px 20px rgba(17, 97, 120, 0.12);
+  box-shadow: 0 8px 22px rgba(17, 97, 120, 0.13);
 }
 
 /* =========================================================
@@ -95,19 +98,26 @@
 
 .tournamentName {
   margin: 0;
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 700;
   color: #111618;
   line-height: 1.35;
 }
 
-.tournamentUnderline {
+/* Blue line under tournament name */
+
+.cardTitleLine {
   width: 36px;
   height: 3px;
-  background: #12aede;
-  border-radius: 3px;
+  background-color: #12aede;
+  border-radius: 5px;
   margin-top: 10px;
   margin-bottom: 20px;
+  transition: width 0.2s ease;
+}
+
+.tournamentCard:hover .cardTitleLine {
+  width: 55px;
 }
 
 /* =========================================================
@@ -115,11 +125,11 @@
 ========================================================= */
 
 .tournamentInfo {
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .tournamentInfo p {
-  margin: 8px 0;
+  margin: 7px 0;
   font-size: 14px;
   color: #111618;
 }
@@ -144,11 +154,14 @@
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .viewDetailsButton:hover {
   color: #079dcc;
+  transform: translateX(3px);
 }
 
 /* =========================================================
@@ -165,7 +178,7 @@
 }
 
 .actionSection .sectionTitle {
-  margin-bottom: 25px;
+  margin-bottom: 15px;
 }
 
 .actionDescription {
@@ -174,6 +187,10 @@
   color: #111618;
   line-height: 1.6;
 }
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
 
 .actionButtons {
   display: flex;
@@ -201,6 +218,7 @@
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
+
   transition:
     background-color 0.2s ease,
     transform 0.2s ease,
@@ -231,6 +249,7 @@
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
+
   transition:
     background-color 0.2s ease,
     transform 0.2s ease;
@@ -239,319 +258,6 @@
 .actionButtonGrey:hover {
   background-color: #d4d4d4;
   transform: translateY(-2px);
-}
-
-/* =========================================================
-   DETAIL MODAL OVERLAY
-========================================================= */
-
-.detailModalOverlay {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 35px;
-
-  background: rgba(8, 22, 28, 0.55);
-
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
-
-  animation: modalOverlayIn 0.2s ease;
-}
-
-@keyframes modalOverlayIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-/* =========================================================
-   DETAIL MODAL
-========================================================= */
-
-.detailModal {
-  width: min(100%, 1050px);
-  max-height: 90vh;
-
-  overflow-y: auto;
-
-  background: #ffffff;
-
-  border-radius: 18px;
-
-  box-shadow:
-    0 25px 70px rgba(0, 0, 0, 0.25),
-    0 5px 20px rgba(18, 174, 222, 0.08);
-
-  border: 1px solid #e0e9ec;
-
-  padding: 35px;
-
-  animation: modalIn 0.25s ease;
-}
-
-@keyframes modalIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* =========================================================
-   MODAL HEADER
-========================================================= */
-
-.detailModalHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px;
-
-  padding-bottom: 25px;
-
-  border-bottom: 1px solid #e4ecee;
-}
-
-.detailModalLabel {
-  color: #12aede;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  margin-bottom: 8px;
-}
-
-.detailModalTitle {
-  margin: 0;
-  font-size: 30px;
-  font-weight: 750;
-  color: #111618;
-  line-height: 1.25;
-}
-
-.modalBlueLine {
-  width: 45px;
-  height: 4px;
-  margin-top: 12px;
-  border-radius: 5px;
-  background: #12aede;
-}
-
-/* =========================================================
-   CLOSE BUTTON
-========================================================= */
-
-.closeButton {
-  flex-shrink: 0;
-
-  width: 42px;
-  height: 42px;
-
-  border: none;
-  border-radius: 50%;
-
-  background: #eeeeee;
-
-  color: #111618;
-
-  font-size: 28px;
-  font-weight: 400;
-
-  line-height: 1;
-
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.closeButton:hover {
-  background: #12aede;
-  color: #ffffff;
-  transform: rotate(90deg);
-}
-
-/* =========================================================
-   MODAL MAIN INFO
-========================================================= */
-
-.modalMainInfo {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-
-  margin-top: 25px;
-}
-
-.modalInfoBox {
-  background: #f7fbfc;
-  border: 1px solid #e0eaed;
-  border-radius: 12px;
-  padding: 18px;
-}
-
-.modalInfoBox span {
-  display: block;
-  margin-bottom: 7px;
-
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-
-  color: #6b858e;
-}
-
-.modalInfoBox strong {
-  font-size: 16px;
-  color: #111618;
-}
-
-/* =========================================================
-   BLUE TEXT
-========================================================= */
-
-.blueText {
-  color: #12aede !important;
-}
-
-/* =========================================================
-   DETAILS GRID
-========================================================= */
-
-.modalDetailsGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-
-  gap: 0 25px;
-
-  margin-top: 25px;
-
-  border-top: 1px solid #e5edef;
-}
-
-.modalDetailItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-
-  gap: 20px;
-
-  padding: 17px 0;
-
-  border-bottom: 1px solid #e5edef;
-}
-
-.modalDetailItem span {
-  color: #5d7e89;
-  font-size: 14px;
-}
-
-.modalDetailItem strong {
-  color: #111618;
-  font-size: 14px;
-  text-align: right;
-  max-width: 60%;
-}
-
-/* =========================================================
-   DESCRIPTION
-========================================================= */
-
-.modalDescription {
-  margin-top: 28px;
-
-  padding: 22px;
-
-  background: #f8fbfc;
-
-  border-left: 4px solid #12aede;
-
-  border-radius: 10px;
-}
-
-.modalDescription h3 {
-  margin: 0 0 10px;
-
-  color: #111618;
-
-  font-size: 19px;
-}
-
-.modalDescription p,
-.modalDescription div {
-  margin: 0;
-
-  color: #36464c;
-
-  font-size: 15px;
-
-  line-height: 1.7;
-}
-
-/* =========================================================
-   REGISTER
-========================================================= */
-
-.modalRegisterArea {
-  display: flex;
-  justify-content: center;
-
-  margin-top: 30px;
-  padding-top: 25px;
-
-  border-top: 1px solid #e4ecee;
-}
-
-.registerButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  min-width: 180px;
-
-  background: #12aede;
-  color: #ffffff;
-
-  text-decoration: none;
-
-  border-radius: 30px;
-
-  padding: 14px 28px;
-
-  font-size: 17px;
-  font-weight: 700;
-
-  transition:
-    background-color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.registerButton:hover {
-  background: #079dcc;
-
-  transform: translateY(-2px);
-
-  box-shadow: 0 7px 16px rgba(18, 174, 222, 0.25);
 }
 
 /* =========================================================
@@ -621,21 +327,406 @@
 }
 
 /* =========================================================
-   OLD ACTION MODAL
+   DETAILS MODAL
+   BACKGROUND BLUR
+========================================================= */
+
+.detailsModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 35px;
+
+  background: rgba(5, 20, 26, 0.55);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  animation: fadeIn 0.2s ease;
+}
+
+/* =========================================================
+   DETAILS MODAL BOX
+========================================================= */
+
+.detailsModal {
+  position: relative;
+
+  width: 100%;
+  max-width: 900px;
+  max-height: 86vh;
+
+  overflow-y: auto;
+
+  background: #ffffff;
+  border-radius: 18px;
+
+  padding: 38px 42px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    0 5px 20px rgba(18, 174, 222, 0.08);
+
+  border: 1px solid #e0e8ea;
+
+  animation: modalSlideUp 0.25s ease;
+}
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.closeDetailsButton {
+  position: absolute;
+
+  top: 18px;
+  right: 20px;
+
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #eeeeee;
+  color: #111618;
+
+  font-size: 29px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.closeDetailsButton:hover {
+  background: #12aede;
+  color: #ffffff;
+  transform: rotate(90deg);
+}
+
+/* =========================================================
+   MODAL HEADER
+========================================================= */
+
+.detailsModalHeader {
+  padding-right: 45px;
+  margin-bottom: 30px;
+}
+
+.detailsSmallLabel {
+  display: block;
+
+  color: #12aede;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  letter-spacing: 1.4px;
+
+  margin-bottom: 8px;
+}
+
+.modalTournamentName {
+  margin: 0;
+
+  font-size: 32px;
+  line-height: 1.25;
+
+  font-weight: 800;
+
+  color: #111618;
+}
+
+.titleLine {
+  width: 60px;
+  height: 4px;
+
+  background-color: #12aede;
+
+  border-radius: 5px;
+
+  margin-top: 14px;
+}
+
+/* =========================================================
+   BASIC INFO GRID
+========================================================= */
+
+.modalInfoGrid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+
+  margin-bottom: 30px;
+}
+
+/* =========================================================
+   INFO BOX
+========================================================= */
+
+.modalInfoBox {
+  background: #f8fbfc;
+
+  border: 1px solid #e0e8ea;
+
+  border-radius: 10px;
+
+  padding: 17px 18px;
+
+  min-height: 75px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.modalInfoBox:hover {
+  border-color: #12aede;
+
+  box-shadow: 0 4px 12px rgba(18, 174, 222, 0.08);
+}
+
+.infoLabel {
+  display: block;
+
+  color: #5d7e89;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 0.8px;
+
+  margin-bottom: 7px;
+}
+
+.modalInfoBox strong {
+  display: block;
+
+  color: #111618;
+
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.infoValue {
+  color: #111618;
+
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   TAGS
+========================================================= */
+
+.arrayValue {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+}
+
+.infoTag {
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 6px 11px;
+
+  border-radius: 18px;
+
+  background: #12aede;
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   OBJECT VALUE
+========================================================= */
+
+.objectValue {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.objectRow {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  font-size: 14px;
+}
+
+.objectRow strong {
+  font-size: 13px;
+}
+
+/* =========================================================
+   DESCRIPTION / RULES
+========================================================= */
+
+.modalContentBlock {
+  margin-top: 25px;
+
+  padding-top: 25px;
+
+  border-top: 1px solid #e1e8ea;
+}
+
+.modalContentBlock h3 {
+  margin: 0 0 12px;
+
+  color: #111618;
+
+  font-size: 20px;
+  font-weight: 750;
+}
+
+.modalContentText {
+  color: #46575d;
+
+  font-size: 15px;
+
+  line-height: 1.75;
+}
+
+.modalContentText p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.modalContentText ul,
+.modalContentText ol {
+  padding-left: 22px;
+}
+
+/* =========================================================
+   EXTRA DETAILS
+========================================================= */
+
+.extraDetails {
+  margin-top: 25px;
+}
+
+.extraDetailRow {
+  display: grid;
+
+  grid-template-columns: 220px 1fr;
+
+  gap: 20px;
+
+  padding: 13px 0;
+
+  border-top: 1px solid #e8edef;
+
+  color: #36464c;
+
+  font-size: 14px;
+}
+
+.extraDetailRow > span {
+  font-weight: 700;
+
+  color: #111618;
+}
+
+/* =========================================================
+   REGISTER BUTTON
+========================================================= */
+
+.modalRegisterArea {
+  display: flex;
+
+  justify-content: center;
+
+  margin-top: 30px;
+
+  padding-top: 25px;
+
+  border-top: 1px solid #e1e8ea;
+}
+
+.modalRegisterButton {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 54px;
+
+  padding: 0 32px;
+
+  border-radius: 30px;
+
+  background: #12aede;
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  box-shadow: 0 5px 14px rgba(18, 174, 222, 0.2);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.modalRegisterButton:hover {
+  background: #079dcc;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 8px 18px rgba(18, 174, 222, 0.28);
+}
+
+/* =========================================================
+   OLD TOURNAMENT SELECT MODAL
 ========================================================= */
 
 .modalOverlay {
   position: fixed;
   inset: 0;
+
   z-index: 9999;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
   padding: 20px;
 
   background: rgba(17, 24, 28, 0.55);
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .modalBox {
@@ -667,6 +758,7 @@
 
 .tournamentSelect {
   width: 100%;
+
   height: 50px;
 
   border: 1px solid #d5dfe2;
@@ -688,8 +780,13 @@
   border-color: #12aede;
 }
 
+/* =========================================================
+   MODAL BUTTONS
+========================================================= */
+
 .modalButtons {
   display: flex;
+
   justify-content: flex-end;
 
   gap: 12px;
@@ -706,6 +803,7 @@
   padding: 12px 24px;
 
   font-size: 15px;
+
   font-weight: 700;
 
   cursor: pointer;
@@ -713,6 +811,7 @@
 
 .cancelButton {
   background: #e1e1e1;
+
   color: #111618;
 }
 
@@ -722,11 +821,38 @@
 
 .continueButton {
   background: #12aede;
+
   color: #ffffff;
 }
 
 .continueButton:hover {
   background: #079dcc;
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* =========================================================
@@ -743,10 +869,14 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .detailModal {
-    max-width: 900px;
+  .detailsModal {
+    max-width: 850px;
   }
 }
+
+/* =========================================================
+   TABLET / MOBILE
+========================================================= */
 
 @media (max-width: 767px) {
   .mainContentWrapper {
@@ -787,46 +917,6 @@
     font-size: 15px;
   }
 
-  /* DETAIL MODAL */
-
-  .detailModalOverlay {
-    padding: 15px;
-  }
-
-  .detailModal {
-    max-height: 92vh;
-    padding: 22px;
-    border-radius: 15px;
-  }
-
-  .detailModalTitle {
-    font-size: 24px;
-  }
-
-  .detailModalLabel {
-    font-size: 10px;
-  }
-
-  .modalMainInfo {
-    grid-template-columns: 1fr;
-  }
-
-  .modalDetailsGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .modalDetailItem {
-    gap: 10px;
-  }
-
-  .modalDetailItem strong {
-    max-width: 55%;
-  }
-
-  .modalDescription {
-    padding: 18px;
-  }
-
   .venueGrid {
     grid-template-columns: 1fr;
   }
@@ -835,10 +925,58 @@
     padding: 22px;
   }
 
+  /* DETAILS MODAL */
+
+  .detailsModalOverlay {
+    padding: 15px;
+  }
+
+  .detailsModal {
+    max-height: 90vh;
+
+    padding: 28px 22px;
+
+    border-radius: 15px;
+  }
+
+  .modalTournamentName {
+    font-size: 26px;
+  }
+
+  .detailsModalHeader {
+    margin-bottom: 22px;
+  }
+
+  .modalInfoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .extraDetailRow {
+    grid-template-columns: 1fr;
+
+    gap: 5px;
+  }
+
+  .closeDetailsButton {
+    width: 38px;
+    height: 38px;
+
+    top: 14px;
+    right: 14px;
+  }
+
+  .modalRegisterButton {
+    width: 100%;
+  }
+
   .modalBox {
     padding: 22px;
   }
 }
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
 
 @media (max-width: 480px) {
   .mainContentWrapper {
@@ -859,41 +997,34 @@
     padding: 25px 15px;
   }
 
-  .detailModalOverlay {
+  .detailsModalOverlay {
     padding: 8px;
   }
 
-  .detailModal {
-    padding: 18px;
+  .detailsModal {
+    padding: 25px 17px;
+
     border-radius: 13px;
   }
 
-  .detailModalHeader {
-    gap: 10px;
+  .modalTournamentName {
+    font-size: 23px;
   }
 
-  .detailModalTitle {
-    font-size: 21px;
+  .detailsSmallLabel {
+    font-size: 11px;
   }
 
-  .closeButton {
-    width: 36px;
-    height: 36px;
-    font-size: 24px;
+  .modalInfoBox {
+    padding: 14px;
   }
 
-  .modalDetailItem {
-    flex-direction: column;
-    gap: 5px;
+  .modalContentBlock h3 {
+    font-size: 18px;
   }
 
-  .modalDetailItem strong {
-    max-width: 100%;
-    text-align: left;
-  }
-
-  .modalDescription {
-    padding: 15px;
+  .modalContentText {
+    font-size: 14px;
   }
 
   .modalButtons {
