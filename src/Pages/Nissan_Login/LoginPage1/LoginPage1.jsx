@@ -24,7 +24,7 @@ const LoginPage1 = ({ player, handleNext, setPlayer, id }) => {
     if (player) {
       setFormData({
         name: player.name || "",
-        email: player.email || player.emailAddress || "",
+        email: player.email || "",
         whatsappNumber: player.whatsappNumber || "",
         dob: player.dob ? new Date(player.dob).toISOString().split("T")[0] : "",
         city: player.city || "",
