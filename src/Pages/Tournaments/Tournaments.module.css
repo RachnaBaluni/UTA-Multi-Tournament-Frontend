@@ -859,7 +859,8 @@
     font-size: 14px;
   }
 
-  .modalRegister .registerButton {
+  .modalRegister .registerButton,
+  .modalRegister .loginButton {
     width: 100%;
   }
 
