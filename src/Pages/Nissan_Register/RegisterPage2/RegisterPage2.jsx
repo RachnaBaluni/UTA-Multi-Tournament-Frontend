@@ -27,7 +27,9 @@ const RegisterPage2 = ({
     );
     setPlayersEvent1List(
       players
-        .filter((player) => player.eventId?._id === event1Id)
+        .filter(
+          (player) => player.eventId?._id === event1Id && !player.partner2,
+        )
         .sort((a, b) => a.partner1.name.localeCompare(b.partner1.name)),
     );
     setErrors((prev) => ({ ...prev, event1: null }));
