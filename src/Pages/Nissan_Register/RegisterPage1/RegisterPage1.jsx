@@ -33,11 +33,10 @@ const RegisterPage1 = ({ formData, setFormData, handleNext }) => {
       newErrors.password =
         "Password must include uppercase, lowercase, number and special character.";
     }
-
     // WhatsApp Number
-    if (!formData.whatsappNumber?.trim()) {
+    if (!String(formData.whatsappNumber || "").trim()) {
       newErrors.whatsappNumber = "WhatsApp Number is required.";
-    } else if (!/^\d{10}$/.test(formData.whatsappNumber)) {
+    } else if (!/^\d{10}$/.test(String(formData.whatsappNumber || ""))) {
       newErrors.whatsappNumber = "WhatsApp Number must be 10 digits.";
     }
 
