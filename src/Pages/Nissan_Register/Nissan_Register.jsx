@@ -237,6 +237,7 @@ const Register = () => {
               formData={formData}
               handleNext={handleNext}
               setFormData={setFormData}
+              isLoggedIn={!!user?._id}
             />
           )}
         </section>

@@ -127,35 +127,36 @@ const RegisterPage1 = ({ formData, setFormData, handleNext, isLoggedin }) => {
       </section>
 
       {/* Create Password */}
-      <section className={styles.formSection}>
-        <label htmlFor="password" className={styles.label}>
-          Create Password
-        </label>
+      {!isLoggedIn && (
+        <section className={styles.formSection}>
+          <label htmlFor="password" className={styles.label}>
+            Create Password
+          </label>
 
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Create your password..."
-          value={formData.password || ""}
-          onChange={(e) => {
-            setFormData({
-              ...formData,
-              password: e.target.value,
-            });
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Create your password..."
+            value={formData.password || ""}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                password: e.target.value,
+              });
+              setErrors({
+                ...errors,
+                password: "",
+              });
+            }}
+            className={styles.input}
+          />
 
-            setErrors({
-              ...errors,
-              password: "",
-            });
-          }}
-          className={styles.input}
-        />
-
-        {errors.password && (
-          <span className={styles.errorText}>{errors.password}</span>
-        )}
-      </section>
+          {errors.password && (
+            <span className={styles.errorText}>{errors.password}</span>
+          )}
+        </section>
+      )}
 
       {/* WhatsApp Number */}
       <section className={styles.formSection}>
