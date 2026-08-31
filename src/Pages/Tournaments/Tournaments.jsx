@@ -689,8 +689,8 @@ export default function Tournaments() {
             )}
 
             {/* =================================================
-                EXTRA TOURNAMENT DETAILS
-            ================================================== */}
+    EXTRA TOURNAMENT DETAILS
+================================================= */}
 
             {detailsLoading ? (
               <div className={styles.modalLoading}>
@@ -698,27 +698,16 @@ export default function Tournaments() {
               </div>
             ) : (
               <>
-                {tournamentDetails.length > 0 && (
-                  <div className={styles.modalSection}>
-                    <h3>Tournament Details</h3>
+                {tournamentDetails
+                  .filter((item) => item.showing !== false)
+                  .map((item) => {
+                    const key = item.key?.toLowerCase();
 
-                    {tournamentDetails
-                      .filter((item) => item.showing !== false)
-                      .map((item) => (
-                        <div key={item._id} className={styles.detailBlock}>
-                          {/* TITLE */}
-
-                          {item.title && <h4>{item.title}</h4>}
-
-                          {/* KEY */}
-
-                          {item.key && (
-                            <p className={styles.modalParagraph}>
-                              <strong>{item.key}</strong>
-                            </p>
-                          )}
-
-                          {/* VALUE */}
+                    // ENTRY & PARTICIPATION
+                    if (key === "entry_participation") {
+                      return (
+                        <div key={item._id} className={styles.modalSection}>
+                          <h3>Entry & Participation</h3>
 
                           {item.value && (
                             <div
@@ -729,32 +718,68 @@ export default function Tournaments() {
                             />
                           )}
 
-                          {/* DATE */}
-
                           {item.date && (
                             <p className={styles.modalParagraph}>
-                              <strong>Date:</strong> {formatDate(item.date)}
+                              <strong>Applicable Date:</strong>{" "}
+                              {formatDate(item.date)}
                             </p>
                           )}
 
-                          {/* RULES */}
-
                           {Array.isArray(item.rules) &&
                             item.rules.length > 0 && (
-                              <ul className={styles.detailList}>
-                                {item.rules.map((rule, index) => (
-                                  <li key={index}>{rule}</li>
-                                ))}
-                              </ul>
+                              <>
+                                <h4>Entry & Participation Rules</h4>
+
+                                <ul className={styles.detailList}>
+                                  {item.rules.map((rule, index) => (
+                                    <li key={index}>{rule}</li>
+                                  ))}
+                                </ul>
+                              </>
                             )}
                         </div>
-                      ))}
-                  </div>
-                )}
+                      );
+                    }
+
+                    // OTHER TOURNAMENT DETAILS
+                    return (
+                      <div key={item._id} className={styles.modalSection}>
+                        {item.title && <h3>{item.title}</h3>}
+
+                        {item.value && (
+                          <div
+                            className={styles.modalRichText}
+                            dangerouslySetInnerHTML={{
+                              __html: item.value,
+                            }}
+                          />
+                        )}
+
+                        {item.date && (
+                          <p className={styles.modalParagraph}>
+                            <strong>Applicable Date:</strong>{" "}
+                            {formatDate(item.date)}
+                          </p>
+                        )}
+
+                        {Array.isArray(item.rules) && item.rules.length > 0 && (
+                          <>
+                            <h4>Rules</h4>
+
+                            <ul className={styles.detailList}>
+                              {item.rules.map((rule, index) => (
+                                <li key={index}>{rule}</li>
+                              ))}
+                            </ul>
+                          </>
+                        )}
+                      </div>
+                    );
+                  })}
 
                 {/* =================================================
-                    TOURNAMENT RULES
-                ================================================== */}
+        TOURNAMENT RULES
+    ================================================= */}
 
                 {selectedTournament.rules && (
                   <div className={styles.modalSection}>
@@ -773,8 +798,8 @@ export default function Tournaments() {
                 )}
 
                 {/* =================================================
-                    PRIZES & BENEFITS
-                ================================================== */}
+    PRIZES & BENEFITS
+================================================= */}
 
                 {(pricesBenefits.length > 0 ||
                   selectedTournament.prize ||
@@ -784,21 +809,11 @@ export default function Tournaments() {
                   <div className={styles.modalSection}>
                     <h3>Prizes & Benefits</h3>
 
-                    {/* DATABASE PRIZES */}
-
                     {pricesBenefits
                       .filter((item) => item.showing !== false)
                       .map((item) => (
                         <div key={item._id} className={styles.detailBlock}>
-                          {/* KEY */}
-
-                          {item.key && <h4>{item.key}</h4>}
-
-                          {/* TITLE */}
-
-                          {item.title && <h4>{item.title}</h4>}
-
-                          {/* VALUE */}
+                          {/* PRIZE VALUE */}
 
                           {item.value && (
                             <div
@@ -809,23 +824,12 @@ export default function Tournaments() {
                             />
                           )}
 
-                          {/* PRIZE MONEY */}
-
-                          {item.prizeMoney && renderHTML(item.prizeMoney)}
-
-                          {/* PRIZES */}
-
-                          {item.prizes && renderHTML(item.prizes)}
-
-                          {/* BENEFITS */}
-
-                          {item.benefits && renderHTML(item.benefits)}
-
                           {/* DATE */}
 
                           {item.date && (
                             <p className={styles.modalParagraph}>
-                              <strong>Date:</strong> {formatDate(item.date)}
+                              <strong>Prize & Benefit Date:</strong>{" "}
+                              {formatDate(item.date)}
                             </p>
                           )}
 
@@ -833,16 +837,20 @@ export default function Tournaments() {
 
                           {Array.isArray(item.rules) &&
                             item.rules.length > 0 && (
-                              <ul className={styles.detailList}>
-                                {item.rules.map((rule, index) => (
-                                  <li key={index}>{rule}</li>
-                                ))}
-                              </ul>
+                              <>
+                                <h4>Prize & Benefit Rules</h4>
+
+                                <ul className={styles.detailList}>
+                                  {item.rules.map((rule, index) => (
+                                    <li key={index}>{rule}</li>
+                                  ))}
+                                </ul>
+                              </>
                             )}
                         </div>
                       ))}
 
-                    {/* TOURNAMENT DIRECT PRIZE FIELDS */}
+                    {/* DIRECT TOURNAMENT PRIZE FIELDS */}
 
                     {selectedTournament.prizeMoney &&
                       renderHTML(selectedTournament.prizeMoney)}
