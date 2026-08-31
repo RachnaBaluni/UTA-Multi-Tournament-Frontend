@@ -614,23 +614,18 @@
 
 .modalInfoBox span {
   display: block;
-
   margin-bottom: 6px;
-
-  color: #5d7e89;
-
-  font-size: 11px;
-  font-weight: 800;
-
-  letter-spacing: 1px;
+  color: #777;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
 }
 
 .modalInfoBox strong {
-  color: #111618;
-
-  font-size: 16px;
-
-  line-height: 1.4;
+  color: #36464c;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.7;
 }
 
 /* =========================================================
@@ -672,12 +667,8 @@
 ========================================================= */
 
 .modalParagraph {
-  margin: 0;
-
   color: #36464c;
-
   font-size: 15px;
-
   line-height: 1.7;
 }
 
