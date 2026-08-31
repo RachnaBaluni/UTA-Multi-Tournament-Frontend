@@ -753,45 +753,6 @@ export default function Tournaments() {
                 )}
 
                 {/* =================================================
-                    ENTRY & PARTICIPATION
-                ================================================== */}
-
-                {(selectedTournament.registrationStartDate ||
-                  selectedTournament.registrationEndDate ||
-                  selectedTournament.entryParticipationRules?.length > 0) && (
-                  <div className={styles.modalSection}>
-                    <h3>Entry & Participation</h3>
-
-                    {selectedTournament.registrationStartDate && (
-                      <p className={styles.modalParagraph}>
-                        <strong>Registration Start:</strong>{" "}
-                        {formatDate(selectedTournament.registrationStartDate)}
-                      </p>
-                    )}
-
-                    {selectedTournament.registrationEndDate && (
-                      <p className={styles.modalParagraph}>
-                        <strong>Registration End:</strong>{" "}
-                        {formatDate(selectedTournament.registrationEndDate)}
-                      </p>
-                    )}
-
-                    {Array.isArray(
-                      selectedTournament.entryParticipationRules,
-                    ) &&
-                      selectedTournament.entryParticipationRules.length > 0 && (
-                        <ul className={styles.detailList}>
-                          {selectedTournament.entryParticipationRules.map(
-                            (rule, index) => (
-                              <li key={index}>{rule}</li>
-                            ),
-                          )}
-                        </ul>
-                      )}
-                  </div>
-                )}
-
-                {/* =================================================
                     TOURNAMENT RULES
                 ================================================== */}
 
