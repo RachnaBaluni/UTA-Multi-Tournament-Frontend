@@ -19,6 +19,7 @@ const LoginPage = () => {
   const [tournaments, setTournaments] = useState([]);
   const [selectedTournament, setSelectedTournament] = useState("");
   const [currentStep, setCurrentStep] = useState(1);
+  const [isTournamentAllowed, setIsTournamentAllowed] = useState(true);
   const params = useParams();
   const location = useLocation();
 
@@ -99,6 +100,8 @@ const LoginPage = () => {
         );
 
         if (!isRegisteredInTournament) {
+          setIsTournamentAllowed(false);
+
           toast.error("This player is not registered in this tournament.");
 
           setCurrentPlayerTeam([]);
@@ -168,95 +171,97 @@ const LoginPage = () => {
         </div>
       </header> */}
       <Header />
-      <section className={styles.formContainer}>
-        <div className={styles.stepIndicator}>
-          <div
-            className={`${styles.step} ${
-              currentStep >= 1 ? styles.activeStep : ""
-            }`}
-          >
-            1. Personal Details
+      {isTournamentAllowed && (
+        <section className={styles.formContainer}>
+          {" "}
+          <div className={styles.stepIndicator}>
+            <div
+              className={`${styles.step} ${
+                currentStep >= 1 ? styles.activeStep : ""
+              }`}
+            >
+              1. Personal Details
+            </div>
+
+            <div
+              className={`${styles.stepLine} ${
+                currentStep >= 2 ? styles.activeLine : ""
+              }`}
+            ></div>
+
+            <div
+              className={`${styles.step} ${
+                currentStep >= 2 ? styles.activeStep : ""
+              }`}
+            >
+              2. Tournament
+            </div>
+
+            <div
+              className={`${styles.stepLine} ${
+                currentStep >= 3 ? styles.activeLine : ""
+              }`}
+            ></div>
+
+            <div
+              className={`${styles.step} ${
+                currentStep >= 3 ? styles.activeStep : ""
+              }`}
+            >
+              3. Event Selection
+            </div>
+
+            <div
+              className={`${styles.stepLine} ${
+                currentStep >= 4 ? styles.activeLine : ""
+              }`}
+            ></div>
+
+            <div
+              className={`${styles.step} ${
+                currentStep >= 4 ? styles.activeStep : ""
+              }`}
+            >
+              4. Confirmation
+            </div>
           </div>
-
-          <div
-            className={`${styles.stepLine} ${
-              currentStep >= 2 ? styles.activeLine : ""
-            }`}
-          ></div>
-
-          <div
-            className={`${styles.step} ${
-              currentStep >= 2 ? styles.activeStep : ""
-            }`}
-          >
-            2. Tournament
-          </div>
-
-          <div
-            className={`${styles.stepLine} ${
-              currentStep >= 3 ? styles.activeLine : ""
-            }`}
-          ></div>
-
-          <div
-            className={`${styles.step} ${
-              currentStep >= 3 ? styles.activeStep : ""
-            }`}
-          >
-            3. Event Selection
-          </div>
-
-          <div
-            className={`${styles.stepLine} ${
-              currentStep >= 4 ? styles.activeLine : ""
-            }`}
-          ></div>
-
-          <div
-            className={`${styles.step} ${
-              currentStep >= 4 ? styles.activeStep : ""
-            }`}
-          >
-            4. Confirmation
-          </div>
-        </div>
-        <section>
-          {currentStep === 1 && (
-            <LoginPage1
-              player={currentPlayer}
-              handleNext={handleNext}
-              id={params.id}
-              setPlayer={setCurrentPlayer}
-            />
-          )}
+          <section>
+            {currentStep === 1 && (
+              <LoginPage1
+                player={currentPlayer}
+                handleNext={handleNext}
+                id={params.id}
+                setPlayer={setCurrentPlayer}
+              />
+            )}
+          </section>
+          <section>
+            {currentStep === 2 && (
+              <LoginPageTournament
+                tournaments={tournaments}
+                selectedTournament={selectedTournament}
+                setSelectedTournament={setSelectedTournament}
+                handleNext={handleNext}
+                handleBack={handleBack}
+              />
+            )}
+          </section>
+          <section>
+            {currentStep === 3 && (
+              <LoginPage2
+                player={currentPlayer}
+                events={events}
+                players={players}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                playerTeam={currentPlayerTeam}
+                selectedTournament={selectedTournament}
+              />
+            )}
+          </section>
+          <section>{currentStep === 4 && <LoginPage3 />}</section>{" "}
         </section>
-        <section>
-          {currentStep === 2 && (
-            <LoginPageTournament
-              tournaments={tournaments}
-              selectedTournament={selectedTournament}
-              setSelectedTournament={setSelectedTournament}
-              handleNext={handleNext}
-              handleBack={handleBack}
-            />
-          )}
-        </section>
-        <section>
-          {currentStep === 3 && (
-            <LoginPage2
-              player={currentPlayer}
-              events={events}
-              players={players}
-              handleNext={handleNext}
-              handleBack={handleBack}
-              playerTeam={currentPlayerTeam}
-              selectedTournament={selectedTournament}
-            />
-          )}
-        </section>
-        <section>{currentStep === 4 && <LoginPage3 />}</section>{" "}
-      </section>
-
+      )}
       <Footer />
     </div>
   );
