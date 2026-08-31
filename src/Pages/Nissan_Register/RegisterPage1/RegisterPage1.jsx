@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./RegisterPage1.module.css";
 
-const RegisterPage1 = ({ formData, setFormData, handleNext }) => {
+const RegisterPage1 = ({ formData, setFormData, handleNext, isLoggedin }) => {
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
@@ -20,18 +20,21 @@ const RegisterPage1 = ({ formData, setFormData, handleNext }) => {
     }
 
     // Create Password
-    if (!formData.password) {
-      newErrors.password = "Please create a password.";
-    } else if (formData.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters.";
-    } else if (
-      !/[A-Z]/.test(formData.password) ||
-      !/[a-z]/.test(formData.password) ||
-      !/[0-9]/.test(formData.password) ||
-      !/[@$!%*?&]/.test(formData.password)
-    ) {
-      newErrors.password =
-        "Password must include uppercase, lowercase, number and special character.";
+    // Logged-in player ke liye password dobara nahi chahiye
+    if (!isLoggedIn) {
+      if (!formData.password) {
+        newErrors.password = "Please create a password.";
+      } else if (formData.password.length < 8) {
+        newErrors.password = "Password must be at least 8 characters.";
+      } else if (
+        !/[A-Z]/.test(formData.password) ||
+        !/[a-z]/.test(formData.password) ||
+        !/[0-9]/.test(formData.password) ||
+        !/[@$!%\*?&]/.test(formData.password)
+      ) {
+        newErrors.password =
+          "Password must include uppercase, lowercase, number and special character.";
+      }
     }
     // WhatsApp Number
     if (!String(formData.whatsappNumber || "").trim()) {
