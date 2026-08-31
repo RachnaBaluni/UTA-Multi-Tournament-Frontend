@@ -18,7 +18,7 @@ const Register = () => {
   const [events, setEvents] = useState([]);
   const [tournaments, setTournaments] = useState([]);
   const [players, setPlayers] = useState([]);
-  const [currentStep, setCurrentStep] = useState(tournamentId ? 2 : 1);
+  const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [registrationFields, setRegistrationFields] = useState({});
