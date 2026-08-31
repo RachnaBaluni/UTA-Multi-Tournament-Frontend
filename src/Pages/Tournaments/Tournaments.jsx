@@ -712,10 +712,10 @@ export default function Tournaments() {
                           {item.value && (
                             <ul className={styles.detailList}>
                               {item.value
+                                .replace(/<br\s*\/?>/gi, "\n")
+                                .replace(/<\/p>/gi, "\n")
                                 .replace(/<[^>]*>/g, "")
-                                .split(
-                                  /(?=Winner\s*-|Runner Up\s*-|Semi Finalists?\s*-|Complimentary stay|Breakfast and Lunch|Gift Hamper)/i,
-                                )
+                                .split("\n")
                                 .map((text, index) => text.trim())
                                 .filter(Boolean)
                                 .map((text, index) => (
@@ -723,7 +723,6 @@ export default function Tournaments() {
                                 ))}
                             </ul>
                           )}
-
                           {Array.isArray(item.rules) &&
                             item.rules.length > 0 && (
                               <>

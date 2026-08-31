@@ -715,17 +715,16 @@
 /* =========================================================
    DETAIL LIST
 ========================================================= */
-
 .detailList {
   margin: 0;
-
-  padding-left: 22px;
+  padding-left: 25px;
 
   color: #36464c;
 
   font-size: 15px;
-
   line-height: 1.7;
+
+  list-style-type: disc;
 }
 
 .detailList li {
