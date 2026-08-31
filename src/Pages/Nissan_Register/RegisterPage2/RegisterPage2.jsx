@@ -40,7 +40,9 @@ const RegisterPage2 = ({
     setIsEvent2Selected(!!event2Id);
     setPlayersEvent2List(
       players
-        .filter((player) => player.eventId?._id === event2Id)
+        .filter(
+          (player) => player.eventId?._id === event2Id && !player.partner2,
+        )
         .sort((a, b) => a.partner1.name.localeCompare(b.partner1.name)),
     );
   };
