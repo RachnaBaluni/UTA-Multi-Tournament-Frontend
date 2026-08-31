@@ -718,18 +718,12 @@ export default function Tournaments() {
                             />
                           )}
 
-                          {item.date && (
-                            <p className={styles.modalParagraph}>
-                              <strong>Applicable Date:</strong>{" "}
-                              {formatDate(item.date)}
-                            </p>
-                          )}
-
                           {Array.isArray(item.rules) &&
                             item.rules.length > 0 && (
                               <>
-                                <h4>Entry & Participation Rules</h4>
-
+                                <h4 className={styles.lightRuleHeading}>
+                                  Rules
+                                </h4>
                                 <ul className={styles.detailList}>
                                   {item.rules.map((rule, index) => (
                                     <li key={index}>{rule}</li>
@@ -824,22 +818,14 @@ export default function Tournaments() {
                             />
                           )}
 
-                          {/* DATE */}
-
-                          {item.date && (
-                            <p className={styles.modalParagraph}>
-                              <strong>Prize & Benefit Date:</strong>{" "}
-                              {formatDate(item.date)}
-                            </p>
-                          )}
-
                           {/* RULES */}
 
                           {Array.isArray(item.rules) &&
                             item.rules.length > 0 && (
                               <>
-                                <h4>Prize & Benefit Rules</h4>
-
+                                <h4 className={styles.lightRuleHeading}>
+                                  Rules
+                                </h4>
                                 <ul className={styles.detailList}>
                                   {item.rules.map((rule, index) => (
                                     <li key={index}>{rule}</li>

@@ -1379,3 +1379,10 @@
 
   transform: translateX(2px);
 }
+.lightRuleHeading {
+  color: #777;
+  font-weight: 500;
+  font-size: 15px;
+  margin-top: 15px;
+  margin-bottom: 8px;
+}
