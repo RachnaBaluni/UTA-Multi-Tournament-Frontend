@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Register.module.css";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import RegisterPage1 from "./RegisterPage1/RegisterPage1";
 import axios from "axios";
 import RegisterPage2 from "./RegisterPage2/RegisterPage2";
@@ -8,14 +8,15 @@ import RegisterPageTournament from "./RegisterPageTournament/RegisterPageTournam
 import RegisterPage3 from "./RegisterPage3/RegisterPage3";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
-import { useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Register = () => {
-  const [events, setEvents] = useState([]);
-  const [tournaments, setTournaments] = useState([]);
   const [searchParams] = useSearchParams();
   const tournamentId = searchParams.get("tournamentId");
-  console.log("SELECTED TOURNAMENT ID 👉", tournamentId);
+  const reduxUser = useSelector((state) => state.user.user);
+  const user = reduxUser?.user || reduxUser;
+  const [events, setEvents] = useState([]);
+  const [tournaments, setTournaments] = useState([]);
   const [players, setPlayers] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -133,16 +134,23 @@ const Register = () => {
     getPlayers();
     window.scrollTo(0, 0);
 
-    if (tournamentId) {
+    if (user?._id) {
       setFormData((prev) => ({
         ...prev,
-        tournamentId: tournamentId,
+        name: user.name || "",
+        whatsappNumber: user.whatsappNumber || user.number || "",
+        dob: user.dob ? user.dob.split("T")[0] : "",
+        email: user.email || user.emailAddress || "",
+        city: user.city || "",
+        tournamentId: tournamentId || null,
       }));
-
-      getEvents(tournamentId);
-      getRegistrationFields(tournamentId);
+    } else if (tournamentId) {
+      setFormData((prev) => ({
+        ...prev,
+        tournamentId,
+      }));
     }
-  }, [tournamentId]);
+  }, [user?._id, tournamentId]);
 
   const handleNext = () => {
     if (currentStep === 2) {
@@ -240,6 +248,7 @@ const Register = () => {
               setFormData={setFormData}
               handleBack={handleBack}
               tournaments={tournaments}
+              tournamentId={tournamentId}
             />
           )}
         </section>
