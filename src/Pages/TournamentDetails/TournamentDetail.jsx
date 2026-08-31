@@ -76,8 +76,10 @@ const TournamentDetail = () => {
           throw new Error("Tournament not found");
         }
 
-        console.log("SELECTED TOURNAMENT:", tournamentData);
-
+        console.log(
+          "========== FULL TOURNAMENT ==========",
+          JSON.stringify(tournamentData, null, 2),
+        );
         setTournament(tournamentData);
         console.log("========== TOURNAMENT DETAIL DEBUG ==========");
         console.log("URL ID:", id);
@@ -106,7 +108,10 @@ const TournamentDetail = () => {
 
           console.log("========== TOURNAMENT DETAILS DEBUG ==========");
           console.log("TOURNAMENT ID SENT:", id);
-          console.log("FULL DETAILS RESPONSE:", detailsResponse.data);
+          console.log(
+            "========== FULL TOURNAMENT DETAILS ==========",
+            JSON.stringify(detailsResponse.data, null, 2),
+          );
           console.log("DETAILS ARRAY:", detailsResponse.data?.data);
           console.log("==============================================");
           if (detailsResponse.data?.success) {
@@ -153,7 +158,10 @@ const TournamentDetail = () => {
 
           console.log("========== PRIZE BENEFIT DEBUG ==========");
           console.log("TOURNAMENT ID SENT:", id);
-          console.log("FULL PRIZE RESPONSE:", prizeResponse.data);
+          console.log(
+            "========== FULL PRIZES & BENEFITS ==========",
+            JSON.stringify(prizeResponse.data, null, 2),
+          );
           console.log("PRIZE ARRAY:", prizeResponse.data?.data);
           console.log("==========================================");
           if (prizeResponse.data?.success) {
