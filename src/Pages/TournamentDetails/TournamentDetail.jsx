@@ -81,7 +81,7 @@ const TournamentDetail = () => {
         setTournament(tournamentData);
 
         // =====================================================
-        // 3. ENTRY & PARTICIPATION DETAILS
+        // 3. TOURNAMENT DETAILS
         // =====================================================
 
         try {
@@ -89,7 +89,7 @@ const TournamentDetail = () => {
             `${BACKEND_URL}/api/tournament-details?tournamentId=${id}`,
           );
 
-          console.log("ENTRY & PARTICIPATION DETAILS:", detailsResponse.data);
+          console.log("TOURNAMENT DETAILS API:", detailsResponse.data);
 
           if (detailsResponse.data?.success) {
             setTournamentDetails(detailsResponse.data.data || []);
@@ -97,10 +97,7 @@ const TournamentDetail = () => {
             setTournamentDetails([]);
           }
         } catch (detailsError) {
-          console.error(
-            "Error fetching entry & participation details:",
-            detailsError,
-          );
+          console.error("Error fetching tournament details:", detailsError);
 
           setTournamentDetails([]);
         }
@@ -352,15 +349,28 @@ const TournamentDetail = () => {
   const visibleEvents = events.filter((event) => event.showing !== false);
 
   // =========================================================
-  // VISIBLE ENTRY DETAILS
+  // ENTRY & PARTICIPATION DETAILS
+  // ONLY ENTRY RELATED DETAILS
   // =========================================================
 
-  const visibleTournamentDetails = tournamentDetails.filter(
-    (item) => item.showing !== false,
-  );
+  const visibleEntryDetails = tournamentDetails.filter((item) => {
+    if (item.showing === false) {
+      return false;
+    }
+
+    const key = String(item.key || "").toLowerCase();
+    const title = String(item.title || "").toLowerCase();
+
+    return (
+      key.includes("entry") ||
+      key.includes("participation") ||
+      title.includes("entry") ||
+      title.includes("participation")
+    );
+  });
 
   // =========================================================
-  // VISIBLE PRIZES
+  // VISIBLE PRIZES & BENEFITS
   // =========================================================
 
   const visiblePrizesBenefits = prizesBenefits.filter(
@@ -403,6 +413,8 @@ const TournamentDetail = () => {
                 </div>
               )}
 
+              {/* DISPLAY TOURNAMENT DATE ONLY */}
+
               {tournament.type === "display" && tournament.date && (
                 <div className={styles.detailItem}>
                   <span className={styles.detailLabel}>DATE</span>
@@ -411,7 +423,9 @@ const TournamentDetail = () => {
                 </div>
               )}
 
-              {tournament.startDate && (
+              {/* MASTER TOURNAMENT START DATE */}
+
+              {tournament.type === "normal" && tournament.startDate && (
                 <div className={styles.detailItem}>
                   <span className={styles.detailLabel}>START DATE</span>
 
@@ -419,7 +433,9 @@ const TournamentDetail = () => {
                 </div>
               )}
 
-              {tournament.endDate && (
+              {/* MASTER TOURNAMENT END DATE */}
+
+              {tournament.type === "normal" && tournament.endDate && (
                 <div className={styles.detailItem}>
                   <span className={styles.detailLabel}>END DATE</span>
 
@@ -492,8 +508,8 @@ const TournamentDetail = () => {
               <h2>Entry & Participation</h2>
 
               {/* =================================================
-                  REGISTRATION PERIOD
-                  THESE DATES COME FROM CREATE TOURNAMENT
+                  REGISTRATION DATES
+                  FROM CREATE TOURNAMENT
               ================================================= */}
 
               {(tournament.registrationStartDate ||
@@ -519,17 +535,15 @@ const TournamentDetail = () => {
 
               {/* =================================================
                   ENTRY RULES
-                  THESE COME FROM TOURNAMENT DETAILS API
+                  FROM TOURNAMENT DETAILS API
               ================================================= */}
 
-              {visibleTournamentDetails.length > 0 && (
+              {visibleEntryDetails.length > 0 && (
                 <div className={styles.detailBlock}>
                   <h3>Entry Rules</h3>
 
-                  {visibleTournamentDetails.map((item) => (
+                  {visibleEntryDetails.map((item) => (
                     <div key={item._id} className={styles.detailBlock}>
-                      {item.title && <h3>{item.title}</h3>}
-
                       {item.value && (
                         <div
                           className={styles.richText}
@@ -545,12 +559,6 @@ const TournamentDetail = () => {
                             <li key={index}>{rule}</li>
                           ))}
                         </ul>
-                      )}
-
-                      {item.date && (
-                        <p className={styles.prizeDate}>
-                          {formatDate(item.date)}
-                        </p>
                       )}
                     </div>
                   ))}
@@ -581,7 +589,7 @@ const TournamentDetail = () => {
 
           {/* =====================================================
               PRIZES & BENEFITS
-              SEPARATE API / MODEL
+              FROM SEPARATE API
           ====================================================== */}
 
           {visiblePrizesBenefits.length > 0 && (
@@ -591,22 +599,37 @@ const TournamentDetail = () => {
               <div className={styles.prizeBenefitsGrid}>
                 {visiblePrizesBenefits.map((prize) => (
                   <div key={prize._id} className={styles.prizeBenefitCard}>
-                    {/* KEY */}
+                    {/* KEY / TITLE */}
 
-                    {prize.key && <h3>{prize.key}</h3>}
+                    {prize.key && (
+                      <h3>
+                        {prize.key
+                          .replace(/_/g, " ")
+                          .replace(/\b\w/g, (char) => char.toUpperCase())}
+                      </h3>
+                    )}
 
                     {/* VALUE */}
 
                     {prize.value && (
-                      <div
-                        className={styles.richText}
-                        dangerouslySetInnerHTML={{
-                          __html: prize.value.replace(/\n/g, "<br />"),
-                        }}
-                      />
+                      <div className={styles.richText}>
+                        {prize.value.split(/\r?\n/).map((line, index) => {
+                          const text = line.replace(/^[-•]\s*/, "").trim();
+
+                          if (!text) {
+                            return null;
+                          }
+
+                          return (
+                            <div key={index} className={styles.prizeBullet}>
+                              • {text}
+                            </div>
+                          );
+                        })}
+                      </div>
                     )}
 
-                    {/* BENEFITS / RULES */}
+                    {/* RULES / BENEFITS */}
 
                     {Array.isArray(prize.rules) && prize.rules.length > 0 && (
                       <ul className={styles.detailList}>
@@ -631,10 +654,10 @@ const TournamentDetail = () => {
 
           {/* =====================================================
               OLD RULES
-              ONLY SHOWN IF NO NEW ENTRY RULES EXIST
+              FALLBACK ONLY
           ====================================================== */}
 
-          {tournament.rules && visibleTournamentDetails.length === 0 && (
+          {tournament.rules && visibleEntryDetails.length === 0 && (
             <section className={styles.contentSection}>
               <h2>Rules</h2>
 
