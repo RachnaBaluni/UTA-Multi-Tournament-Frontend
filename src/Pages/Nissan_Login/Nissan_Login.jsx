@@ -35,11 +35,36 @@ const Nissan_Login = () => {
 
         const token = res.data.token || res.data.data?.token;
 
+        // Check whether player is registered in this tournament
+        const teamRes = await axios.get(
+          `${import.meta.env.VITE_APP_BACKEND_URL}/api/team/${res.data.data.id}`,
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          },
+        );
+
+        const teams = teamRes.data.data || [];
+
+        const isRegisteredInTournament = teams.some(
+          (team) =>
+            team.eventId?.tournamentId?._id?.toString() ===
+            tournamentId?.toString(),
+        );
+
+        // Player is NOT registered in selected tournament
+        if (!isRegisteredInTournament) {
+          toast.error("This player is not registered in this tournament.");
+          return;
+        }
+
+        // Player is registered → continue
         localStorage.setItem("token", token);
 
         navigate(
           `/tournaments/login/${res.data.data.id}?tournamentId=${tournamentId}`,
         );
+
         toast.success(res.data.message);
       }
     } catch (error) {
