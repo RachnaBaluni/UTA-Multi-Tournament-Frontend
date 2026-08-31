@@ -130,9 +130,8 @@ const TournamentDetail = () => {
 
         try {
           const prizeResponse = await axios.get(
-            `${BACKEND_URL}/api/prices-benifit/`,
+            `${BACKEND_URL}/api/prices-benifit?tournamentId=${id}`,
           );
-
           console.log("ALL PRIZES & BENEFITS:", prizeResponse.data);
 
           if (prizeResponse.data?.success) {
@@ -653,31 +652,51 @@ const TournamentDetail = () => {
             )}
 
           {/* =====================================================
-              PRIZES & BENEFITS
-          ====================================================== */}
+    PRIZES & BENEFITS
+===================================================== */}
 
-          {(prizeDetails ||
-            tournament.prize ||
-            tournament.prizes ||
-            tournament.benefits ||
-            tournament.prizeMoney) && (
+          {prizesBenefits.length > 0 && (
             <section className={styles.contentSection}>
               <h2>Prizes & Benefits</h2>
 
-              {prizeDetails?.prizeMoney && renderHTML(prizeDetails.prizeMoney)}
+              <div className={styles.prizeBenefitsGrid}>
+                {prizesBenefits
+                  .filter((prize) => prize.showing !== false)
+                  .map((prize) => (
+                    <div key={prize._id} className={styles.prizeBenefitCard}>
+                      {/* KEY */}
+                      {prize.key && <h3>{prize.key}</h3>}
 
-              {prizeDetails?.prizes && renderHTML(prizeDetails.prizes)}
+                      {/* VALUE */}
+                      {prize.value && (
+                        <div
+                          className={styles.richText}
+                          dangerouslySetInnerHTML={{
+                            __html: prize.value.replace(/\n/g, "<br />"),
+                          }}
+                        />
+                      )}
 
-              {prizeDetails?.benefits && renderHTML(prizeDetails.benefits)}
+                      {/* RULES / BENEFITS */}
+                      {Array.isArray(prize.rules) && prize.rules.length > 0 && (
+                        <ul className={styles.detailList}>
+                          {prize.rules.map((rule, index) => (
+                            <li key={index}>{rule}</li>
+                          ))}
+                        </ul>
+                      )}
 
-              {tournament.prizeMoney && renderHTML(tournament.prizeMoney)}
-
-              {tournament.prizes && renderHTML(tournament.prizes)}
-
-              {tournament.benefits && renderHTML(tournament.benefits)}
+                      {/* DATE */}
+                      {prize.date && (
+                        <p className={styles.prizeDate}>
+                          {formatDate(prize.date)}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+              </div>
             </section>
           )}
-
           {/* =====================================================
               STATUS
           ====================================================== */}
