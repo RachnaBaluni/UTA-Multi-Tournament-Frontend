@@ -48,7 +48,7 @@ const TournamentDetail = () => {
         }
 
         // =====================================================
-        // 2. FETCH MAIN EVENT IF TOURNAMENT NOT FOUND
+        // 2. FETCH MAIN EVENT
         // =====================================================
 
         if (!tournamentData) {
@@ -81,7 +81,7 @@ const TournamentDetail = () => {
         setTournament(tournamentData);
 
         // =====================================================
-        // 3. FETCH TOURNAMENT DETAILS
+        // 3. TOURNAMENT DETAILS API
         // =====================================================
 
         try {
@@ -103,7 +103,7 @@ const TournamentDetail = () => {
         }
 
         // =====================================================
-        // 4. FETCH TOURNAMENT EVENTS / CATEGORIES
+        // 4. EVENTS / CATEGORIES API
         // =====================================================
 
         try {
@@ -125,14 +125,18 @@ const TournamentDetail = () => {
         }
 
         // =====================================================
-        // 5. FETCH PRIZES & BENEFITS
+        // 5. PRIZES & BENEFITS API
         // =====================================================
 
         try {
           const prizeResponse = await axios.get(
             `${BACKEND_URL}/api/prices-benifit?tournamentId=${id}`,
           );
-          console.log("ALL PRIZES & BENEFITS:", prizeResponse.data);
+
+          console.log(
+            "SELECTED TOURNAMENT PRIZES & BENEFITS:",
+            prizeResponse.data,
+          );
 
           if (prizeResponse.data?.success) {
             setPrizesBenefits(prizeResponse.data.data || []);
@@ -146,7 +150,7 @@ const TournamentDetail = () => {
         }
 
         // =====================================================
-        // 6. FETCH VENUE
+        // 6. VENUE API
         // =====================================================
 
         try {
@@ -241,40 +245,6 @@ const TournamentDetail = () => {
   };
 
   // =========================================================
-  // PRIZE DETAILS
-  // =========================================================
-
-  const getPrizeDetails = () => {
-    if (!tournament) {
-      return null;
-    }
-
-    const tournamentId = tournament._id?.toString();
-
-    const found = prizesBenefits.find((item) => {
-      const itemTournamentId =
-        item.tournamentId?._id?.toString() ||
-        item.tournamentId?.toString() ||
-        item.tournament?._id?.toString() ||
-        item.tournament?.toString();
-
-      return (
-        itemTournamentId && tournamentId && itemTournamentId === tournamentId
-      );
-    });
-
-    if (found) {
-      return found;
-    }
-
-    if (prizesBenefits.length === 1) {
-      return prizesBenefits[0];
-    }
-
-    return null;
-  };
-
-  // =========================================================
   // HTML RENDER
   // =========================================================
 
@@ -307,7 +277,6 @@ const TournamentDetail = () => {
     }
 
     const venueName = item.venue || item.name;
-
     const address = item.address;
 
     return (
@@ -380,13 +349,19 @@ const TournamentDetail = () => {
     );
   }
 
-  const prizeDetails = getPrizeDetails();
-
   // =========================================================
-  // VISIBLE EVENTS / CATEGORIES
+  // VISIBLE EVENTS
   // =========================================================
 
   const visibleEvents = events.filter((event) => event.showing !== false);
+
+  // =========================================================
+  // VISIBLE PRIZES & BENEFITS
+  // =========================================================
+
+  const visiblePrizesBenefits = prizesBenefits.filter(
+    (prize) => prize.showing !== false,
+  );
 
   // =========================================================
   // RENDER
@@ -523,61 +498,164 @@ const TournamentDetail = () => {
           )}
 
           {/* =====================================================
+              TOURNAMENT DETAILS
+              
               ENTRY & PARTICIPATION
+              EXTRA DETAILS
+              PRIZES & BENEFITS
           ====================================================== */}
 
-          {tournament.type === "normal" &&
-            (tournament.registrationStartDate ||
-              tournament.registrationEndDate ||
-              (Array.isArray(tournament.entryParticipationRules) &&
-                tournament.entryParticipationRules.length > 0)) && (
-              <section className={styles.contentSection}>
-                <h2>Entry & Participation</h2>
+          {(tournamentDetails.length > 0 ||
+            visiblePrizesBenefits.length > 0 ||
+            (tournament.type === "normal" &&
+              (tournament.registrationStartDate ||
+                tournament.registrationEndDate ||
+                (Array.isArray(tournament.entryParticipationRules) &&
+                  tournament.entryParticipationRules.length > 0)))) && (
+            <section className={styles.contentSection}>
+              <h2>Tournament Details</h2>
 
-                {/* REGISTRATION PERIOD */}
+              {/* =================================================
+                  ENTRY & PARTICIPATION
+              ================================================== */}
 
-                {(tournament.registrationStartDate ||
-                  tournament.registrationEndDate) && (
+              {tournament.type === "normal" &&
+                (tournament.registrationStartDate ||
+                  tournament.registrationEndDate ||
+                  (Array.isArray(tournament.entryParticipationRules) &&
+                    tournament.entryParticipationRules.length > 0)) && (
                   <div className={styles.detailBlock}>
-                    <h3>Registration Period</h3>
+                    <h3>Entry & Participation</h3>
 
-                    {tournament.registrationStartDate && (
+                    {/* REGISTRATION DATE */}
+
+                    {(tournament.registrationStartDate ||
+                      tournament.registrationEndDate) && (
                       <p className={styles.paragraph}>
-                        <strong>Registration Starts:</strong>{" "}
-                        {formatDate(tournament.registrationStartDate)}
+                        <strong>Registration Period:</strong>{" "}
+                        {tournament.registrationStartDate
+                          ? formatDate(tournament.registrationStartDate)
+                          : "-"}{" "}
+                        to{" "}
+                        {tournament.registrationEndDate
+                          ? formatDate(tournament.registrationEndDate)
+                          : "-"}
                       </p>
                     )}
 
-                    {tournament.registrationEndDate && (
-                      <p className={styles.paragraph}>
-                        <strong>Registration Ends:</strong>{" "}
-                        {formatDate(tournament.registrationEndDate)}
-                      </p>
-                    )}
+                    {/* ENTRY RULES */}
+
+                    {Array.isArray(tournament.entryParticipationRules) &&
+                      tournament.entryParticipationRules.length > 0 && (
+                        <>
+                          <h4>Entry Rules</h4>
+
+                          <ul className={styles.detailList}>
+                            {tournament.entryParticipationRules.map(
+                              (rule, index) => (
+                                <li key={index}>{rule}</li>
+                              ),
+                            )}
+                          </ul>
+                        </>
+                      )}
                   </div>
                 )}
 
-                {/* ENTRY RULES */}
+              {/* =================================================
+                  EXTRA TOURNAMENT DETAILS
+              ================================================== */}
 
-                {Array.isArray(tournament.entryParticipationRules) &&
-                  tournament.entryParticipationRules.length > 0 && (
-                    <div className={styles.detailBlock}>
-                      <h3>Entry & Participation Rules</h3>
+              {tournamentDetails
+                .filter((item) => item.showing !== false)
+                .map((item) => (
+                  <div key={item._id} className={styles.detailBlock}>
+                    {/* TITLE */}
 
+                    {item.title && <h3>{item.title}</h3>}
+
+                    {/* VALUE */}
+
+                    {item.value && (
+                      <div
+                        className={styles.richText}
+                        dangerouslySetInnerHTML={{
+                          __html: item.value.replace(/\n/g, "<br />"),
+                        }}
+                      />
+                    )}
+
+                    {/* RULES */}
+
+                    {Array.isArray(item.rules) && item.rules.length > 0 && (
                       <ul className={styles.detailList}>
-                        {tournament.entryParticipationRules.map(
-                          (rule, index) => (
-                            <li key={index}>{rule}</li>
-                          ),
-                        )}
+                        {item.rules.map((rule, index) => (
+                          <li key={index}>{rule}</li>
+                        ))}
                       </ul>
+                    )}
+
+                    {/* DATE */}
+
+                    {item.date && (
+                      <p className={styles.paragraph}>
+                        <strong>Date:</strong> {formatDate(item.date)}
+                      </p>
+                    )}
+                  </div>
+                ))}
+
+              {/* =================================================
+                  PRIZES & BENEFITS
+              ================================================== */}
+
+              {visiblePrizesBenefits.length > 0 && (
+                <div className={styles.detailBlock}>
+                  <h3>Prizes & Benefits</h3>
+
+                  {visiblePrizesBenefits.map((prize) => (
+                    <div key={prize._id} className={styles.prizeBenefitCard}>
+                      {/* KEY */}
+
+                      {prize.key && <h4>{prize.key}</h4>}
+
+                      {/* VALUE */}
+
+                      {prize.value && (
+                        <div
+                          className={styles.richText}
+                          dangerouslySetInnerHTML={{
+                            __html: prize.value.replace(/\n/g, "<br />"),
+                          }}
+                        />
+                      )}
+
+                      {/* PRIZE / BENEFIT BULLETS */}
+
+                      {Array.isArray(prize.rules) && prize.rules.length > 0 && (
+                        <ul className={styles.detailList}>
+                          {prize.rules.map((rule, index) => (
+                            <li key={index}>{rule}</li>
+                          ))}
+                        </ul>
+                      )}
+
+                      {/* DATE */}
+
+                      {prize.date && (
+                        <p className={styles.prizeDate}>
+                          <strong>Date:</strong> {formatDate(prize.date)}
+                        </p>
+                      )}
                     </div>
-                  )}
-              </section>
-            )}
+                  ))}
+                </div>
+              )}
+            </section>
+          )}
 
           {/* =====================================================
-              TOURNAMENT CATEGORIES / EVENTS
+              TOURNAMENT CATEGORIES
           ====================================================== */}
 
           {visibleEvents.length > 0 && (
@@ -593,39 +671,6 @@ const TournamentDetail = () => {
                   ))}
                 </ul>
               </div>
-            </section>
-          )}
-
-          {/* =====================================================
-              EXTRA TOURNAMENT DETAILS
-          ====================================================== */}
-
-          {tournamentDetails.length > 0 && (
-            <section className={styles.contentSection}>
-              <h2>Tournament Details</h2>
-
-              {tournamentDetails.map((item) => (
-                <div key={item._id} className={styles.detailBlock}>
-                  {item.title && <h3>{item.title}</h3>}
-
-                  {item.value && (
-                    <div
-                      className={styles.richText}
-                      dangerouslySetInnerHTML={{
-                        __html: item.value,
-                      }}
-                    />
-                  )}
-
-                  {Array.isArray(item.rules) && item.rules.length > 0 && (
-                    <ul className={styles.detailList}>
-                      {item.rules.map((rule, index) => (
-                        <li key={index}>{rule}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
             </section>
           )}
 
@@ -651,52 +696,6 @@ const TournamentDetail = () => {
               </section>
             )}
 
-          {/* =====================================================
-    PRIZES & BENEFITS
-===================================================== */}
-
-          {prizesBenefits.length > 0 && (
-            <section className={styles.contentSection}>
-              <h2>Prizes & Benefits</h2>
-
-              <div className={styles.prizeBenefitsGrid}>
-                {prizesBenefits
-                  .filter((prize) => prize.showing !== false)
-                  .map((prize) => (
-                    <div key={prize._id} className={styles.prizeBenefitCard}>
-                      {/* KEY */}
-                      {prize.key && <h3>{prize.key}</h3>}
-
-                      {/* VALUE */}
-                      {prize.value && (
-                        <div
-                          className={styles.richText}
-                          dangerouslySetInnerHTML={{
-                            __html: prize.value.replace(/\n/g, "<br />"),
-                          }}
-                        />
-                      )}
-
-                      {/* RULES / BENEFITS */}
-                      {Array.isArray(prize.rules) && prize.rules.length > 0 && (
-                        <ul className={styles.detailList}>
-                          {prize.rules.map((rule, index) => (
-                            <li key={index}>{rule}</li>
-                          ))}
-                        </ul>
-                      )}
-
-                      {/* DATE */}
-                      {prize.date && (
-                        <p className={styles.prizeDate}>
-                          {formatDate(prize.date)}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-              </div>
-            </section>
-          )}
           {/* =====================================================
               STATUS
           ====================================================== */}
