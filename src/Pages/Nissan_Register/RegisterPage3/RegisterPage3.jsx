@@ -80,13 +80,6 @@ const RegisterPage3 = ({ formData }) => {
             <p className={styles.message}>
               Your account has been successfully created. You can now log in.
             </p>
-
-            <button
-              className={styles.button}
-              onClick={() => (window.location.href = "/tournaments/login")}
-            >
-              Go to Login
-            </button>
           </>
         )}
 
