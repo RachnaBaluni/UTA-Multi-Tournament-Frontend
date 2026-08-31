@@ -710,12 +710,18 @@ export default function Tournaments() {
                           <h3>Entry & Participation</h3>
 
                           {item.value && (
-                            <div
-                              className={styles.modalRichText}
-                              dangerouslySetInnerHTML={{
-                                __html: item.value,
-                              }}
-                            />
+                            <ul className={styles.detailList}>
+                              {item.value
+                                .replace(/<[^>]*>/g, "")
+                                .split(
+                                  /(?=Winner\s*-|Runner Up\s*-|Semi Finalists?\s*-|Complimentary stay|Breakfast and Lunch|Gift Hamper)/i,
+                                )
+                                .map((text, index) => text.trim())
+                                .filter(Boolean)
+                                .map((text, index) => (
+                                  <li key={index}>{text}</li>
+                                ))}
+                            </ul>
                           )}
 
                           {Array.isArray(item.rules) &&
