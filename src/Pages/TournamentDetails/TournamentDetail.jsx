@@ -12,6 +12,7 @@ const TournamentDetail = () => {
 
   const [tournament, setTournament] = useState(null);
   const [tournamentDetails, setTournamentDetails] = useState([]);
+  const [events, setEvents] = useState([]);
   const [prizesBenefits, setPrizesBenefits] = useState([]);
   const [venue, setVenue] = useState([]);
 
@@ -19,7 +20,7 @@ const TournamentDetail = () => {
   const [error, setError] = useState(null);
 
   // =========================================================
-  // FETCH TOURNAMENT
+  // FETCH TOURNAMENT DATA
   // =========================================================
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const TournamentDetail = () => {
         let tournamentData = null;
 
         // =====================================================
-        // FIRST: NORMAL / DISPLAY TOURNAMENT
+        // 1. FETCH NORMAL / DISPLAY TOURNAMENT
         // =====================================================
 
         try {
@@ -47,7 +48,7 @@ const TournamentDetail = () => {
         }
 
         // =====================================================
-        // SECOND: MAIN EVENT
+        // 2. FETCH MAIN EVENT IF TOURNAMENT NOT FOUND
         // =====================================================
 
         if (!tournamentData) {
@@ -67,6 +68,10 @@ const TournamentDetail = () => {
           }
         }
 
+        // =====================================================
+        // TOURNAMENT NOT FOUND
+        // =====================================================
+
         if (!tournamentData) {
           throw new Error("Tournament not found");
         }
@@ -76,7 +81,7 @@ const TournamentDetail = () => {
         setTournament(tournamentData);
 
         // =====================================================
-        // FETCH EXTRA TOURNAMENT DETAILS
+        // 3. FETCH TOURNAMENT DETAILS
         // =====================================================
 
         try {
@@ -88,14 +93,39 @@ const TournamentDetail = () => {
 
           if (detailsResponse.data?.success) {
             setTournamentDetails(detailsResponse.data.data || []);
+          } else {
+            setTournamentDetails([]);
           }
         } catch (detailsError) {
           console.error("Error fetching tournament details:", detailsError);
+
           setTournamentDetails([]);
         }
 
         // =====================================================
-        // FETCH PRIZES & BENEFITS
+        // 4. FETCH TOURNAMENT EVENTS / CATEGORIES
+        // =====================================================
+
+        try {
+          const eventsResponse = await axios.get(
+            `${BACKEND_URL}/api/events?tournamentId=${id}`,
+          );
+
+          console.log("SELECTED TOURNAMENT EVENTS:", eventsResponse.data);
+
+          if (eventsResponse.data?.success) {
+            setEvents(eventsResponse.data.data || []);
+          } else {
+            setEvents([]);
+          }
+        } catch (eventsError) {
+          console.error("Error fetching tournament events:", eventsError);
+
+          setEvents([]);
+        }
+
+        // =====================================================
+        // 5. FETCH PRIZES & BENEFITS
         // =====================================================
 
         try {
@@ -107,14 +137,17 @@ const TournamentDetail = () => {
 
           if (prizeResponse.data?.success) {
             setPrizesBenefits(prizeResponse.data.data || []);
+          } else {
+            setPrizesBenefits([]);
           }
         } catch (prizeError) {
           console.error("Error fetching prizes & benefits:", prizeError);
+
           setPrizesBenefits([]);
         }
 
         // =====================================================
-        // FETCH VENUE
+        // 6. FETCH VENUE
         // =====================================================
 
         try {
@@ -125,11 +158,16 @@ const TournamentDetail = () => {
             withCredentials: true,
           });
 
+          console.log("VENUE:", venueResponse.data);
+
           if (venueResponse.data?.success) {
             setVenue(venueResponse.data.data || []);
+          } else {
+            setVenue([]);
           }
         } catch (venueError) {
           console.error("Error fetching venue:", venueError);
+
           setVenue([]);
         }
 
@@ -142,7 +180,9 @@ const TournamentDetail = () => {
       }
     };
 
-    fetchTournamentData();
+    if (id) {
+      fetchTournamentData();
+    }
 
     window.scrollTo(0, 0);
   }, [id, BACKEND_URL]);
@@ -152,7 +192,9 @@ const TournamentDetail = () => {
   // =========================================================
 
   const formatDate = (date) => {
-    if (!date) return "Date not available";
+    if (!date) {
+      return "Date not available";
+    }
 
     const parsedDate = new Date(date);
 
@@ -172,7 +214,9 @@ const TournamentDetail = () => {
   // =========================================================
 
   const getTournamentType = () => {
-    if (!tournament) return "Tournament";
+    if (!tournament) {
+      return "Tournament";
+    }
 
     if (tournament.type === "display") {
       return "Display Tournament";
@@ -202,7 +246,9 @@ const TournamentDetail = () => {
   // =========================================================
 
   const getPrizeDetails = () => {
-    if (!tournament) return null;
+    if (!tournament) {
+      return null;
+    }
 
     const tournamentId = tournament._id?.toString();
 
@@ -234,7 +280,9 @@ const TournamentDetail = () => {
   // =========================================================
 
   const renderHTML = (value) => {
-    if (!value) return null;
+    if (!value) {
+      return null;
+    }
 
     if (typeof value === "string") {
       return (
@@ -260,6 +308,7 @@ const TournamentDetail = () => {
     }
 
     const venueName = item.venue || item.name;
+
     const address = item.address;
 
     return (
@@ -335,6 +384,12 @@ const TournamentDetail = () => {
   const prizeDetails = getPrizeDetails();
 
   // =========================================================
+  // VISIBLE EVENTS / CATEGORIES
+  // =========================================================
+
+  const visibleEvents = events.filter((event) => event.showing !== false);
+
+  // =========================================================
   // RENDER
   // =========================================================
 
@@ -372,7 +427,7 @@ const TournamentDetail = () => {
                 </div>
               )}
 
-              {/* DISPLAY TOURNAMENT DATE */}
+              {/* DISPLAY DATE */}
 
               {tournament.type === "display" && tournament.date && (
                 <div className={styles.detailItem}>
@@ -382,7 +437,7 @@ const TournamentDetail = () => {
                 </div>
               )}
 
-              {/* NORMAL TOURNAMENT START DATE */}
+              {/* START DATE */}
 
               {tournament.startDate && (
                 <div className={styles.detailItem}>
@@ -392,7 +447,7 @@ const TournamentDetail = () => {
                 </div>
               )}
 
-              {/* NORMAL TOURNAMENT END DATE */}
+              {/* END DATE */}
 
               {tournament.endDate && (
                 <div className={styles.detailItem}>
@@ -469,7 +524,7 @@ const TournamentDetail = () => {
           )}
 
           {/* =====================================================
-              REGISTRATION + ENTRY & PARTICIPATION
+              ENTRY & PARTICIPATION
           ====================================================== */}
 
           {tournament.type === "normal" &&
@@ -503,7 +558,7 @@ const TournamentDetail = () => {
                   </div>
                 )}
 
-                {/* ENTRY & PARTICIPATION RULES */}
+                {/* ENTRY RULES */}
 
                 {Array.isArray(tournament.entryParticipationRules) &&
                   tournament.entryParticipationRules.length > 0 && (
@@ -521,6 +576,26 @@ const TournamentDetail = () => {
                   )}
               </section>
             )}
+
+          {/* =====================================================
+              TOURNAMENT CATEGORIES / EVENTS
+          ====================================================== */}
+
+          {visibleEvents.length > 0 && (
+            <section className={styles.contentSection}>
+              <h2>Tournament Categories</h2>
+
+              <div className={styles.detailBlock}>
+                <h3>Categories And Format</h3>
+
+                <ul className={styles.detailList}>
+                  {visibleEvents.map((event) => (
+                    <li key={event._id}>{event.name}</li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          )}
 
           {/* =====================================================
               EXTRA TOURNAMENT DETAILS
