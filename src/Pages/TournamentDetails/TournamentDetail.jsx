@@ -79,6 +79,21 @@ const TournamentDetail = () => {
         console.log("SELECTED TOURNAMENT:", tournamentData);
 
         setTournament(tournamentData);
+        console.log("========== TOURNAMENT DETAIL DEBUG ==========");
+        console.log("URL ID:", id);
+        console.log("TOURNAMENT DATA FROM API:", tournamentData);
+        console.log("TYPE:", tournamentData?.type);
+        console.log("DATE:", tournamentData?.date);
+        console.log("START DATE:", tournamentData?.startDate);
+        console.log("END DATE:", tournamentData?.endDate);
+        console.log(
+          "REGISTRATION START:",
+          tournamentData?.registrationStartDate,
+        );
+        console.log("REGISTRATION END:", tournamentData?.registrationEndDate);
+        console.log("RULES:", tournamentData?.rules);
+        console.log("DESCRIPTION:", tournamentData?.description);
+        console.log("==============================================");
 
         // =====================================================
         // 3. TOURNAMENT DETAILS
@@ -89,8 +104,11 @@ const TournamentDetail = () => {
             `${BACKEND_URL}/api/tournament-details?tournamentId=${id}`,
           );
 
-          console.log("TOURNAMENT DETAILS API:", detailsResponse.data);
-
+          console.log("========== TOURNAMENT DETAILS DEBUG ==========");
+          console.log("TOURNAMENT ID SENT:", id);
+          console.log("FULL DETAILS RESPONSE:", detailsResponse.data);
+          console.log("DETAILS ARRAY:", detailsResponse.data?.data);
+          console.log("==============================================");
           if (detailsResponse.data?.success) {
             setTournamentDetails(detailsResponse.data.data || []);
           } else {
@@ -133,8 +151,11 @@ const TournamentDetail = () => {
             `${BACKEND_URL}/api/prices-benifit?tournamentId=${id}`,
           );
 
-          console.log("SELECTED PRIZES & BENEFITS:", prizeResponse.data);
-
+          console.log("========== PRIZE BENEFIT DEBUG ==========");
+          console.log("TOURNAMENT ID SENT:", id);
+          console.log("FULL PRIZE RESPONSE:", prizeResponse.data);
+          console.log("PRIZE ARRAY:", prizeResponse.data?.data);
+          console.log("==========================================");
           if (prizeResponse.data?.success) {
             setPrizesBenefits(prizeResponse.data.data || []);
           } else {
