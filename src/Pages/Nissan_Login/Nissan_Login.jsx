@@ -9,6 +9,7 @@ import Footer from "../../Components/Footer/Footer";
 const Nissan_Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const tournamentId = new URLSearchParams(location.search).get("tournamentId");
   const [login, setLogin] = useState({
     email: "",
     password: "",
@@ -36,7 +37,9 @@ const Nissan_Login = () => {
 
         localStorage.setItem("token", token);
 
-        navigate(`/tournaments/login/${res.data.data.id}`);
+        navigate(
+          `/tournaments/login/${res.data.data.id}?tournamentId=${tournamentId}`,
+        );
         toast.success(res.data.message);
       }
     } catch (error) {

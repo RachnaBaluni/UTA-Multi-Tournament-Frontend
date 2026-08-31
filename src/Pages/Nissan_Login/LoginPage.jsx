@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from "./Nissan_Login.module.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { toast } from "sonner";
+import { useParams, useLocation } from "react-router-dom";
 import LoginPage1 from "./LoginPage1/LoginPage1";
 import LoginPage2 from "./LoginPage2/LoginPage2";
 import LoginPage3 from "./LoginPage3/LoginPage3";
@@ -19,6 +20,9 @@ const LoginPage = () => {
   const [selectedTournament, setSelectedTournament] = useState("");
   const [currentStep, setCurrentStep] = useState(1);
   const params = useParams();
+  const location = useLocation();
+
+  const tournamentId = new URLSearchParams(location.search).get("tournamentId");
 
   const getEvents = async (tournamentId) => {
     try {
@@ -88,7 +92,22 @@ const LoginPage = () => {
         const teams = res.data.data;
 
         setCurrentPlayerTeam(teams);
+        const isRegisteredInTournament = teams.some(
+          (team) =>
+            team.eventId?.tournamentId?._id?.toString() ===
+            tournamentId?.toString(),
+        );
 
+        if (!isRegisteredInTournament) {
+          toast.error("This player is not registered in this tournament.");
+
+          setCurrentPlayerTeam([]);
+          setTournaments([]);
+          setSelectedTournament("");
+          setCurrentStep(1);
+
+          return;
+        }
         const uniqueTournaments = [
           ...new Map(
             teams
