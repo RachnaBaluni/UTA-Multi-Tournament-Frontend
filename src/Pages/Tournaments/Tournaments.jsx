@@ -469,23 +469,46 @@ export default function Tournaments() {
                     {/* VIEW DETAILS */}
 
                     <div className={styles.cardActions}>
-                      <button
-                        type="button"
-                        className={styles.viewDetailsButton}
-                        onClick={() => handleTournamentClick(tournament)}
-                      >
-                        View Details →
-                      </button>
+                      {/* LEFT SIDE */}
+                      <div className={styles.cardLeftActions}>
+                        <button
+                          type="button"
+                          className={styles.viewDetailsButton}
+                          onClick={() => handleTournamentClick(tournament)}
+                        >
+                          View Details →
+                        </button>
 
+                        {tournament.itemType === "tournament" &&
+                          tournament.type !== "display" && (
+                            <button
+                              type="button"
+                              className={styles.viewInformationButton}
+                              onClick={() => handleInformationClick(tournament)}
+                            >
+                              View Information →
+                            </button>
+                          )}
+                      </div>
+
+                      {/* RIGHT SIDE - NORMAL TOURNAMENT ONLY */}
                       {tournament.itemType === "tournament" &&
                         tournament.type !== "display" && (
-                          <button
-                            type="button"
-                            className={styles.viewInformationButton}
-                            onClick={() => handleInformationClick(tournament)}
-                          >
-                            View Information →
-                          </button>
+                          <div className={styles.cardRegisterActions}>
+                            <Link
+                              to={`/tournaments/register?tournamentId=${tournament._id}`}
+                              className={styles.cardRegisterButton}
+                            >
+                              Register Now →
+                            </Link>
+
+                            <Link
+                              to={`/tournaments/login/${tournament._id}`}
+                              className={styles.cardLoginButton}
+                            >
+                              Login →
+                            </Link>
+                          </div>
                         )}
                     </div>
                   </div>

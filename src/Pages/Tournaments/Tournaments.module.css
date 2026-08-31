@@ -1344,9 +1344,11 @@
 }
 .cardActions {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  margin-top: 12px;
 }
 
 .viewInformationButton {
@@ -1379,4 +1381,62 @@
   font-size: 15px;
   margin-top: 15px;
   margin-bottom: 8px;
+}
+.cardLeftActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.cardRegisterActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.cardRegisterButton,
+.cardLoginButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 9px 16px;
+
+  border-radius: 22px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.cardRegisterButton {
+  background: #12aede;
+  color: #ffffff;
+}
+
+.cardRegisterButton:hover {
+  background: #079dcc;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.cardLoginButton {
+  background: #12aede;
+  color: #ffffff;
+}
+
+.cardLoginButton:hover {
+  background: #079dcc;
+  color: #ffffff;
+  transform: translateY(-1px);
 }
