@@ -7,7 +7,6 @@ const RegisterPageTournament = ({
   handleNext,
   handleBack,
   tournaments,
-  registrationFields,
 }) => {
   return (
     <div className={styles.registerTournamentContainer}>
