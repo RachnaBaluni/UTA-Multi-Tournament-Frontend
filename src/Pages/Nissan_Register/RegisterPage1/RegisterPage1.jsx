@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./RegisterPage1.module.css";
 
-const RegisterPage1 = ({ formData, setFormData, handleNext, isLoggedin }) => {
+const RegisterPage1 = ({ formData, setFormData, handleNext, isLoggedIn }) => {
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
