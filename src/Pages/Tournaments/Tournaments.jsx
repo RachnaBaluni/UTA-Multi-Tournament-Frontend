@@ -499,14 +499,14 @@ export default function Tournaments() {
                               to={`/tournaments/register?tournamentId=${tournament._id}`}
                               className={styles.cardRegisterButton}
                             >
-                              Register Now →
+                              Register Now
                             </Link>
 
                             <Link
                               to={`/tournaments/login/${tournament._id}`}
                               className={styles.cardLoginButton}
                             >
-                              Login →
+                              Login
                             </Link>
                           </div>
                         )}
