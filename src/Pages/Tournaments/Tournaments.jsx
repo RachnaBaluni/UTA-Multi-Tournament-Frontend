@@ -503,7 +503,7 @@ export default function Tournaments() {
                             </Link>
 
                             <Link
-                              to={`/tournaments/login/${tournament._id}`}
+                              to="/tournaments/login"
                               className={styles.cardLoginButton}
                             >
                               Login
