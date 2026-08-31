@@ -27,7 +27,7 @@ const RegisterPage2 = ({
     );
     setPlayersEvent1List(
       players
-        .filter((player) => player.eventId._id === event1Id && !player.partner2)
+        .filter((player) => player.eventId?._id === event1Id)
         .sort((a, b) => a.partner1.name.localeCompare(b.partner1.name)),
     );
     setErrors((prev) => ({ ...prev, event1: null }));
@@ -38,7 +38,7 @@ const RegisterPage2 = ({
     setIsEvent2Selected(!!event2Id);
     setPlayersEvent2List(
       players
-        .filter((player) => player.eventId._id === event2Id && !player.partner2)
+        .filter((player) => player.eventId?._id === event2Id)
         .sort((a, b) => a.partner1.name.localeCompare(b.partner1.name)),
     );
   };
@@ -91,6 +91,9 @@ const RegisterPage2 = ({
           }
         >
           <option value="">Partner Not Registered</option>
+
+          {console.log("PARTNER LIST:", playerEvent1List)}
+
           {playerEvent1List.map((player) => (
             <option
               key={player._id}
