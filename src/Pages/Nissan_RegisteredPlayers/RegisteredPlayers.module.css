@@ -5,7 +5,7 @@
   min-height: 100vh;
   background-color: var(--background-light);
   color: var(--text-dark);
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   /* Ensures primary content is horizontally centered within the container */
   align-items: center;
   padding-bottom: 15px;
@@ -62,16 +62,18 @@
   margin: 0; /* Remove any conflicting auto margins */
 }
 
-.header a { /* The "Back to Home" button */
+.header a {
+  /* The "Back to Home" button */
   text-decoration: none;
   color: var(--primary-color);
   font-weight: 600;
   padding: var(--spacing-xs) var(--spacing-md);
   border-radius: var(--border-radius-sm);
-  transition: background-color var(--transition-speed-normal) var(--transition-ease),
-              color var(--transition-speed-normal) var(--transition-ease),
-              transform var(--transition-speed-fast) var(--transition-ease),
-              box-shadow var(--transition-speed-normal) var(--transition-ease);
+  transition:
+    background-color var(--transition-speed-normal) var(--transition-ease),
+    color var(--transition-speed-normal) var(--transition-ease),
+    transform var(--transition-speed-fast) var(--transition-ease),
+    box-shadow var(--transition-speed-normal) var(--transition-ease);
   border: 1px solid var(--border-color);
   /* flex-shrink: 0 is important to keep it on the line, but we need to also reduce its size */
   flex-shrink: 0;
@@ -116,7 +118,7 @@
 }
 
 .pageTitle::after {
-  content: '';
+  content: "";
   display: block;
   width: 60px;
   height: 3px;
@@ -179,9 +181,10 @@
   cursor: pointer;
   font-size: var(--font-size-sm);
   font-weight: 500;
-  transition: background-color var(--transition-speed-fast) var(--transition-ease),
-              border-color var(--transition-speed-fast) var(--transition-ease),
-              color var(--transition-speed-fast) var(--transition-ease);
+  transition:
+    background-color var(--transition-speed-fast) var(--transition-ease),
+    border-color var(--transition-speed-fast) var(--transition-ease),
+    color var(--transition-speed-fast) var(--transition-ease);
   white-space: nowrap; /* Prevent button text from wrapping */
 }
 
@@ -238,7 +241,8 @@
 
 .playersTable tbody tr {
   border-bottom: 1px solid var(--border-color-lighter);
-  transition: background-color var(--transition-speed-fast) var(--transition-ease);
+  transition: background-color var(--transition-speed-fast)
+    var(--transition-ease);
 }
 
 .playersTable tbody tr:last-child {
@@ -302,7 +306,8 @@
     padding: 0 var(--spacing-md); /* Adjust padding around title */
   }
 
-  .header a { /* "Back to Home" button */
+  .header a {
+    /* "Back to Home" button */
     font-size: var(--font-size-sm); /* Make button text a bit smaller */
     padding: var(--spacing-xs) var(--spacing-sm); /* Smaller button padding */
   }
@@ -345,12 +350,15 @@
   }
 
   .headerTitle {
-    font-size: var(--font-size-base); /* Standard base font size for better readability on mobile */
+    font-size: var(
+      --font-size-base
+    ); /* Standard base font size for better readability on mobile */
     padding: 0 var(--spacing-sm); /* Tighten padding further */
     min-width: 30px; /* Allow even smaller min-width for aggressive wrapping */
   }
 
-  .header a { /* "Back to Home" button */
+  .header a {
+    /* "Back to Home" button */
     font-size: var(--font-size-xs); /* Smaller font for button */
     padding: var(--spacing-xxs) var(--spacing-xs); /* Even smaller button padding */
     margin-left: var(--spacing-sm); /* Adjust margin */
@@ -384,7 +392,10 @@
     display: none; /* Hide table header */
   }
 
-  .playersTable, .playersTable tbody, .playersTable tr, .playersTable td {
+  .playersTable,
+  .playersTable tbody,
+  .playersTable tr,
+  .playersTable td {
     display: block; /* Make table elements behave like blocks */
     width: 100%;
   }
@@ -421,9 +432,15 @@
     font-size: var(--font-size-sm);
   }
 
-  .playersTable td:nth-of-type(1)::before { content: "Event:"; }
-  .playersTable td:nth-of-type(2)::before { content: "Player 1:"; }
-  .playersTable td:nth-of-type(3)::before { content: "Player 2:"; }
+  .playersTable td:nth-of-type(1)::before {
+    content: "Event:";
+  }
+  .playersTable td:nth-of-type(2)::before {
+    content: "Player 1:";
+  }
+  .playersTable td:nth-of-type(3)::before {
+    content: "Player 2:";
+  }
 
   .noPlayersMessage {
     padding: var(--spacing-xl);
@@ -440,7 +457,9 @@
   }
 
   .headerTitle {
-    font-size: var(--font-size-sm); /* Smallest title size for very tiny screens */
+    font-size: var(
+      --font-size-sm
+    ); /* Smallest title size for very tiny screens */
     padding: 0 var(--spacing-xs); /* Very tight padding */
   }
 
@@ -464,4 +483,10 @@
   .playersTable td::before {
     font-size: var(--font-size-xs);
   }
+}
+.tournamentName {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 28px;
+  font-weight: 700;
 }

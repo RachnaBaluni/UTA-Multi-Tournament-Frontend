@@ -8,6 +8,7 @@ import Footer from "../../Components/Footer/Footer";
 const RegisteredPlayers = () => {
   const [searchParams] = useSearchParams();
   const tournamentId = searchParams.get("tournamentId");
+  const [tournamentName, setTournamentName] = useState("");
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState([]);
@@ -33,7 +34,28 @@ const RegisteredPlayers = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    const fetchTournament = async () => {
+      if (!tournamentId) return;
 
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_APP_BACKEND_URL}/api/tournaments/${tournamentId}`,
+          {
+            withCredentials: true,
+          },
+        );
+
+        if (res.data.success) {
+          setTournamentName(res.data.data?.name || "");
+        }
+      } catch (error) {
+        console.error("Error fetching tournament:", error);
+      }
+    };
+
+    fetchTournament();
+  }, [tournamentId]);
   const getEvents = async () => {
     try {
       const res = await axios.get(
@@ -128,8 +150,11 @@ const RegisteredPlayers = () => {
 
       <div className={styles.container}>
         <main className={styles.mainContent}>
-          <h2 className={styles.pageTitle}>Registered Teams</h2>
+          {tournamentName && (
+            <h1 className={styles.tournamentName}>{tournamentName}</h1>
+          )}
 
+          <h2 className={styles.pageTitle}>Registered Teams</h2>
           {/* SEARCH & FILTER */}
           <div className={styles.filtersContainer}>
             <input
