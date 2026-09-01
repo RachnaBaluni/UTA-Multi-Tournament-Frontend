@@ -108,11 +108,22 @@ const ViewResult = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState("");
   const [draws, setDraws] = useState([]);
-
+  const [tournamentName, setTournamentName] = useState("");
   const API = import.meta.env.VITE_APP_BACKEND_URL;
 
   const fetchEvents = async () => {
     try {
+      const tournamentRes = await axios.get(
+        `${API}/api/tournaments/${tournamentId}`,
+        {
+          withCredentials: true,
+        },
+      );
+
+      if (tournamentRes.data.success) {
+        setTournamentName(tournamentRes.data.data?.name || "");
+      }
+
       const res = await axios.get(`${API}/api/events`);
 
       const tournamentEvents = res.data.data.filter(
@@ -179,8 +190,11 @@ const ViewResult = () => {
 
   return (
     <div className={styles.manageResultContainer}>
-      <h1>View Results</h1>
+      {tournamentName && (
+        <h2 className={styles.tournamentName}>{tournamentName}</h2>
+      )}
 
+      <h1>View Results</h1>
       <div className={styles.eventFilterButtons}>
         {events.map((e) => (
           <button

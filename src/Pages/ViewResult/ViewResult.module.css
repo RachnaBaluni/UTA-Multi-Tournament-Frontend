@@ -1,13 +1,12 @@
 /* ================= CONTAINER ================= */
 .manageResultContainer {
- /* padding: 20px;
+  /* padding: 20px;
   overflow-x: auto;*/
-  
+
   width: 100vw;
   margin-left: calc(-50vw + 50%);
   padding: var(--spacing-lg);
 }
-
 
 /* ================= FILTER BUTTONS ================= */
 .eventFilterButtons {
@@ -48,7 +47,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;           /* 🔥 IMPORTANT */
+  height: 100%; /* 🔥 IMPORTANT */
   min-height: 600px;
   min-width: 260px;
 }
@@ -98,7 +97,7 @@
 
 /* ================= TEAM SLOT ================= */
 .matchSlot {
-  flex: 1;   /* 🔥 THIS FIXES VS ISSUE */
+  flex: 1; /* 🔥 THIS FIXES VS ISSUE */
 
   display: flex;
   align-items: center;
@@ -135,7 +134,7 @@
 }
 /* ================= VS ================= */
 .vsSeparator {
-  display: block;       /* 🔥 force visible */
+  display: block; /* 🔥 force visible */
   text-align: center;
   padding: 4px;
   font-size: 11px;
@@ -151,16 +150,22 @@
   }
 
   .matchPair {
-  width: 200px;
-  height: 140px;   /* 🔥 IMPORTANT */
-  
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+    width: 200px;
+    height: 140px; /* 🔥 IMPORTANT */
 
-  background: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    position: relative;
+  }
 }
+.tournamentName {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 20px 0 10px;
 }
