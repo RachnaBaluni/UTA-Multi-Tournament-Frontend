@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 const Register = () => {
   const [searchParams] = useSearchParams();
   const tournamentId = searchParams.get("tournamentId");
+  console.log("🔥 REGISTER TOURNAMENT ID:", tournamentId);
   const reduxUser = useSelector((state) => state.user.user);
   const user = reduxUser?.user || reduxUser;
   const [events, setEvents] = useState([]);
