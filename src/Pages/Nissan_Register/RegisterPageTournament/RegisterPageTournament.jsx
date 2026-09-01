@@ -36,11 +36,13 @@ const RegisterPageTournament = ({
         >
           <option value="">-- Select a Tournament --</option>
 
-          {tournaments.map((tournament) => (
-            <option key={tournament._id} value={tournament._id}>
-              {tournament.name}
-            </option>
-          ))}
+          {tournaments
+            .filter((tournament) => tournament._id === formData.tournamentId)
+            .map((tournament) => (
+              <option key={tournament._id} value={tournament._id}>
+                {tournament.name}
+              </option>
+            ))}
         </select>
       </div>
 
