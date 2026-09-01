@@ -89,7 +89,6 @@ const DrawDisplay = () => {
   const [draws, setDraws] = useState([]);
   const [tournamentName, setTournamentName] = useState("");
   const scrollRef = useRef(null);
-  const [tournamentName, setTournamentName] = useState("");
 
   const currentConfig = config[eventIndex];
   useEffect(() => {
