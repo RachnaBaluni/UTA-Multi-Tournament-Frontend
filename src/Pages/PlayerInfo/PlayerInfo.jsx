@@ -62,7 +62,8 @@ const PlayerInfo = () => {
 
           // Completed tournaments hide
           const isCompleted = tournament.status?.toLowerCase() === "completed";
-
+          const isNormalTournament =
+            tournament.type?.toLowerCase() === "normal";
           // Already participated tournaments hide
           const alreadyParticipated =
             participatedTournamentIds.has(tournamentId);
