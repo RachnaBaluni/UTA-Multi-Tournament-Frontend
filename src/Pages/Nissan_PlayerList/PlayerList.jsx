@@ -131,7 +131,6 @@ const PlayerList = () => {
         )}
 
         <h1 className={styles.pageTitle}>Player List</h1>
-
         {/* --- Loading State Display --- */}
         {loading ? (
           <div className={styles.loadingMessage}>
