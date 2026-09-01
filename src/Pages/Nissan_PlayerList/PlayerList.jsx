@@ -10,11 +10,27 @@ const PlayerList = () => {
   const tournamentId = searchParams.get("tournamentId");
   console.log("TOURNAMENT ID:", tournamentId);
   const [players, setPlayers] = useState([]);
+  const [tournamentName, setTournamentName] = useState("");
 
   const [loading, setLoading] = useState(true);
   const [tournamentEventNames, setTournamentEventNames] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const fetchTournamentName = async () => {
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/tournaments/${tournamentId}`,
+        {
+          withCredentials: true,
+        },
+      );
 
+      if (res.data.success) {
+        setTournamentName(res.data.data?.name || "");
+      }
+    } catch (error) {
+      console.error("Error fetching tournament:", error);
+    }
+  };
   const fetchPlayers = async () => {
     try {
       setLoading(true);
@@ -66,6 +82,7 @@ const PlayerList = () => {
   useEffect(() => {
     if (!tournamentId) return;
 
+    fetchTournamentName();
     fetchPlayers();
   }, [tournamentId]);
 
@@ -109,6 +126,10 @@ const PlayerList = () => {
     <>
       <Header />
       <div className={styles.playerList}>
+        {tournamentName && (
+          <h2 className={styles.tournamentName}>{tournamentName}</h2>
+        )}
+
         <h1 className={styles.pageTitle}>Player List</h1>
 
         {/* --- Loading State Display --- */}
