@@ -99,11 +99,7 @@ const RegisterPage3 = ({ formData }) => {
             <button
               type="button"
               className={styles.button}
-              onClick={() => {
-                window.location.assign(
-                  `/tournaments/register?tournamentId=${formData.tournamentId}`,
-                );
-              }}
+              onClick={() => window.history.back()}
             >
               Retry Registration
             </button>
