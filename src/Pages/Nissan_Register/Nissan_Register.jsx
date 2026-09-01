@@ -35,7 +35,7 @@ const Register = () => {
     stay: false,
     feePaid: false,
     transactionDetails: "",
-    tournamentId: null,
+    tournamentId: tournamentId || null,
     playerId: null,
 
     event1: null,
