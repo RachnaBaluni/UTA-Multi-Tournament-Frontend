@@ -97,9 +97,7 @@ const RegisterPage3 = ({ formData }) => {
 
             <button
               className={styles.button}
-              onClick={() =>
-                (window.location.href = `/register?tournamentId=${formData.tournamentId}`)
-              }
+              onClick={() => window.history.back()}
             >
               Retry Registration
             </button>
