@@ -295,14 +295,13 @@ const PlayerInfo = () => {
                       className={styles.editTournamentBtn}
                       onClick={() => {
                         navigate(
-                          `/tournaments/login?tournamentId=${tournament?._id}`,
+                          `/tournaments/login/${user._id}?tournamentId=${tournament?._id}`,
                         );
                       }}
                     >
                       Edit
                     </button>
                   </div>
-
                   <div className={styles.detailsGrid}>
                     <div className={styles.detailItem}>
                       <span>Start Date</span>
