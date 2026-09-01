@@ -129,11 +129,30 @@ const Round = memo(({ title, matches, roundIndex, totalRounds }) => {
 const ManageResult = () => {
   const [searchParams] = useSearchParams();
   const tournamentId = searchParams.get("tournamentId");
+  const [tournamentName, setTournamentName] = useState("");
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState("");
   const [draws, setDraws] = useState([]);
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const fetchTournament = async () => {
+      if (!tournamentId) return;
 
+      try {
+        const res = await axios.get(
+          `${BASE_URL}/api/tournaments/${tournamentId}`,
+        );
+
+        if (res.data.success) {
+          setTournamentName(res.data.data?.name || "");
+        }
+      } catch (error) {
+        console.error("Error fetching tournament:", error);
+      }
+    };
+
+    fetchTournament();
+  }, [tournamentId]);
   const fetchDraws = useCallback(async () => {
     if (!selectedEvent) return;
 
@@ -201,6 +220,10 @@ const ManageResult = () => {
 
   return (
     <div className={styles.manageResultContainer}>
+      {tournamentName && (
+        <h2 className={styles.tournamentName}>{tournamentName}</h2>
+      )}
+
       <h1 className={styles.title}>View Draws</h1>
 
       <div className={styles.eventFilterButtons}>
