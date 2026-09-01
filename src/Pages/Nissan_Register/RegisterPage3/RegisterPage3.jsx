@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./RegisterPage3.module.css";
 
 const RegisterPage3 = ({ formData }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const navigate = useNavigate();
   const registerPlayer = async () => {
     setIsLoading(true);
     setSuccess(null);
@@ -97,7 +98,9 @@ const RegisterPage3 = ({ formData }) => {
 
             <button
               className={styles.button}
-              onClick={() => window.history.back()}
+              onClick={() =>
+                navigate(`/register?tournamentId=${formData.tournamentId}`)
+              }
             >
               Retry Registration
             </button>
