@@ -8,6 +8,7 @@ const BASE_URL = import.meta.env.VITE_APP_BACKEND_URL;
 const DrawDisplaySetup = () => {
   const [events, setEvents] = useState([]);
   const [configs, setConfigs] = useState({});
+  const [tournamentNames, setTournamentNames] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,16 +16,32 @@ const DrawDisplaySetup = () => {
       const evRes = await axios.get(`${BASE_URL}/api/events`);
       const evs = evRes.data.data || [];
       setEvents(evs);
+      const names = {};
 
+      for (const ev of evs) {
+        if (ev.tournamentId) {
+          try {
+            const tournamentRes = await axios.get(
+              `${BASE_URL}/api/tournaments/${ev.tournamentId}`,
+            );
+
+            if (tournamentRes.data.success) {
+              names[ev.tournamentId] = tournamentRes.data.data?.name || "";
+            }
+          } catch (error) {
+            console.error("Error fetching tournament name:", error);
+          }
+        }
+      }
+
+      setTournamentNames(names);
       const cfg = {};
 
       for (const ev of evs) {
-        const dr = await axios.get(
-          `${BASE_URL}/api/nissan-draws/${ev._id}`
-        );
+        const dr = await axios.get(`${BASE_URL}/api/nissan-draws/${ev._id}`);
 
-        const stages = [...new Set(dr.data.data.map(d => d.Stage))].sort(
-          (a, b) => parseInt(a.split(" ")[1]) - parseInt(b.split(" ")[1])
+        const stages = [...new Set(dr.data.data.map((d) => d.Stage))].sort(
+          (a, b) => parseInt(a.split(" ")[1]) - parseInt(b.split(" ")[1]),
         );
 
         cfg[ev._id] = {
@@ -40,18 +57,14 @@ const DrawDisplaySetup = () => {
     loadAll();
   }, []);
 
-
-
-
-
   const handleStart = () => {
-    const payload = events.map(e => ({
+    const payload = events.map((e) => ({
+      tournamentId: e.tournamentId,
       eventId: e._id,
       eventName: e.name,
       start: configs[e._id]?.start,
       end: configs[e._id]?.end,
       scrollSeconds: configs[e._id]?.scrollSeconds || 10,
-
     }));
 
     navigate("/tournaments/drawdisplay", {
@@ -63,17 +76,22 @@ const DrawDisplaySetup = () => {
     <div className={styles.setupScreen}>
       <h1 className={styles.setupTitle}>Draw Presentation Setup</h1>
 
-      {events.map(event => (
+      {events.map((event) => (
         <div key={event._id} className={styles.eventCard}>
-          <h3>{event.name}</h3>
+          {event.tournamentId && tournamentNames[event.tournamentId] && (
+            <h2 className={styles.tournamentName}>
+              {tournamentNames[event.tournamentId]}
+            </h2>
+          )}
 
+          <h3>{event.name}</h3>
           {configs[event._id] && (
             <>
               <label>Start Round</label>
               <select
                 value={configs[event._id].start}
-                onChange={e =>
-                  setConfigs(p => ({
+                onChange={(e) =>
+                  setConfigs((p) => ({
                     ...p,
                     [event._id]: {
                       ...p[event._id],
@@ -82,7 +100,7 @@ const DrawDisplaySetup = () => {
                   }))
                 }
               >
-                {configs[event._id].stages.map(r => (
+                {configs[event._id].stages.map((r) => (
                   <option key={r}>{r}</option>
                 ))}
               </select>
@@ -90,8 +108,8 @@ const DrawDisplaySetup = () => {
               <label>End Round</label>
               <select
                 value={configs[event._id].end}
-                onChange={e =>
-                  setConfigs(p => ({
+                onChange={(e) =>
+                  setConfigs((p) => ({
                     ...p,
                     [event._id]: {
                       ...p[event._id],
@@ -100,7 +118,7 @@ const DrawDisplaySetup = () => {
                   }))
                 }
               >
-                {configs[event._id].stages.map(r => (
+                {configs[event._id].stages.map((r) => (
                   <option key={r}>{r}</option>
                 ))}
               </select>
@@ -110,8 +128,8 @@ const DrawDisplaySetup = () => {
                 min="5"
                 max="60"
                 value={configs[event._id].scrollSeconds || 10}
-                onChange={e =>
-                  setConfigs(p => ({
+                onChange={(e) =>
+                  setConfigs((p) => ({
                     ...p,
                     [event._id]: {
                       ...p[event._id],
@@ -120,7 +138,6 @@ const DrawDisplaySetup = () => {
                   }))
                 }
               />
-
             </>
           )}
         </div>

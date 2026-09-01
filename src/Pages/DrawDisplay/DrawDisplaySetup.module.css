@@ -6,7 +6,11 @@
   max-width: 900px;
   margin: 0 auto;
   padding: 32px 24px;
-  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
   background: #f8fafc;
   min-height: 100vh;
 }
@@ -109,7 +113,11 @@
   max-width: 900px;
   margin: 0 auto;
   padding: 32px 24px;
-  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
   background: #f8fafc;
   min-height: 100vh;
 }
@@ -203,4 +211,10 @@
 
 .startBtn:hover {
   background: #1f2937;
+}
+.tournamentName {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 10px;
 }
