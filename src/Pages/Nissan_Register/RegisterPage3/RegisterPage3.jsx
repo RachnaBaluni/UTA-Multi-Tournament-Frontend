@@ -78,7 +78,7 @@ const RegisterPage3 = ({ formData }) => {
             <h2 className={styles.title}>Registration Successful!</h2>
 
             <p className={styles.message}>
-              Your account has been successfully created. You can now log in.
+              You have successfully registered for this tournament.{" "}
             </p>
           </>
         )}
