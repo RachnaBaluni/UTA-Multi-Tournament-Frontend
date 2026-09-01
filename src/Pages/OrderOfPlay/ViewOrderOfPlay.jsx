@@ -52,7 +52,7 @@ export default function ViewOrderOfPlay() {
   const [searchParams] = useSearchParams();
   const tournamentId = searchParams.get("tournamentId");
   const [grid, setGrid] = useState([]);
-
+  const [tournamentName, setTournamentName] = useState("");
   useEffect(() => {
     fetchData();
   }, [tournamentId]);
@@ -63,7 +63,14 @@ export default function ViewOrderOfPlay() {
         toast.error("Tournament not selected");
         return;
       }
+      const tournamentRes = await axios.get(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/tournaments/${tournamentId}`,
+        { withCredentials: true },
+      );
 
+      if (tournamentRes.data.success) {
+        setTournamentName(tournamentRes.data.data?.name || "");
+      }
       const eventsRes = await axios.get(
         `${import.meta.env.VITE_APP_BACKEND_URL}/api/events`,
         { withCredentials: true },
@@ -128,6 +135,10 @@ export default function ViewOrderOfPlay() {
   /* ================= UI ================= */
   return (
     <div className={styles.container}>
+      {tournamentName && (
+        <h2 className={styles.tournamentName}>{tournamentName}</h2>
+      )}
+
       <h1>ORDER OF PLAY</h1>
 
       {/* HEADER */}

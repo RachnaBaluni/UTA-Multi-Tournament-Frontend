@@ -8,10 +8,22 @@ export default function Result() {
   const tournamentId = searchParams.get("tournamentId");
   const [allEvents, setAllEvents] = useState([]);
   const [eventNames, setEventNames] = useState({});
+  const [tournamentName, setTournamentName] = useState("");
 
   useEffect(() => {
     const fetchAll = async () => {
       try {
+        const tournamentResp = await axios.get(
+          `${import.meta.env.VITE_APP_BACKEND_URL}/api/tournaments/${tournamentId}`,
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          },
+        );
+
+        if (tournamentResp.data.success) {
+          setTournamentName(tournamentResp.data.data?.name || "");
+        }
         // 1. Fetch event names
         const eventsResp = await axios.get(
           `${import.meta.env.VITE_APP_BACKEND_URL}/api/events`,
@@ -99,6 +111,8 @@ export default function Result() {
 
   return (
     <div className="resultSection">
+      {tournamentName && <h1 className="tournamentName">{tournamentName}</h1>}
+
       {allEvents.map((event) => {
         const grouped = groupByStage(event.matches);
 

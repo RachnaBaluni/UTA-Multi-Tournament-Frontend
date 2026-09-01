@@ -78,7 +78,6 @@
 /* ================= MOBILE ================= */
 
 @media (max-width: 768px) {
-
   .container {
     padding: 10px;
   }
@@ -118,7 +117,6 @@
 /* ================= VERY SMALL MOBILE ================= */
 
 @media (max-width: 480px) {
-
   .header {
     min-width: 600px;
   }
@@ -144,5 +142,10 @@
   .category {
     font-size: 10px;
   }
-
+}
+.tournamentName {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 20px 0 10px;
 }
