@@ -7,7 +7,11 @@
   background: #f8fafc;
   padding: 24px;
   box-sizing: border-box;
-  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 /* ============================= */
@@ -237,4 +241,10 @@
   .bracketContainer {
     transform: scale(0.9);
   }
+}
+.tournamentName {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 10px;
 }

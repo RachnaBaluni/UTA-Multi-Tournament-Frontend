@@ -24,8 +24,7 @@ const DisplayMatch = ({ team, opponentTeam, matchWinnerId, roundIndex }) => {
   }
 
   const isWinner = team && team._id === matchWinnerId;
-  const isLoser =
-    team && opponentTeam && opponentTeam._id === matchWinnerId;
+  const isLoser = team && opponentTeam && opponentTeam._id === matchWinnerId;
 
   return (
     <div
@@ -50,9 +49,7 @@ const DisplayRound = memo(({ title, matches, roundIndex }) => {
       <div className={styles.matchesContainer}>
         {matches.map((match) => (
           <div key={match._id} className={styles.matchPair}>
-            <div className={styles.matchNumber}>
-              Match {match.Match_number}
-            </div>
+            <div className={styles.matchNumber}>Match {match.Match_number}</div>
 
             <DisplayMatch
               team={match.Team1}
@@ -61,10 +58,7 @@ const DisplayRound = memo(({ title, matches, roundIndex }) => {
               roundIndex={roundIndex}
             />
 
-            
             <div className={styles.vsSeparator}>V/S</div>
-
-            
 
             <DisplayMatch
               team={match.Team2}
@@ -93,9 +87,28 @@ const DrawDisplay = () => {
 
   const [eventIndex, setEventIndex] = useState(0);
   const [draws, setDraws] = useState([]);
+  const [tournamentName, setTournamentName] = useState("");
   const scrollRef = useRef(null);
 
   const currentConfig = config[eventIndex];
+  useEffect(() => {
+    const tournamentId = currentConfig?.tournamentId;
+
+    if (!tournamentId) return;
+
+    axios
+      .get(`${BASE_URL}/api/tournaments/${tournamentId}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.data.success) {
+          setTournamentName(res.data.data?.name || "");
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching tournament name:", err);
+      });
+  }, [currentConfig]);
 
   /* FETCH DRAWS */
   useEffect(() => {
@@ -118,22 +131,16 @@ const DrawDisplay = () => {
   }, {});
 
   const orderedStages = Object.keys(grouped).sort(
-    (a, b) =>
-      parseInt(a.split(" ")[1] || 0) -
-      parseInt(b.split(" ")[1] || 0)
+    (a, b) => parseInt(a.split(" ")[1] || 0) - parseInt(b.split(" ")[1] || 0),
   );
 
   const startIdx = orderedStages.indexOf(currentConfig.start);
   const endIdx = orderedStages.indexOf(currentConfig.end);
 
-  const rounds = orderedStages
-    .slice(startIdx, endIdx + 1)
-    .map((stage) => ({
-      title: stage,
-      matches: grouped[stage].sort(
-        (a, b) => a.Match_number - b.Match_number
-      ),
-    }));
+  const rounds = orderedStages.slice(startIdx, endIdx + 1).map((stage) => ({
+    title: stage,
+    matches: grouped[stage].sort((a, b) => a.Match_number - b.Match_number),
+  }));
 
   /* AUTO SCROLL + EVENT ROTATION */
 
@@ -141,33 +148,28 @@ const DrawDisplay = () => {
     if (!scrollRef.current || !rounds.length) return;
 
     const container = scrollRef.current;
-    const duration =
-      (currentConfig.scrollSeconds || 10) * 1000;
+    const duration = (currentConfig.scrollSeconds || 10) * 1000;
 
     container.scrollTop = 0;
 
     let startTime = null;
-    const maxScroll =
-      container.scrollHeight - container.clientHeight;
+    const maxScroll = container.scrollHeight - container.clientHeight;
 
     const animate = (ts) => {
       if (!startTime) startTime = ts;
-      const progress = Math.min(
-        (ts - startTime) / duration,
-        1
-      );
+      const progress = Math.min((ts - startTime) / duration, 1);
       container.scrollTop = maxScroll * progress;
       if (progress < 1) requestAnimationFrame(animate);
     };
 
     const scrollTimer = setTimeout(
       () => requestAnimationFrame(animate),
-      TOP_PAUSE
+      TOP_PAUSE,
     );
 
     const rotateTimer = setTimeout(
       () => setEventIndex((i) => (i + 1) % config.length),
-      TOP_PAUSE + duration + BOTTOM_PAUSE
+      TOP_PAUSE + duration + BOTTOM_PAUSE,
     );
 
     return () => {
@@ -179,6 +181,10 @@ const DrawDisplay = () => {
   return (
     <div className={styles.displayScreen}>
       <header className={styles.displayHeader}>
+        {tournamentName && (
+          <h2 className={styles.tournamentName}>{tournamentName}</h2>
+        )}
+
         <h1>{currentConfig.eventName || "EVENT"}</h1>
       </header>
 
