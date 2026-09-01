@@ -49,7 +49,17 @@ const PlayerInfo = () => {
       const response = await axios.get(`${BACKEND}/api/tournaments`);
 
       if (response.data.success) {
-        // Already participated tournaments ke IDs
+        console.log("🔥 ALL TOURNAMENTS:", response.data.data);
+
+        response.data.data.forEach((tournament) => {
+          console.log(
+            "🔥 TOURNAMENT:",
+            tournament.name,
+            "TYPE:",
+            tournament.type,
+          );
+        });
+        // IDs of already participated tournaments
         const participatedTournamentIds = new Set(
           myTournamentRegistrations
             .map((registration) => registration.tournament?._id)
