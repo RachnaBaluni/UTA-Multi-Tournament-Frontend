@@ -287,7 +287,21 @@ const PlayerInfo = () => {
                   key={registration._id}
                   className={styles.tournamentDetails}
                 >
-                  <h3>{tournament?.name || "Tournament"}</h3>
+                  <div className={styles.tournamentHeader}>
+                    <h3>{tournament?.name || "Tournament"}</h3>
+
+                    <button
+                      type="button"
+                      className={styles.editTournamentBtn}
+                      onClick={() => {
+                        navigate(
+                          `/tournaments/login?tournamentId=${tournament?._id}`,
+                        );
+                      }}
+                    >
+                      Edit
+                    </button>
+                  </div>
 
                   <div className={styles.detailsGrid}>
                     <div className={styles.detailItem}>
