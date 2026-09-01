@@ -100,7 +100,7 @@ const RegisterPage3 = ({ formData }) => {
               type="button"
               className={styles.button}
               onClick={() => {
-                alert("RETRY CLICKED");
+                alert(`Tournament ID: ${formData.tournamentId}`);
               }}
             >
               Retry Registration
