@@ -40,10 +40,10 @@
   background-color: #f9f9f9;
   border-radius: 10px;
 
-  width: 90%;          /* 🔥 box thoda chhota */
-  margin: 0 auto;      /* 🔥 center */
+  width: 90%; /* 🔥 box thoda chhota */
+  margin: 0 auto; /* 🔥 center */
 
-  zoom: 0.70;          /* 🔥 zoom out */
+  zoom: 0.7; /* 🔥 zoom out */
 }
 
 /* Rounds */
@@ -168,4 +168,10 @@
   font-weight: bold;
   margin: 6px 0;
   color: #555;
+}
+.tournamentName {
+  text-align: center;
+  margin: 0 0 10px;
+  font-size: 28px;
+  font-weight: 700;
 }
