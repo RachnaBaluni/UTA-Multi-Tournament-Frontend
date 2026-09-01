@@ -99,7 +99,9 @@ const RegisterPage3 = ({ formData }) => {
             <button
               className={styles.button}
               onClick={() =>
-                navigate(`/register?tournamentId=${formData.tournamentId}`)
+                navigate(
+                  `/tournaments/register?tournamentId=${formData.tournamentId}`,
+                )
               }
             >
               Retry Registration
