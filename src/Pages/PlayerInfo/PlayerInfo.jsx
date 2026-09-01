@@ -70,17 +70,31 @@ const PlayerInfo = () => {
         const availableTournaments = response.data.data.filter((tournament) => {
           const tournamentId = tournament._id?.toString();
 
-          // Completed tournaments hide
           const isCompleted = tournament.status?.toLowerCase() === "completed";
+
           const isNormalTournament =
             tournament.type?.toLowerCase() === "normal";
-          // Already participated tournaments hide
+
           const alreadyParticipated =
             participatedTournamentIds.has(tournamentId);
 
-          return !isCompleted && !alreadyParticipated;
+          console.log(
+            "FILTER:",
+            tournament.name,
+            "TYPE:",
+            tournament.type,
+            "NORMAL:",
+            isNormalTournament,
+            "COMPLETED:",
+            isCompleted,
+            "ALREADY PARTICIPATED:",
+            alreadyParticipated,
+          );
+
+          return isNormalTournament && !isCompleted && !alreadyParticipated;
         });
 
+        setTournaments(availableTournaments);
         setTournaments(availableTournaments);
       } else {
         setTournaments([]);
