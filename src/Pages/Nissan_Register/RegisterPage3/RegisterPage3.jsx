@@ -100,7 +100,7 @@ const RegisterPage3 = ({ formData }) => {
               type="button"
               className={styles.button}
               onClick={() => {
-                navigate(
+                window.location.assign(
                   `/tournaments/register?tournamentId=${formData.tournamentId}`,
                 );
               }}
