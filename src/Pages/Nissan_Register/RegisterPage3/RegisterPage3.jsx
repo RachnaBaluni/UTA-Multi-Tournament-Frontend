@@ -102,7 +102,9 @@ const RegisterPage3 = ({ formData }) => {
                 console.log("RETRY CLICKED");
                 console.log("TOURNAMENT ID:", formData.tournamentId);
 
-                navigate("/tournaments/register");
+                navigate(
+                  `/tournaments/register?tournamentId=${formData.tournamentId}`,
+                );
               }}
             >
               Retry Registration
