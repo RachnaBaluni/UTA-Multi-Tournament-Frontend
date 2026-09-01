@@ -35,6 +35,7 @@ const Register = () => {
     feePaid: false,
     transactionDetails: "",
     tournamentId: null,
+    playerId: null,
 
     event1: null,
     partner1: null,
@@ -143,6 +144,7 @@ const Register = () => {
         email: user.email || user.emailAddress || "",
         city: user.city || "",
         tournamentId: tournamentId || null,
+        playerId: user._id,
       }));
     } else if (tournamentId) {
       setFormData((prev) => ({
