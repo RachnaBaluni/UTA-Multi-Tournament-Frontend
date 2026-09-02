@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./LoginPage1.module.css";
 import axios from "axios";
 
-const LoginPage1 = ({ player, handleNext, setPlayer, id }) => {
+const LoginPage1 = ({ player, handleNext, setPlayer, id, tournamentId }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -46,7 +46,10 @@ const LoginPage1 = ({ player, handleNext, setPlayer, id }) => {
 
       const res = await axios.post(
         `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/${id}/updatePlayer`,
-        { formData },
+        {
+          formData,
+          tournamentId,
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -54,7 +57,6 @@ const LoginPage1 = ({ player, handleNext, setPlayer, id }) => {
           withCredentials: true,
         },
       );
-
       console.log("UPDATE RESPONSE:", res.data);
 
       if (res.data.success) {

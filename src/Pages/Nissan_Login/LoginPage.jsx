@@ -232,6 +232,7 @@ const LoginPage = () => {
                 handleNext={handleNext}
                 id={params.id}
                 setPlayer={setCurrentPlayer}
+                tournamentId={tournamentId}
               />
             )}
           </section>
