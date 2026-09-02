@@ -638,51 +638,6 @@ export default function Tournaments() {
             )}
 
             {/* =================================================
-                VENUE
-            ================================================== */}
-
-            {tournamentVenue
-              .filter((item) => item.showing !== false)
-              .map((item) => (
-                <div key={item._id} className={styles.modalSection}>
-                  <h3>Venue</h3>
-
-                  {item.key && (
-                    <p className={styles.modalParagraph}>
-                      <strong>{item.key}</strong>
-                    </p>
-                  )}
-
-                  {item.value && (
-                    <div
-                      className={styles.modalRichText}
-                      dangerouslySetInnerHTML={{
-                        __html: item.value,
-                      }}
-                    />
-                  )}
-
-                  {item.date && (
-                    <p className={styles.modalParagraph}>
-                      <strong>Date:</strong> {formatDate(item.date)}
-                    </p>
-                  )}
-
-                  {Array.isArray(item.rules) && item.rules.length > 0 && (
-                    <>
-                      <h4>Venue Information</h4>
-
-                      <ul className={styles.detailList}>
-                        {item.rules.map((rule, index) => (
-                          <li key={index}>{rule}</li>
-                        ))}
-                      </ul>
-                    </>
-                  )}
-                </div>
-              ))}
-
-            {/* =================================================
                 EXTRA TOURNAMENT DETAILS
             ================================================== */}
 
@@ -848,7 +803,50 @@ export default function Tournaments() {
                       renderHTML(selectedTournament.benefits)}
                   </div>
                 )}
+                {/* =================================================
+                VENUE
+            ================================================== */}
 
+                {tournamentVenue
+                  .filter((item) => item.showing !== false)
+                  .map((item) => (
+                    <div key={item._id} className={styles.modalSection}>
+                      <h3>Venue</h3>
+
+                      {item.key && (
+                        <p className={styles.modalParagraph}>
+                          <strong>{item.key}</strong>
+                        </p>
+                      )}
+
+                      {item.value && (
+                        <div
+                          className={styles.modalRichText}
+                          dangerouslySetInnerHTML={{
+                            __html: item.value,
+                          }}
+                        />
+                      )}
+
+                      {item.date && (
+                        <p className={styles.modalParagraph}>
+                          <strong>Date:</strong> {formatDate(item.date)}
+                        </p>
+                      )}
+
+                      {Array.isArray(item.rules) && item.rules.length > 0 && (
+                        <>
+                          <h4>Venue Information</h4>
+
+                          <ul className={styles.detailList}>
+                            {item.rules.map((rule, index) => (
+                              <li key={index}>{rule}</li>
+                            ))}
+                          </ul>
+                        </>
+                      )}
+                    </div>
+                  ))}
                 {/* =================================================
                     STATUS
                 ================================================== */}
