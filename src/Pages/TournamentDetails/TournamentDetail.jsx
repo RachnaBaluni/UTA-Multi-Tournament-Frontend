@@ -336,7 +336,11 @@ const TournamentDetail = () => {
         {item.mapLink && (
           <div className={styles.mapContainer}>
             <iframe
-              src={item.mapLink}
+              src={
+                item.mapLink.includes("<iframe")
+                  ? item.mapLink.match(/src=["']([^"']+)["']/i)?.[1]
+                  : item.mapLink
+              }
               width="100%"
               height="350"
               style={{ border: 0 }}
