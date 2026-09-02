@@ -845,6 +845,21 @@ export default function Tournaments() {
                           </ul>
                         </>
                       )}
+
+                      {item.mapLink && (
+                        <div className={styles.mapContainer}>
+                          <iframe
+                            src={item.mapLink}
+                            width="100%"
+                            height="350"
+                            style={{ border: 0 }}
+                            allowFullScreen
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                            title="Venue Map"
+                          />
+                        </div>
+                      )}
                     </div>
                   ))}
                 {/* =================================================

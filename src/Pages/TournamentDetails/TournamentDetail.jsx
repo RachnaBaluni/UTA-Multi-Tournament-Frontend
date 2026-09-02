@@ -192,12 +192,15 @@ const TournamentDetail = () => {
         // =====================================================
 
         try {
-          const venueResponse = await axios.get(`${BACKEND_URL}/api/venue/`, {
-            headers: {
-              "Content-Type": "application/json",
+          const venueResponse = await axios.get(
+            `${BACKEND_URL}/api/venue?tournamentId=${id}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+              withCredentials: true,
             },
-            withCredentials: true,
-          });
+          );
 
           console.log("VENUE:", venueResponse.data);
 
@@ -290,14 +293,45 @@ const TournamentDetail = () => {
       return null;
     }
 
-    const venueName = item.venue || item.name;
-    const address = item.address;
+    const venueName = item.key;
+    const venueDetails = item.value;
 
     return (
       <div key={item._id} className={styles.venueCard}>
+        {/* VENUE NAME */}
+
         {venueName && <h3 className={styles.venueTitle}>{venueName}</h3>}
 
-        {address && <p className={styles.venueAddress}>{address}</p>}
+        {/* VENUE DETAILS */}
+
+        {venueDetails && (
+          <div
+            className={styles.venueContent}
+            dangerouslySetInnerHTML={{
+              __html: venueDetails,
+            }}
+          />
+        )}
+
+        {/* VENUE DATE */}
+
+        {item.date && (
+          <p className={styles.venueAddress}>
+            <strong>Date:</strong> {formatDate(item.date)}
+          </p>
+        )}
+
+        {/* VENUE RULES */}
+
+        {Array.isArray(item.rules) && item.rules.length > 0 && (
+          <ul className={styles.detailList}>
+            {item.rules.map((rule, index) => (
+              <li key={index}>{rule}</li>
+            ))}
+          </ul>
+        )}
+
+        {/* VENUE MAP */}
 
         {item.mapLink && (
           <div className={styles.mapContainer}>
@@ -313,15 +347,6 @@ const TournamentDetail = () => {
               title={venueName || "Tournament Venue"}
             />
           </div>
-        )}
-
-        {!item.venue && !item.address && item.value && (
-          <div
-            className={styles.venueContent}
-            dangerouslySetInnerHTML={{
-              __html: item.value,
-            }}
-          />
         )}
       </div>
     );
