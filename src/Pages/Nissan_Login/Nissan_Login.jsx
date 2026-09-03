@@ -32,6 +32,9 @@ const Nissan_Login = () => {
       if (res.data.success) {
         console.log("LOGIN RESPONSE ", res.data);
         console.log("PLAYER DATA ", res.data.data);
+        console.log("TOURNAMENT ID:", tournamentId);
+        console.log("LOGIN PLAYER ID:", res.data.data.id);
+        console.log("LOGIN PLAYER TYPE:", res.data.data.playerType);
 
         const token = res.data.token || res.data.data?.token;
 
