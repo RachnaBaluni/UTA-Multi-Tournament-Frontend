@@ -64,7 +64,7 @@ const LoginPage = () => {
 
   const getMyTournamentRegistrations = async () => {
     try {
-      if (!params.id || !tournamentId) return;
+      if (!params.id) return;
 
       const res = await axios.get(
         `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/tournament-registrations/${params.id}`,
@@ -77,15 +77,48 @@ const LoginPage = () => {
       if (res.data.success) {
         const registrations = res.data.data || [];
 
-        const isRegistered = registrations.some(
-          (registration) =>
-            registration.tournament?._id?.toString() ===
-            tournamentId?.toString(),
-        );
+        // Get tournaments from actual player registrations
+        const registeredTournaments = registrations
+          .filter((registration) => registration.tournament?._id)
+          .map((registration) => registration.tournament);
 
-        if (!isRegistered) {
-          setIsTournamentAllowed(false);
-          toast.error("This player is not registered in this tournament.");
+        const uniqueTournaments = [
+          ...new Map(
+            registeredTournaments.map((tournament) => [
+              tournament._id,
+              tournament,
+            ]),
+          ).values(),
+        ];
+
+        setTournaments(uniqueTournaments);
+
+        // Select the tournament being edited
+        if (tournamentId) {
+          const selectedTournamentData = uniqueTournaments.find(
+            (tournament) =>
+              tournament._id?.toString() === tournamentId.toString(),
+          );
+
+          if (selectedTournamentData) {
+            setSelectedTournament(selectedTournamentData._id);
+          }
+        } else if (uniqueTournaments.length === 1) {
+          setSelectedTournament(uniqueTournaments[0]._id);
+        }
+
+        // Check whether the player is registered in the selected tournament
+        if (tournamentId) {
+          const isRegistered = registrations.some(
+            (registration) =>
+              registration.tournament?._id?.toString() ===
+              tournamentId.toString(),
+          );
+
+          if (!isRegistered) {
+            setIsTournamentAllowed(false);
+            toast.error("This player is not registered in this tournament.");
+          }
         }
       }
     } catch (error) {
@@ -109,7 +142,6 @@ const LoginPage = () => {
       console.log("Error fetching events:", error);
     }
   };
-
   const getLoggedInPlayerTeam = async () => {
     try {
       const res = await axios.get(
@@ -121,9 +153,18 @@ const LoginPage = () => {
       );
 
       if (res.data.success) {
-        const teams = res.data.data;
+        const teams = res.data.data || [];
 
-        setCurrentPlayerTeam(teams);
+        // Keep only teams belonging to the selected tournament
+        const filteredTeams = tournamentId
+          ? teams.filter(
+              (team) =>
+                team.eventId?.tournamentId?._id?.toString() ===
+                tournamentId.toString(),
+            )
+          : teams;
+
+        setCurrentPlayerTeam(filteredTeams);
 
         const uniqueTournaments = [
           ...new Map(
@@ -136,11 +177,9 @@ const LoginPage = () => {
           ).values(),
         ];
 
-        setTournaments(uniqueTournaments);
-
-        // Automatically select the tournament if there's only one unique tournament
-        if (uniqueTournaments.length === 1) {
-          setSelectedTournament(uniqueTournaments[0]._id);
+        // Always select the tournament from the URL when editing
+        if (tournamentId) {
+          setSelectedTournament(tournamentId);
         }
       }
     } catch (error) {
