@@ -11,6 +11,7 @@ import Footer from "../../Components/Footer/Footer";
 import { useSelector } from "react-redux";
 
 const Register = () => {
+  console.log("REGISTER COMPONENT RENDERED");
   const [searchParams] = useSearchParams();
   const tournamentId = searchParams.get("tournamentId");
   console.log("🔥 REGISTER TOURNAMENT ID:", tournamentId);
@@ -178,6 +179,8 @@ const Register = () => {
     const handleBack = () => {
       if (currentStep !== 1) setCurrentStep((currentStep) => currentStep - 1);
     };
+    console.log("REGISTER CURRENT STEP:", currentStep);
+    console.log("REGISTER TOURNAMENT ID:", tournamentId);
     return (
       <div>
         {/* <header className={styles.header}>
