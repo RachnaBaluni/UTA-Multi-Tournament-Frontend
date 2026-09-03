@@ -215,7 +215,7 @@ const Register = () => {
               currentStep >= 2 ? styles.activeStep : ""
             }`}
           >
-            2. Tournament
+            2. Event Selection
           </div>
 
           <div
@@ -229,21 +229,7 @@ const Register = () => {
               currentStep >= 3 ? styles.activeStep : ""
             }`}
           >
-            3. Event Selection
-          </div>
-
-          <div
-            className={`${styles.stepLine} ${
-              currentStep >= 4 ? styles.activeLine : ""
-            }`}
-          ></div>
-
-          <div
-            className={`${styles.step} ${
-              currentStep >= 4 ? styles.activeStep : ""
-            }`}
-          >
-            4. Confirmation
+            3. Confirmation
           </div>
         </div>
         <section>
