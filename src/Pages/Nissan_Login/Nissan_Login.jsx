@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/userSlice";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { toast } from "sonner";
 import axios from "axios";
@@ -8,6 +10,7 @@ import Footer from "../../Components/Footer/Footer";
 
 const Nissan_Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
   const tournamentId = new URLSearchParams(location.search).get("tournamentId");
   const [login, setLogin] = useState({
@@ -62,7 +65,11 @@ const Nissan_Login = () => {
         }
 
         // Player is registered → continue
+        // Player is registered → continue
         localStorage.setItem("token", token);
+
+        // Login the player immediately after successful authentication
+        dispatch(setUser(res.data.data));
 
         navigate(
           `/tournaments/login/${res.data.data.id}?tournamentId=${tournamentId}`,
