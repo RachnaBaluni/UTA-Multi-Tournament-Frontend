@@ -111,7 +111,7 @@ const PlayerInfo = () => {
     if (user?._id) {
       fetchMyTournamentRegistrations();
     }
-  }, [user?._id]);
+  }, [user?._id, user?.name, user?.city, user?.dob, user?.whatsappNumber]);
 
   console.log("PLAYER INFO REDUX USER 👉", user);
   if (!user) {

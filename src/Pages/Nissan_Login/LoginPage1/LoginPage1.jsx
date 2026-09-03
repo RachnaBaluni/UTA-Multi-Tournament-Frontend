@@ -60,7 +60,11 @@ const LoginPage1 = ({ player, handleNext, setPlayer, id, tournamentId }) => {
       console.log("UPDATE RESPONSE:", res.data);
 
       if (res.data.success) {
-        setPlayer(formData);
+        setPlayer({
+          ...player,
+          ...formData,
+        });
+
         handleNext();
       } else {
         console.log("UPDATE FAILED:", res.data.message);
