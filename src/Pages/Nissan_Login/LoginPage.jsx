@@ -62,6 +62,37 @@ const LoginPage = () => {
     }
   };
 
+  const getMyTournamentRegistrations = async () => {
+    try {
+      if (!params.id || !tournamentId) return;
+
+      const res = await axios.get(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/tournament-registrations/${params.id}`,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        },
+      );
+
+      if (res.data.success) {
+        const registrations = res.data.data || [];
+
+        const isRegistered = registrations.some(
+          (registration) =>
+            registration.tournament?._id?.toString() ===
+            tournamentId?.toString(),
+        );
+
+        if (!isRegistered) {
+          setIsTournamentAllowed(false);
+          toast.error("This player is not registered in this tournament.");
+        }
+      }
+    } catch (error) {
+      console.log("Error fetching tournament registrations:", error);
+    }
+  };
+
   const getLoggedInPlayer = async () => {
     try {
       const res = await axios.get(
@@ -93,24 +124,7 @@ const LoginPage = () => {
         const teams = res.data.data;
 
         setCurrentPlayerTeam(teams);
-        const isRegisteredInTournament = teams.some(
-          (team) =>
-            team.eventId?.tournamentId?._id?.toString() ===
-            tournamentId?.toString(),
-        );
 
-        if (!isRegisteredInTournament) {
-          setIsTournamentAllowed(false);
-
-          toast.error("This player is not registered in this tournament.");
-
-          setCurrentPlayerTeam([]);
-          setTournaments([]);
-          setSelectedTournament("");
-          setCurrentStep(1);
-
-          return;
-        }
         const uniqueTournaments = [
           ...new Map(
             teams
@@ -124,7 +138,7 @@ const LoginPage = () => {
 
         setTournaments(uniqueTournaments);
 
-        //automatically select the tournament if there's only one unique tournament
+        // Automatically select the tournament if there's only one unique tournament
         if (uniqueTournaments.length === 1) {
           setSelectedTournament(uniqueTournaments[0]._id);
         }
