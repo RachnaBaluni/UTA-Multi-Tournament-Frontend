@@ -100,18 +100,30 @@ const Header = () => {
   const getProfileChar = () => {
     if (!user || Object.keys(user).length === 0) return "?";
 
+    const playerData = user.user || user;
+
+    if (
+      user.playerType === "NormalPlayer" ||
+      user.playerType === "MemberPlayer"
+    ) {
+      return playerData.name ? playerData.name.charAt(0).toUpperCase() : "?";
+    }
+
     switch (user.type) {
       case "Player":
       case "Coach":
         return user.name ? user.name.charAt(0).toUpperCase() : "?";
+
       case "Academy":
         return user.academyName
           ? user.academyName.charAt(0).toUpperCase()
           : "?";
+
       case "District":
         return user.districtName
           ? user.districtName.charAt(0).toUpperCase()
           : "?";
+
       default:
         return "?";
     }
