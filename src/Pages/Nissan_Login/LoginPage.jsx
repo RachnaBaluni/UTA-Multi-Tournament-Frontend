@@ -24,7 +24,7 @@ const LoginPage = () => {
   const location = useLocation();
 
   const tournamentId = new URLSearchParams(location.search).get("tournamentId");
-
+  console.log("EDIT TOURNAMENT ID:", tournamentId);
   const getEvents = async (tournamentId) => {
     try {
       if (!tournamentId) return;
