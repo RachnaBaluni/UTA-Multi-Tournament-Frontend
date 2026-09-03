@@ -140,7 +140,10 @@ const Header = () => {
     return "User";
   };
 
-  const isLoggedIn = Object.keys(user).length > 0;
+  const isTournamentPlayer =
+    user?.playerType === "NormalPlayer" || user?.playerType === "MemberPlayer";
+
+  const isLoggedIn = Object.keys(user).length > 0 && !isTournamentPlayer;
   console.log("HEADER REDUX USER 👉", JSON.stringify(user, null, 2));
   return (
     <>
