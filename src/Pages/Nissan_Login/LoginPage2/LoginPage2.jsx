@@ -284,7 +284,10 @@ const LoginPage2 = ({
           `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/${
             params.id
           }/updateTeams`,
-          formData,
+          {
+            ...formData,
+            tournamentId: selectedTournament,
+          },
           {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
