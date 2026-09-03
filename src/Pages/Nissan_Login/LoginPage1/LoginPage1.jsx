@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../../store/userSlice";
+import { setUser } from "../../../redux/user.slice";
 import styles from "./LoginPage1.module.css";
 import axios from "axios";
 
