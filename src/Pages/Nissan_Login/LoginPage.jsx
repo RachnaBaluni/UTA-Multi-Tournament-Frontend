@@ -199,6 +199,11 @@ const LoginPage = () => {
     }
   }, [selectedTournament]);
   const handleNext = () => {
+    if (currentStep === 1 && tournamentId) {
+      setCurrentStep(3);
+      return;
+    }
+
     if (currentStep !== 4) {
       setCurrentStep((currentStep) => currentStep + 1);
     }
@@ -247,21 +252,7 @@ const LoginPage = () => {
                 currentStep >= 2 ? styles.activeStep : ""
               }`}
             >
-              2. Tournament
-            </div>
-
-            <div
-              className={`${styles.stepLine} ${
-                currentStep >= 3 ? styles.activeLine : ""
-              }`}
-            ></div>
-
-            <div
-              className={`${styles.step} ${
-                currentStep >= 3 ? styles.activeStep : ""
-              }`}
-            >
-              3. Event Selection
+              2. Event Selection
             </div>
 
             <div
@@ -272,10 +263,10 @@ const LoginPage = () => {
 
             <div
               className={`${styles.step} ${
-                currentStep >= 4 ? styles.activeStep : ""
+                currentStep >= 3 ? styles.activeStep : ""
               }`}
             >
-              4. Confirmation
+              3. Confirmation
             </div>
           </div>
           <section>
