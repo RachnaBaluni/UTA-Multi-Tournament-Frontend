@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../../store/userSlice";
 import styles from "./LoginPage1.module.css";
 import axios from "axios";
 
 const LoginPage1 = ({ player, handleNext, setPlayer, id, tournamentId }) => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -60,10 +63,13 @@ const LoginPage1 = ({ player, handleNext, setPlayer, id, tournamentId }) => {
       console.log("UPDATE RESPONSE:", res.data);
 
       if (res.data.success) {
-        setPlayer({
+        const updatedPlayer = {
           ...player,
           ...formData,
-        });
+        };
+
+        setPlayer(updatedPlayer);
+        dispatch(setUser(updatedPlayer));
 
         handleNext();
       } else {
