@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../redux/userSlice";
+import { setUser } from "../../redux/user.slice";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { toast } from "sonner";
 import axios from "axios";
