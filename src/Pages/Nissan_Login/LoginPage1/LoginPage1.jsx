@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../../redux/user.slice";
 import styles from "./LoginPage1.module.css";
 import axios from "axios";
 
 const LoginPage1 = ({ player, handleNext, setPlayer, id, tournamentId }) => {
   const dispatch = useDispatch();
+  const reduxUser = useSelector((state) => state.user.user);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -69,7 +70,13 @@ const LoginPage1 = ({ player, handleNext, setPlayer, id, tournamentId }) => {
         };
 
         setPlayer(updatedPlayer);
-        dispatch(setUser(updatedPlayer));
+
+        dispatch(
+          setUser({
+            ...reduxUser,
+            user: updatedPlayer,
+          }),
+        );
 
         handleNext();
       } else {
