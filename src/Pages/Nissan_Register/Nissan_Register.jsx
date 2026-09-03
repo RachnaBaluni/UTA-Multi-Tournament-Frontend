@@ -157,33 +157,32 @@ const Register = () => {
   }, [user?._id, tournamentId]);
 
   const handleNext = () => {
-    const handleNext = () => {
-      // If tournament is already selected from the URL,
-      // skip the Tournament page and go directly to Event Selection.
-      if (currentStep === 1 && tournamentId) {
-        getEvents(tournamentId);
-        getRegistrationFields(tournamentId);
-        setCurrentStep(3);
-        return;
-      }
+    // If tournament is already selected from the URL,
+    // skip the Tournament page and go directly to Event Selection.
+    if (currentStep === 1 && tournamentId) {
+      getEvents(tournamentId);
+      getRegistrationFields(tournamentId);
+      setCurrentStep(3);
+      return;
+    }
 
-      if (currentStep === 2) {
-        getEvents(formData.tournamentId);
-        getRegistrationFields(formData.tournamentId);
-      }
+    if (currentStep === 2) {
+      getEvents(formData.tournamentId);
+      getRegistrationFields(formData.tournamentId);
+    }
 
-      if (currentStep !== 4) {
-        setCurrentStep((currentStep) => currentStep + 1);
-      }
-    };
-    const handleBack = () => {
-      if (currentStep !== 1) setCurrentStep((currentStep) => currentStep - 1);
-    };
-    console.log("REGISTER CURRENT STEP:", currentStep);
-    console.log("REGISTER TOURNAMENT ID:", tournamentId);
-    return (
-      <div>
-        {/* <header className={styles.header}>
+    if (currentStep !== 4) {
+      setCurrentStep((currentStep) => currentStep + 1);
+    }
+  };
+  const handleBack = () => {
+    if (currentStep !== 1) setCurrentStep((currentStep) => currentStep - 1);
+  };
+  console.log("REGISTER CURRENT STEP:", currentStep);
+  console.log("REGISTER TOURNAMENT ID:", tournamentId);
+  return (
+    <div>
+      {/* <header className={styles.header}>
         <div className={styles.headerLeft}>
           <div className={styles.logoWrapper}>
             <img src="/logo.png" alt="UTA LOGO" />
@@ -194,107 +193,107 @@ const Register = () => {
           <Link to="/tournaments">Back to Home</Link>
         </div>
       </header> */}
-        <Header />
-        <section className={styles.formContainer}>
-          <div className={styles.stepIndicator}>
-            <div
-              className={`${styles.step} ${
-                currentStep >= 1 ? styles.activeStep : ""
-              }`}
-            >
-              1. Personal Details
-            </div>
-
-            <div
-              className={`${styles.stepLine} ${
-                currentStep >= 2 ? styles.activeLine : ""
-              }`}
-            ></div>
-
-            <div
-              className={`${styles.step} ${
-                currentStep >= 2 ? styles.activeStep : ""
-              }`}
-            >
-              2. Tournament
-            </div>
-
-            <div
-              className={`${styles.stepLine} ${
-                currentStep >= 3 ? styles.activeLine : ""
-              }`}
-            ></div>
-
-            <div
-              className={`${styles.step} ${
-                currentStep >= 3 ? styles.activeStep : ""
-              }`}
-            >
-              3. Event Selection
-            </div>
-
-            <div
-              className={`${styles.stepLine} ${
-                currentStep >= 4 ? styles.activeLine : ""
-              }`}
-            ></div>
-
-            <div
-              className={`${styles.step} ${
-                currentStep >= 4 ? styles.activeStep : ""
-              }`}
-            >
-              4. Confirmation
-            </div>
+      <Header />
+      <section className={styles.formContainer}>
+        <div className={styles.stepIndicator}>
+          <div
+            className={`${styles.step} ${
+              currentStep >= 1 ? styles.activeStep : ""
+            }`}
+          >
+            1. Personal Details
           </div>
-          <section>
-            {currentStep === 1 && (
-              <RegisterPage1
-                formData={formData}
-                handleNext={handleNext}
-                setFormData={setFormData}
-                isLoggedIn={!!user?._id}
-              />
-            )}
-          </section>
-          <section>
-            {currentStep === 2 && (
-              <RegisterPageTournament
-                formData={formData}
-                handleNext={handleNext}
-                setFormData={setFormData}
-                handleBack={handleBack}
-                tournaments={tournaments}
-                tournamentId={tournamentId}
-              />
-            )}
-          </section>
-          <section>
-            {currentStep === 3 && (
-              <RegisterPage2
-                formData={formData}
-                handleNext={handleNext}
-                handleBack={handleBack}
-                setFormData={setFormData}
-                events={events}
-                players={players}
-                registrationFields={registrationFields}
-              />
-            )}
-          </section>
-          <section>
-            {currentStep === 4 && (
-              <RegisterPage3
-                formData={formData}
-                handleBack={handleBack}
-                setFormData={setFormData}
-              />
-            )}
-          </section>
+
+          <div
+            className={`${styles.stepLine} ${
+              currentStep >= 2 ? styles.activeLine : ""
+            }`}
+          ></div>
+
+          <div
+            className={`${styles.step} ${
+              currentStep >= 2 ? styles.activeStep : ""
+            }`}
+          >
+            2. Tournament
+          </div>
+
+          <div
+            className={`${styles.stepLine} ${
+              currentStep >= 3 ? styles.activeLine : ""
+            }`}
+          ></div>
+
+          <div
+            className={`${styles.step} ${
+              currentStep >= 3 ? styles.activeStep : ""
+            }`}
+          >
+            3. Event Selection
+          </div>
+
+          <div
+            className={`${styles.stepLine} ${
+              currentStep >= 4 ? styles.activeLine : ""
+            }`}
+          ></div>
+
+          <div
+            className={`${styles.step} ${
+              currentStep >= 4 ? styles.activeStep : ""
+            }`}
+          >
+            4. Confirmation
+          </div>
+        </div>
+        <section>
+          {currentStep === 1 && (
+            <RegisterPage1
+              formData={formData}
+              handleNext={handleNext}
+              setFormData={setFormData}
+              isLoggedIn={!!user?._id}
+            />
+          )}
         </section>
-        <Footer />
-      </div>
-    );
-  };
+        <section>
+          {currentStep === 2 && (
+            <RegisterPageTournament
+              formData={formData}
+              handleNext={handleNext}
+              setFormData={setFormData}
+              handleBack={handleBack}
+              tournaments={tournaments}
+              tournamentId={tournamentId}
+            />
+          )}
+        </section>
+        <section>
+          {currentStep === 3 && (
+            <RegisterPage2
+              formData={formData}
+              handleNext={handleNext}
+              handleBack={handleBack}
+              setFormData={setFormData}
+              events={events}
+              players={players}
+              registrationFields={registrationFields}
+            />
+          )}
+        </section>
+        <section>
+          {currentStep === 4 && (
+            <RegisterPage3
+              formData={formData}
+              handleBack={handleBack}
+              setFormData={setFormData}
+            />
+          )}
+        </section>
+      </section>
+      <Footer />
+    </div>
+  );
 };
+
 export default Register;
