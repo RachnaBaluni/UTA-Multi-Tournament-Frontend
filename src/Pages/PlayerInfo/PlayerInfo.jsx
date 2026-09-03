@@ -136,14 +136,14 @@ const PlayerInfo = () => {
         <div className={styles.profileTitle}>
           <h2>Personal Details</h2>
 
-          <button
+          {/* <button
             className={styles.editButton}
             onClick={() => {
               navigate(`/tournaments/login/${user._id}`);
             }}
           >
             Edit
-          </button>
+          </button> */}
         </div>
 
         <div className={styles.detailsGrid}>
